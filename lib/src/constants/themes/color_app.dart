@@ -12,4 +12,5 @@ class ColorApp {
   static const Color easy = Color(0xFF06D6A0);
   static const Color medium = Color(0xFFFFB703);
   static const Color hard = Color(0xFFE63946);
+  static const Color label = Color(0xFF9CA3AF);
 }
