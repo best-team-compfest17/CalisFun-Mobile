@@ -6,5 +6,6 @@ class Assets {
   static const String iconsPassIc = 'assets/icons/pass_ic.svg';
   static const String iconsPassObsecureFalse = 'assets/icons/pass_obsecure_false.svg';
   static const String iconsPassObsecureTrue = 'assets/icons/pass_obsecure_true.svg';
+  static const String imagesCalisfunLogo = 'assets/images/calisfun_logo.png';
 
 }
