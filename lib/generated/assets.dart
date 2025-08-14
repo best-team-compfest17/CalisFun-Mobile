@@ -2,10 +2,13 @@
 class Assets {
   Assets._();
 
+  static const String iconsArrowPrevIc = 'assets/icons/arrow_prev_ic.svg';
   static const String iconsEmailIc = 'assets/icons/email_ic.svg';
   static const String iconsPassIc = 'assets/icons/pass_ic.svg';
   static const String iconsPassObsecureFalse = 'assets/icons/pass_obsecure_false.svg';
   static const String iconsPassObsecureTrue = 'assets/icons/pass_obsecure_true.svg';
+  static const String iconsPhoneIc = 'assets/icons/phone_ic.svg';
+  static const String iconsUserIc = 'assets/icons/user_ic.svg';
   static const String imagesCalisfunLogo = 'assets/images/calisfun_logo.png';
 
 }
