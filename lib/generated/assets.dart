@@ -8,7 +8,11 @@ class Assets {
   static const String iconsPassObsecureFalse = 'assets/icons/pass_obsecure_false.svg';
   static const String iconsPassObsecureTrue = 'assets/icons/pass_obsecure_true.svg';
   static const String iconsPhoneIc = 'assets/icons/phone_ic.svg';
+  static const String iconsQuestionIc = 'assets/icons/question_ic.svg';
   static const String iconsUserIc = 'assets/icons/user_ic.svg';
   static const String imagesCalisfunLogo = 'assets/images/calisfun_logo.png';
+  static const String imagesCountImg = 'assets/images/count_img.png';
+  static const String imagesReadImg = 'assets/images/read_img.png';
+  static const String imagesWriteImg = 'assets/images/write_img.png';
 
 }
