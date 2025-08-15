@@ -1,3 +1,4 @@
+import 'package:calisfun/src/core/presentation/home/home_page.dart';
 import 'package:calisfun/src/core/presentation/signin/signin_page.dart';
 import 'package:calisfun/src/core/presentation/signup/signup_page.dart';
 import 'package:calisfun/src/core/presentation/splash/splash_page.dart';
@@ -9,7 +10,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 enum Routes {
   splash,
   signin,
-  signup
+  signup,
+  home
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -18,7 +20,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/signup',
+    initialLocation: '/home',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -35,6 +37,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/signup',
         name: Routes.signup.name,
         builder: (context, state) => const SignupPage(),
+      ),
+      GoRoute(
+        path: '/home',
+        name: Routes.home.name,
+        builder: (context, state) => const HomePage(),
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(
