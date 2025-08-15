@@ -16,6 +16,7 @@ class Assets {
   static const String imagesLetterImg = 'assets/images/letter_img.png';
   static const String imagesNumberImg = 'assets/images/number_img.png';
   static const String imagesParentEmptyImg = 'assets/images/parent_empty_img.png';
+  static const String imagesPickPicsImg = 'assets/images/pick_pics_img.png';
   static const String imagesReadImg = 'assets/images/read_img.png';
   static const String imagesWordImg = 'assets/images/word_img.png';
   static const String imagesWriteImg = 'assets/images/write_img.png';
