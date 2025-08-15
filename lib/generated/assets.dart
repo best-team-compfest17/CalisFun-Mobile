@@ -14,6 +14,8 @@ class Assets {
   static const String iconsUserIc = 'assets/icons/user_ic.svg';
   static const String imagesCalisfunLogo = 'assets/images/calisfun_logo.png';
   static const String imagesCountImg = 'assets/images/count_img.png';
+  static const String imagesHelpWriteImg = 'assets/images/help_write_img.png';
+  static const String imagesLearnWriteClosingImg = 'assets/images/learn_write_closing_img.png';
   static const String imagesLetterImg = 'assets/images/letter_img.png';
   static const String imagesNumberImg = 'assets/images/number_img.png';
   static const String imagesParentEmptyImg = 'assets/images/parent_empty_img.png';

@@ -3,6 +3,9 @@ import 'package:calisfun/src/core/presentation/child-profile-add/child_profile_a
 import 'package:calisfun/src/core/presentation/child-profile/child_profile_page.dart';
 import 'package:calisfun/src/core/presentation/home-parent/home_parent_page.dart';
 import 'package:calisfun/src/core/presentation/home/home_page.dart';
+import 'package:calisfun/src/core/presentation/learn_write/learn_write_page.dart';
+import 'package:calisfun/src/core/presentation/question_closing/question_closing_page.dart';
+import 'package:calisfun/src/core/presentation/question_opening/question_opening_page.dart';
 import 'package:calisfun/src/core/presentation/signin/signin_page.dart';
 import 'package:calisfun/src/core/presentation/signup/signup_page.dart';
 import 'package:calisfun/src/core/presentation/splash/splash_page.dart';
@@ -22,7 +25,10 @@ enum Routes {
   difficulty,
   homeParent,
   childProfile,
-  childProfileAdd
+  childProfileAdd,
+  questionOpening,
+  learnWrite,
+  questionClosing,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -31,7 +37,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/child-profile',
+    initialLocation: '/question-closing',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -78,6 +84,21 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/child-profile-add',
         name: Routes.childProfileAdd.name,
         builder: (context, state) => const ChildProfileAddPage(),
+      ),
+      GoRoute(
+        path: '/question-opening',
+        name: Routes.questionOpening.name,
+        builder: (context, state) => const QuestionOpeningPage(),
+      ),
+      GoRoute(
+        path: '/learn-write',
+        name: Routes.learnWrite.name,
+        builder: (context, state) => const LearnWritePage(),
+      ),
+      GoRoute(
+        path: '/question-closing',
+        name: Routes.questionClosing.name,
+        builder: (context, state) => const QuestionClosingPage(),
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(
