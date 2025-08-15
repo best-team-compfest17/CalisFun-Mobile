@@ -16,4 +16,6 @@ class ColorApp {
   static const Color sage = Color(0xFF00C8B3);
   static const Color amber = Color(0xFFFFCB8F);
   static const Color purple = Color(0xFFBC9FFD);
+  static const Color whiteBlue = Color(0xFF5294FF);
+  static const Color darkBlue = Color(0xFF3061B9);
 }
