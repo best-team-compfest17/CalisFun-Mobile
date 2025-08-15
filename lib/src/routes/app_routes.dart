@@ -1,5 +1,6 @@
 import 'package:calisfun/src/core/presentation/category/category_page.dart';
 import 'package:calisfun/src/core/presentation/child-profile-add/child_profile_add_page.dart';
+import 'package:calisfun/src/core/presentation/child-profile/child_profile_page.dart';
 import 'package:calisfun/src/core/presentation/home-parent/home_parent_page.dart';
 import 'package:calisfun/src/core/presentation/home/home_page.dart';
 import 'package:calisfun/src/core/presentation/signin/signin_page.dart';
@@ -20,6 +21,7 @@ enum Routes {
   category,
   difficulty,
   homeParent,
+  childProfile,
   childProfileAdd
 }
 
@@ -29,7 +31,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/child-profile-add',
+    initialLocation: '/child-profile',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -66,6 +68,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/home-parent',
         name: Routes.homeParent.name,
         builder: (context, state) => const HomeParentPage(),
+      ),
+      GoRoute(
+        path: '/child-profile',
+        name: Routes.childProfile.name,
+        builder: (context, state) => const ChildProfilePage(),
       ),
       GoRoute(
         path: '/child-profile-add',

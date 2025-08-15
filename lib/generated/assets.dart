@@ -4,6 +4,7 @@ class Assets {
 
   static const String iconsArrowNextIc = 'assets/icons/arrow_next_ic.svg';
   static const String iconsArrowPrevIc = 'assets/icons/arrow_prev_ic.svg';
+  static const String iconsEditIc = 'assets/icons/edit_ic.svg';
   static const String iconsEmailIc = 'assets/icons/email_ic.svg';
   static const String iconsPassIc = 'assets/icons/pass_ic.svg';
   static const String iconsPassObsecureFalse = 'assets/icons/pass_obsecure_false.svg';
@@ -18,6 +19,7 @@ class Assets {
   static const String imagesParentEmptyImg = 'assets/images/parent_empty_img.png';
   static const String imagesPickPicsImg = 'assets/images/pick_pics_img.png';
   static const String imagesReadImg = 'assets/images/read_img.png';
+  static const String imagesStreakImg = 'assets/images/streak_img.png';
   static const String imagesWordImg = 'assets/images/word_img.png';
   static const String imagesWriteImg = 'assets/images/write_img.png';
 
