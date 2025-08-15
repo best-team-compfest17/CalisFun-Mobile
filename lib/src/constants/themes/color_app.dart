@@ -14,4 +14,6 @@ class ColorApp {
   static const Color hard = Color(0xFFE63946);
   static const Color label = Color(0xFF9CA3AF);
   static const Color sage = Color(0xFF00C8B3);
+  static const Color amber = Color(0xFFFFCB8F);
+  static const Color purple = Color(0xFFBC9FFD);
 }
