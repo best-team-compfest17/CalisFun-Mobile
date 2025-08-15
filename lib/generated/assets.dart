@@ -2,6 +2,7 @@
 class Assets {
   Assets._();
 
+  static const String iconsArrowNextIc = 'assets/icons/arrow_next_ic.svg';
   static const String iconsArrowPrevIc = 'assets/icons/arrow_prev_ic.svg';
   static const String iconsEmailIc = 'assets/icons/email_ic.svg';
   static const String iconsPassIc = 'assets/icons/pass_ic.svg';

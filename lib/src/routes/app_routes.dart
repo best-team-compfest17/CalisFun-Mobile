@@ -8,12 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/presentation/difficulty/difficulty_page.dart';
+
 enum Routes {
   splash,
   signin,
   signup,
   home,
-  category
+  category,
+  difficulty
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -22,7 +25,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/category',
+    initialLocation: '/difficulty',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -49,6 +52,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/category',
         name: Routes.category.name,
         builder: (context, state) => const CategoryPage(),
+      ),
+      GoRoute(
+        path: '/difficulty',
+        name: Routes.difficulty.name,
+        builder: (context, state) => const DifficultyPage(),
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(
