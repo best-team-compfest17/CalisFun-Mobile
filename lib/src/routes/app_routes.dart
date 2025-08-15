@@ -15,6 +15,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/presentation/difficulty/difficulty_page.dart';
+import '../core/presentation/learn_spell/learn_spell_page.dart';
 
 enum Routes {
   splash,
@@ -29,6 +30,7 @@ enum Routes {
   questionOpening,
   learnWrite,
   questionClosing,
+  learnSpell,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -37,7 +39,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/question-closing',
+    initialLocation: '/learn-spell',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -99,6 +101,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/question-closing',
         name: Routes.questionClosing.name,
         builder: (context, state) => const QuestionClosingPage(),
+      ),
+      GoRoute(
+        path: '/learn-spell',
+        name: Routes.learnSpell.name,
+        builder: (context, state) => const LearnSpellPage(),
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(
