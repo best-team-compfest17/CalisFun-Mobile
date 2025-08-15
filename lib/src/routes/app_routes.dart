@@ -6,6 +6,7 @@ import 'package:calisfun/src/core/presentation/home/home_page.dart';
 import 'package:calisfun/src/core/presentation/learn_write/learn_write_page.dart';
 import 'package:calisfun/src/core/presentation/question_closing/question_closing_page.dart';
 import 'package:calisfun/src/core/presentation/question_opening/question_opening_page.dart';
+import 'package:calisfun/src/core/presentation/select-child/select_child_page.dart';
 import 'package:calisfun/src/core/presentation/select-user/select_user_page.dart';
 import 'package:calisfun/src/core/presentation/signin/signin_page.dart';
 import 'package:calisfun/src/core/presentation/signup/signup_page.dart';
@@ -33,6 +34,7 @@ enum Routes {
   questionClosing,
   learnSpell,
   selectUser,
+  selectChild,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -41,7 +43,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/select-user',
+    initialLocation: '/select-child',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -113,6 +115,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/select-user',
         name: Routes.selectUser.name,
         builder: (context, state) => const SelectUserPage(),
+      ),
+      GoRoute(
+        path: '/select-child',
+        name: Routes.selectChild.name,
+        builder: (context, state) => const SelectChildPage(),
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(
