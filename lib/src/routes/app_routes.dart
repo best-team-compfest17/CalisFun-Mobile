@@ -1,4 +1,5 @@
 import 'package:calisfun/src/core/presentation/category/category_page.dart';
+import 'package:calisfun/src/core/presentation/home-parent/home_parent_page.dart';
 import 'package:calisfun/src/core/presentation/home/home_page.dart';
 import 'package:calisfun/src/core/presentation/signin/signin_page.dart';
 import 'package:calisfun/src/core/presentation/signup/signup_page.dart';
@@ -16,7 +17,8 @@ enum Routes {
   signup,
   home,
   category,
-  difficulty
+  difficulty,
+  homeParent
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -25,7 +27,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/difficulty',
+    initialLocation: '/home-parent',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -57,6 +59,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/difficulty',
         name: Routes.difficulty.name,
         builder: (context, state) => const DifficultyPage(),
+      ),
+      GoRoute(
+        path: '/home-parent',
+        name: Routes.homeParent.name,
+        builder: (context, state) => const HomeParentPage(),
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(
