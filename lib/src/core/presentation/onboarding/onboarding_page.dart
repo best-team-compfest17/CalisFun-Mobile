@@ -11,7 +11,10 @@ class OnBoardingPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Center(
-        child: AppButton(text: 'Lanjut Masuk', onPressed: () => context.pushNamed(Routes.signin.name))
+        child: AppButton(
+          text: 'Lanjut Masuk',
+          onPressed: () => context.pushNamed(Routes.signin.name),
+        ),
       ),
     );
   }
