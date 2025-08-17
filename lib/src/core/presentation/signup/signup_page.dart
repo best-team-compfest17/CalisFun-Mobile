@@ -29,23 +29,7 @@ class SignupPage extends ConsumerWidget{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Gap.h80,
-                  // Back button
-                  Container(
-                    width: SizeApp.w48,
-                    height: SizeApp.h48,
-                    decoration: BoxDecoration(
-                      color: ColorApp.primary,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Center(
-                      child: SvgPicture.asset(
-                          'assets/icons/arrow_prev_ic.svg',
-                          width: SizeApp.w24,
-                          height: SizeApp.h24,
-                          colorFilter: const ColorFilter.mode(ColorApp.mainWhite, BlendMode.srcIn),
-                      ),
-                    ),
-                  ),
+                  AppPrevButton(),
                   Gap.h16,
                   Text('Petualangan', style: TypographyApp.headingLargeBoldPrimary,),
                   Text('Dimulai!', style: TypographyApp.headingLargeBold,),
