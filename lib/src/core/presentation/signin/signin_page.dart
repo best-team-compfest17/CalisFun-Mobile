@@ -1,8 +1,11 @@
+import 'package:calisfun/src/core/presentation/signin/signin_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:calisfun/src/core/presentation/signin/signin_controller.dart';
+import 'package:go_router/go_router.dart';
 import '../../../constants/constants.dart';
+import '../../../routes/routes.dart';
 import '../../../widgets/widgets.dart';
 
 class SigninPage extends ConsumerWidget {
@@ -10,6 +13,20 @@ class SigninPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<SigninState>(signinControllerProvider, (prev, next) {
+      final value = next.loginValue;
+
+      value.whenOrNull(
+        data: (_) {
+          context.goNamed(Routes.selectUser.name);
+        },
+        error: (e, st) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Login gagal: $e')),
+          );
+        },
+      );
+    });
     final state = ref.watch(signinControllerProvider);
     final controller  = ref.read(signinControllerProvider.notifier);
 
@@ -95,11 +112,8 @@ class SigninPage extends ConsumerWidget {
                   Gap.h24,
                   Align(
                     alignment: Alignment.centerRight,
-                    // Forgot password link
                     child: InkWell(
-                      onTap: () {
-                        // Navigate to forgot password page
-                      },
+                      onTap: () => context.pushNamed(Routes.forgetPassword.name),
                       child: Text('Lupa kata sandi?', style: TypographyApp.labelSmallMedium.copyWith(color: ColorApp.primary),),
                     ),
                   ),
@@ -123,9 +137,7 @@ class SigninPage extends ConsumerWidget {
                         Text('Belum punya akun?', style: TypographyApp.bodyNormalRegular,),
                         Gap.w4,
                         InkWell(
-                          onTap: () {
-                            // Navigate to signup page
-                          },
+                          onTap: () => context.pushNamed(Routes.signup.name),
                           child: Text('Daftar', style: TypographyApp.bodyNormalMedium.copyWith(color: ColorApp.primary),),
                         ),
                       ],

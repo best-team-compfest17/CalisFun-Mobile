@@ -1,6 +1,7 @@
 import 'package:calisfun/src/core/presentation/category/category_page.dart';
 import 'package:calisfun/src/core/presentation/child-profile-add/child_profile_add_page.dart';
 import 'package:calisfun/src/core/presentation/child-profile/child_profile_page.dart';
+import 'package:calisfun/src/core/presentation/forget-password/forget_password_page.dart';
 import 'package:calisfun/src/core/presentation/home-parent/home_parent_page.dart';
 import 'package:calisfun/src/core/presentation/home/home_page.dart';
 import 'package:calisfun/src/core/presentation/learn_write/learn_write_page.dart';
@@ -18,6 +19,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/presentation/difficulty/difficulty_page.dart';
 import '../core/presentation/learn_spell/learn_spell_page.dart';
+import '../core/presentation/onboarding/onboarding_page.dart';
 
 enum Routes {
   splash,
@@ -35,6 +37,8 @@ enum Routes {
   learnSpell,
   selectUser,
   selectChild,
+  forgetPassword,
+  onboarding,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -43,7 +47,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/select-child',
+    initialLocation: '/',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -120,6 +124,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/select-child',
         name: Routes.selectChild.name,
         builder: (context, state) => const SelectChildPage(),
+      ),
+      GoRoute(
+        path: '/forget-password',
+        name: Routes.forgetPassword.name,
+        builder: (context, state) => const ForgetPasswordPage(),
+      ),
+      GoRoute(
+        path: '/onboarding',
+        name: Routes.onboarding.name,
+        builder: (context, state) => const OnBoardingPage(),
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(
