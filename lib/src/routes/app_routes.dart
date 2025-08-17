@@ -23,6 +23,7 @@ import '../core/presentation/onboarding/onboarding_page.dart';
 
 enum Routes {
   splash,
+  onboarding,
   signin,
   signup,
   home,
@@ -38,7 +39,6 @@ enum Routes {
   selectUser,
   selectChild,
   forgetPassword,
-  onboarding,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -47,7 +47,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/',
+    initialLocation: '/onboarding',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -136,8 +136,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const OnBoardingPage(),
       ),
     ],
-    errorBuilder: (context, state) => ErrorPage(
-      error: state.error,
-    ),
+    errorBuilder: (context, state) => ErrorPage(error: state.error),
   );
 });
