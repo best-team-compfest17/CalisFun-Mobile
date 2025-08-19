@@ -1,29 +1,9 @@
-import 'package:calisfun/src/core/presentation/category/category_page.dart';
-import 'package:calisfun/src/core/presentation/child-profile-add/child_profile_add_page.dart';
-import 'package:calisfun/src/core/presentation/child-profile/child_profile_page.dart';
-import 'package:calisfun/src/core/presentation/common/botnavbar/botnavbar_page.dart';
-import 'package:calisfun/src/core/presentation/forget-password/create-new-password/create_new_password_page.dart';
-import 'package:calisfun/src/core/presentation/forget-password/forget_password_page.dart';
-import 'package:calisfun/src/core/presentation/forget-password/verification-otp/verification_otp_page.dart';
-import 'package:calisfun/src/core/presentation/home-parent/home_parent_page.dart';
-import 'package:calisfun/src/core/presentation/home/home_page.dart';
-import 'package:calisfun/src/core/presentation/leaderboard/leaderboard_page.dart';
-import 'package:calisfun/src/core/presentation/learn_write/learn_write_page.dart';
-import 'package:calisfun/src/core/presentation/question_closing/question_closing_page.dart';
-import 'package:calisfun/src/core/presentation/question_opening/question_opening_page.dart';
-import 'package:calisfun/src/core/presentation/select-child/select_child_page.dart';
-import 'package:calisfun/src/core/presentation/select-user/select_user_page.dart';
-import 'package:calisfun/src/core/presentation/signin/signin_page.dart';
-import 'package:calisfun/src/core/presentation/signup/signup_page.dart';
-import 'package:calisfun/src/core/presentation/splash/splash_page.dart';
-import 'package:calisfun/src/routes/error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../core/presentation/difficulty/difficulty_page.dart';
-import '../core/presentation/learn_spell/learn_spell_page.dart';
-import '../core/presentation/onboarding/onboarding_page.dart';
+import 'package:calisfun/src/core/core.dart';
+import 'package:calisfun/src/routes/error_page.dart';
 
 enum Routes {
   splash,
