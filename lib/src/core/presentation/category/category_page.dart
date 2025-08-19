@@ -1,4 +1,5 @@
 import 'package:calisfun/src/constants/constants.dart';
+import 'package:calisfun/src/widgets/app_prev_button/app_prev_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,22 +18,7 @@ class CategoryPage extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Gap.h80,
-            Container(
-              width: SizeApp.w48,
-              height: SizeApp.h48,
-              decoration: BoxDecoration(
-                color: ColorApp.primary,
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: Center(
-                child: SvgPicture.asset(
-                  'assets/icons/arrow_prev_ic.svg',
-                  width: SizeApp.w24,
-                  height: SizeApp.h24,
-                  colorFilter: const ColorFilter.mode(ColorApp.mainWhite, BlendMode.srcIn),
-                ),
-              ),
-            ),
+            AppPrevButton(),
             Gap.h16,
             Text('Pilih', style: TypographyApp.headingLargeBoldPrimary,),
             Text('Jenis', style: TypographyApp.headingLargeBold,),

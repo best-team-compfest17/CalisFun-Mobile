@@ -2,7 +2,9 @@ import 'package:calisfun/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../routes/routes.dart';
 
 class SelectChildPage extends ConsumerWidget{
   const SelectChildPage({super.key});
@@ -22,20 +24,25 @@ class SelectChildPage extends ConsumerWidget{
             Gap.h16,
             Text('Siap memulai? Pilih namanya dulu, yuk!', style: TypographyApp.bodyNormalRegular.copyWith(color: ColorApp.greyInactive),),
             Gap.h16,
-            Container(
-              height: SizeApp.h52,
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(10.r),
-                border: Border.all(
-                  color: ColorApp.mainWhite,
-                  width: 1.w,
+            InkWell(
+              onTap: () {
+                context.pushNamed(Routes.botnavbar.name);
+              },
+              child: Container(
+                height: SizeApp.h52,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(10.r),
+                  border: Border.all(
+                    color: ColorApp.mainWhite,
+                    width: 1.w,
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Text(
-                  'Andi',
-                  style: TypographyApp.bodyNormalRegular.copyWith(color: ColorApp.mainWhite),
+                child: Center(
+                  child: Text(
+                    'Andi',
+                    style: TypographyApp.bodyNormalRegular.copyWith(color: ColorApp.mainWhite),
+                  ),
                 ),
               ),
             ),
