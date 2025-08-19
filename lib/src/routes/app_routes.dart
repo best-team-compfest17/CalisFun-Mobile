@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:calisfun/src/core/core.dart';
-import 'package:calisfun/src/routes/error_page.dart';
+import 'package:calisfun/src/routes/routes.dart';
+
 
 enum Routes {
   splash,

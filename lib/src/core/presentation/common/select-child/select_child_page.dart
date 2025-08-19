@@ -26,7 +26,7 @@ class SelectChildPage extends ConsumerWidget{
             Gap.h16,
             InkWell(
               onTap: () {
-                context.pushNamed(Routes.botnavbar.name);
+                context.goNamed(Routes.botnavbar.name);
               },
               child: Container(
                 height: SizeApp.h52,
