@@ -1,3 +1,4 @@
+import 'package:calisfun/src/routes/routes.dart';
 import 'package:calisfun/src/widgets/app_container/app_container.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,7 @@ import 'package:calisfun/src/constants/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -71,112 +73,102 @@ class HomePage extends ConsumerWidget {
                 style: TypographyApp.headingLargeBoldPrimary,
               ),
               Gap.h16,
-              AppContainer(
-                backgroundColor: ColorApp.sage,
-                childLeft: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Belajar',
-                      style: TypographyApp.headingLargeBold.copyWith(
-                        color: ColorApp.mainWhite,
+              InkWell(
+                onTap: () => context.pushNamed(Routes.learnSpell.name),
+                child: AppContainer(
+                  backgroundColor: ColorApp.sage,
+                  childLeft: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Belajar',
+                        style: TypographyApp.headingLargeBold.copyWith(
+                          color: ColorApp.mainWhite,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Membaca',
-                      style: TypographyApp.headingLargeBold.copyWith(
-                        color: ColorApp.mainWhite,
+                      Text(
+                        'Membaca',
+                        style: TypographyApp.headingLargeBold.copyWith(
+                          color: ColorApp.mainWhite,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                childRight: Image.asset(
-                  'assets/images/read_img.png',
-                  width: SizeApp.customWidth(111),
-                  height: SizeApp.customHeight(92),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Gap.h16,
-              AppContainer(
-                backgroundColor: ColorApp.primary,
-                childLeft: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Belajar',
-                      style: TypographyApp.headingLargeBold.copyWith(
-                        color: ColorApp.mainWhite,
-                      ),
-                    ),
-                    Text(
-                      'Menulis',
-                      style: TypographyApp.headingLargeBold.copyWith(
-                        color: ColorApp.mainWhite,
-                      ),
-                    ),
-                  ],
-                ),
-                childRight: Image.asset(
-                  'assets/images/write_img.png',
-                  width: SizeApp.customWidth(111),
-                  height: SizeApp.customHeight(92),
-                  fit: BoxFit.cover,
+                    ],
+                  ),
+                  childRight: Image.asset(
+                    'assets/images/read_img.png',
+                    width: SizeApp.customWidth(111),
+                    height: SizeApp.customHeight(92),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Gap.h16,
-              AppContainer(
-                backgroundColor: ColorApp.secondary,
-                childLeft: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Belajar',
-                      style: TypographyApp.headingLargeBold.copyWith(
-                        color: ColorApp.mainWhite,
+              InkWell(
+                onTap: () => context.pushNamed(Routes.category.name),
+                child: AppContainer(
+                  backgroundColor: ColorApp.primary,
+                  childLeft: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Belajar',
+                        style: TypographyApp.headingLargeBold.copyWith(
+                          color: ColorApp.mainWhite,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Menghitung',
-                      style: TypographyApp.headingLargeBold.copyWith(
-                        color: ColorApp.mainWhite,
+                      Text(
+                        'Menulis',
+                        style: TypographyApp.headingLargeBold.copyWith(
+                          color: ColorApp.mainWhite,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  childRight: Image.asset(
+                    'assets/images/write_img.png',
+                    width: SizeApp.customWidth(111),
+                    height: SizeApp.customHeight(92),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                childRight: Image.asset(
-                  'assets/images/count_img.png',
-                  width: SizeApp.customWidth(60),
-                  height: SizeApp.customHeight(72),
-                  fit: BoxFit.cover,
+              ),
+              Gap.h16,
+              InkWell(
+                onTap: () => context.pushNamed(Routes.learnWrite.name),
+                child: AppContainer(
+                  backgroundColor: ColorApp.secondary,
+                  childLeft: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Belajar',
+                        style: TypographyApp.headingLargeBold.copyWith(
+                          color: ColorApp.mainWhite,
+                        ),
+                      ),
+                      Text(
+                        'Menghitung',
+                        style: TypographyApp.headingLargeBold.copyWith(
+                          color: ColorApp.mainWhite,
+                        ),
+                      ),
+                    ],
+                  ),
+                  childRight: Image.asset(
+                    'assets/images/count_img.png',
+                    width: SizeApp.customWidth(60),
+                    height: SizeApp.customHeight(72),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ],
           ),
         ),
       ),
-      //make it circle
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-        },
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100),
-        ),
-        backgroundColor: ColorApp.primary,
-        child: SvgPicture.asset(
-          'assets/icons/user_ic.svg',
-          width: SizeApp.w24,
-          height: SizeApp.h24,
-          colorFilter: const ColorFilter.mode(
-            ColorApp.mainWhite,
-            BlendMode.srcIn,
-          ),
-      ),
-    ),
-    floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
