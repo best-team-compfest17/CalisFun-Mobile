@@ -14,10 +14,7 @@ class LearnSpellPage extends ConsumerStatefulWidget {
 }
 
 class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
-  // Ganti sesuai kebutuhan
-  bool isLetterMode = true; // true = mode huruf, false = mode kata
   static const String targetWord = 'JERAPAH';
-  static const String targetLetter = 'A';
 
   @override
   void initState() {
@@ -29,14 +26,7 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
   Widget build(BuildContext context) {
     final speech = ref.watch(speechProvider);
     final ctrl = ref.read(speechProvider.notifier);
-
-    // Penilaian
-    final bool isCorrect = isLetterMode
-        ? ctrl.matchesLetter(targetLetter)
-        : ctrl.isMatch(targetWord);
-
-    final String targetDisplay = isLetterMode ? targetLetter : targetWord;
-
+    final bool isCorrect = ctrl.isMatch(targetWord);
     return Scaffold(
       backgroundColor: ColorApp.mainWhite,
       body: Padding(
@@ -61,8 +51,6 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
               ),
             ),
             Gap.h16,
-
-            // Progress
             LinearProgressIndicator(
               minHeight: SizeApp.h16,
               borderRadius: BorderRadius.circular(100.r),
@@ -71,15 +59,10 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
               backgroundColor: ColorApp.greyInactive,
             ),
             Gap.h16,
-
-            // Header + status benar/salah
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Kata 1 dari 10',
-                  style: TypographyApp.headingSmallBold,
-                ),
+                Text('Kata 1 dari 10', style: TypographyApp.headingSmallBold),
                 Text(
                   speech.words.isEmpty ? '' : (isCorrect ? 'Benar!' : 'Coba lagi'),
                   style: TypographyApp.headingSmallBold.copyWith(
@@ -88,40 +71,7 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
                 ),
               ],
             ),
-            Gap.h8,
-
-            // Toggle mode Kata/Huruf
-            Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: SizeApp.w12, vertical: SizeApp.h8),
-                  decoration: BoxDecoration(
-                    color: ColorApp.greyInactive.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(100.r),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Mode: ${isLetterMode ? 'Huruf' : 'Kata'}',
-                        style: TypographyApp.bodyNormalRegular.copyWith(fontWeight: FontWeight.w600),
-                      ),
-                      Switch(
-                        value: isLetterMode,
-                        onChanged: (v) {
-                          setState(() => isLetterMode = v);
-                          // reset hasil agar tidak rancu saat pindah mode
-                          ctrl.cancel();
-                        },
-                        activeColor: ColorApp.primary,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
             Gap.h16,
-
-            // Kartu target
             Container(
               width: SizeApp.customWidth(360),
               height: SizeApp.customHeight(200),
@@ -131,7 +81,7 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
               ),
               child: Center(
                 child: Text(
-                  targetDisplay,
+                  targetWord,
                   style: TypographyApp.headingLargeBold.copyWith(
                     color: ColorApp.mainWhite,
                   ),
@@ -139,20 +89,16 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
               ),
             ),
             Gap.h16,
-
-            // Label status
             Text(
               speech.listening ? 'Merekam...' : 'Hasil',
               style: TypographyApp.headingSmallBold.copyWith(color: ColorApp.primary),
             ),
             Gap.h8,
-
-            // Area hasil rekaman
             Container(
               width: SizeApp.customWidth(360),
               padding: EdgeInsets.all(SizeApp.w12),
               decoration: BoxDecoration(
-                color: ColorApp.greyInactive.withOpacity(0.5),
+                color: ColorApp.greyInactive.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(10.r),
               ),
               child: Text(
@@ -165,23 +111,13 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
               ),
             ),
             Gap.h24,
-
-            // Tombol mic
             GestureDetector(
-              onTap: () {
-                if (isLetterMode) {
-                  // disetel untuk huruf (durasi & jeda lebih panjang)
-                  ctrl.startForLetter(localeId: 'id_ID');
-                } else {
-                  // mode kata biasa
-                  ctrl.toggle(localeId: 'id_ID');
-                }
-              },
+              onTap: () => ctrl.toggle(localeId: 'id_ID'),
               child: Container(
                 width: SizeApp.customWidth(360),
                 height: SizeApp.customHeight(74),
                 decoration: BoxDecoration(
-                  color: speech.listening ? ColorApp.error.withOpacity(0.1) : ColorApp.greyInactive,
+                  color: speech.listening ? ColorApp.error.withValues(alpha: 0.1) : ColorApp.greyInactive,
                   borderRadius: BorderRadius.circular(10.r),
                   border: Border.all(
                     color: speech.listening ? ColorApp.error : Colors.transparent,
@@ -209,23 +145,13 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
               ),
             ),
             Gap.h16,
-
-            // Tombol Periksa
             AppButton(
               text: 'Periksa',
               onPressed: () {
-                final ok = isLetterMode
-                    ? ctrl.matchesLetter(targetLetter)
-                    : ctrl.isMatch(targetWord);
-
-                final msg = isLetterMode
-                    ? (ok
-                    ? 'Mantap! Kamu menyebut huruf $targetLetter dengan benar.'
-                    : 'Belum pas. Coba ucapkan huruf $targetLetter lagi ya.')
-                    : (ok
+                final ok = ctrl.isMatch(targetWord);
+                final msg = ok
                     ? 'Hebat! Kamu mengucapkan "$targetWord" dengan benar.'
-                    : 'Hmm, belum pas. Coba ulangi lagi ya.');
-
+                    : 'Hmm, belum pas. Coba ulangi lagi ya.';
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(msg),
@@ -235,7 +161,6 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
                 );
               },
             ),
-
             if (speech.confidence > 0) ...[
               Gap.h8,
               Text(
