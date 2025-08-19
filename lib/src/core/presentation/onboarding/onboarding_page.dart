@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../widgets/widgets.dart';
+
 class OnBoardingPage extends ConsumerWidget {
   const OnBoardingPage({super.key});
 
@@ -113,38 +115,45 @@ class OnBoardingPage extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    width: SizeApp.w48,
-                    height: SizeApp.h48,
-                    decoration: BoxDecoration(
-                      color: ColorApp.primary,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          controller.nextPage(_pages.length);
-                          if (state.currentPage == _pages.length - 1) {
-                            context.pushNamed(Routes.signin.name);
-                          } else {
-                            controller.setPage(state.currentPage + 1);
-                          }
+                  if (state.currentPage == _pages.length - 1)
+                    Expanded(
+                      child: AppButton(
+                        text: "Mulai Sekarang",
+                        onPressed: () {
+                          context.pushReplacementNamed(Routes.signin.name);
                         },
+                      ),
+                    )
+                  else
+                    Container(
+                      width: SizeApp.w48,
+                      height: SizeApp.h48,
+                      decoration: BoxDecoration(
+                        color: ColorApp.primary,
                         borderRadius: BorderRadius.circular(10.r),
-                        child: Center(
-                          child: Icon(
-                            Icons.arrow_forward_rounded,
-                            color: ColorApp.mainWhite,
-                            size: SizeApp.w24,
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            controller.nextPage(_pages.length);
+                            controller.setPage(state.currentPage + 1);
+                          },
+                          borderRadius: BorderRadius.circular(10.r),
+                          child: Center(
+                            child: Icon(
+                              Icons.arrow_forward_rounded,
+                              color: ColorApp.mainWhite,
+                              size: SizeApp.w24,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
+
             SizedBox(height: 24.h),
           ],
         ),

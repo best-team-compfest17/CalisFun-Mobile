@@ -1,11 +1,13 @@
 import 'package:calisfun/src/core/presentation/category/category_page.dart';
 import 'package:calisfun/src/core/presentation/child-profile-add/child_profile_add_page.dart';
 import 'package:calisfun/src/core/presentation/child-profile/child_profile_page.dart';
+import 'package:calisfun/src/core/presentation/common/botnavbar/botnavbar_page.dart';
 import 'package:calisfun/src/core/presentation/forget-password/create-new-password/create_new_password_page.dart';
 import 'package:calisfun/src/core/presentation/forget-password/forget_password_page.dart';
 import 'package:calisfun/src/core/presentation/forget-password/verification-otp/verification_otp_page.dart';
 import 'package:calisfun/src/core/presentation/home-parent/home_parent_page.dart';
 import 'package:calisfun/src/core/presentation/home/home_page.dart';
+import 'package:calisfun/src/core/presentation/leaderboard/leaderboard_page.dart';
 import 'package:calisfun/src/core/presentation/learn_write/learn_write_page.dart';
 import 'package:calisfun/src/core/presentation/question_closing/question_closing_page.dart';
 import 'package:calisfun/src/core/presentation/question_opening/question_opening_page.dart';
@@ -43,6 +45,8 @@ enum Routes {
   forgetPassword,
   createNewPassword,
   verificationOtp,
+  leaderboard,
+  botnavbar,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -51,7 +55,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/learn-spell',
+    initialLocation: '/',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -148,6 +152,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/create-new-password',
         name: Routes.createNewPassword.name,
         builder: (context, state) => const CreateNewPasswordPage(),
+      ),
+      GoRoute(
+        path: '/leaderboard',
+        name: Routes.leaderboard.name,
+        builder: (context, state) => const LeaderboardPage(),
+      ),
+      GoRoute(
+        path: '/botnavbar',
+        name: Routes.botnavbar.name,
+        builder: (context, state) => const BotNavBarPage(),
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(error: state.error),
