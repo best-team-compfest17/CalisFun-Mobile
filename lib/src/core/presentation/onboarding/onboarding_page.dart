@@ -35,12 +35,6 @@ class OnBoardingPage extends ConsumerWidget {
     final state = ref.watch(onboardingControllerProvider);
     final controller = ref.read(onboardingControllerProvider.notifier);
     return Scaffold(
-<<<<<<< HEAD
-      body: Center(
-        child: AppButton(
-          text: 'Lanjut Masuk',
-          onPressed: () => context.pushNamed(Routes.signin.name),
-=======
       body: SafeArea(
         child: Column(
           children: [
@@ -153,7 +147,6 @@ class OnBoardingPage extends ConsumerWidget {
             ),
             SizedBox(height: 24.h),
           ],
->>>>>>> 9df67450f8e0fd6ceac9bad9c8e896bcbe633ec9
         ),
       ),
     );
