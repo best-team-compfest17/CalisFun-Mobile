@@ -25,6 +25,7 @@ import '../core/presentation/onboarding/onboarding_page.dart';
 
 enum Routes {
   splash,
+  onboarding,
   signin,
   signup,
   home,
@@ -40,9 +41,8 @@ enum Routes {
   selectUser,
   selectChild,
   forgetPassword,
-  onboarding,
-  verificationOtp,
   createNewPassword,
+  verificationOtp,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -51,7 +51,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/forget-password',
+    initialLocation: '/learn-write',
     routerNeglect: true,
     routes: [
       GoRoute(
