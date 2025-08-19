@@ -47,7 +47,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/onboarding',
+    initialLocation: '/learn-write',
     routerNeglect: true,
     routes: [
       GoRoute(
