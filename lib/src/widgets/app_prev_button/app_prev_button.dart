@@ -5,9 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../constants/constants.dart'; // sesuaikan path
 
-
-
-class AppPrevButton extends StatelessWidget{
+class AppPrevButton extends StatelessWidget {
   final VoidCallback? onTap;
   const AppPrevButton({super.key, this.onTap});
   @override
