@@ -1,11 +1,12 @@
 import 'package:calisfun/src/constants/constants.dart';
+import 'package:calisfun/src/core/presentation/child/home/home_page.dart';
+import 'package:calisfun/src/core/presentation/child/leaderboard/leaderboard_page.dart';
+import 'package:calisfun/src/core/presentation/parent/child-profile/child_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import '../../child-profile/child_profile_page.dart';
-import '../../home/home_page.dart';
-import '../../leaderboard/leaderboard_page.dart';
+
 import 'botnavbar_controller.dart';
 
 class BotNavBarPage extends ConsumerWidget {
