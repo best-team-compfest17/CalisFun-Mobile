@@ -1,3 +1,4 @@
+import 'package:calisfun/src/core/presentation/child/chatbot/chatbot_page.dart';
 import 'package:calisfun/src/core/presentation/parent/parent-profile/parent_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -28,6 +29,7 @@ enum Routes {
   leaderboard,
   botnavbar,
   parentProfile,
+  chatbot,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -36,7 +38,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/parent-profile',
+    initialLocation: '/chatbot',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -148,6 +150,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/parent-profile',
         name: Routes.parentProfile.name,
         builder: (context, state) => const ParentProfilePage(),
+      ),
+      GoRoute(
+        path: '/chatbot',
+        name: Routes.chatbot.name,
+        builder: (context, state) => const ChatbotPage(),
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(error: state.error),
