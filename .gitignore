@@ -51,5 +51,7 @@ app.*.map.json
 # =========================
 # Environment files (dotenv)
 .env
+.env.development
+.env.production
 .env.*
 !.env.example

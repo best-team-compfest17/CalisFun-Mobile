@@ -15,7 +15,7 @@ class ApiResponse extends Equatable {
     return ApiResponse(
       status: json["status"],
       message: json["message"],
-      data: json["data"],
+      data: json["data"] ?? json,
     );
   }
 

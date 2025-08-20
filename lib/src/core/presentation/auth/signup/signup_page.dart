@@ -16,8 +16,6 @@ class SignupPage extends ConsumerWidget{
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(signupControllerProvider);
     final controller  = ref.read(signupControllerProvider.notifier);
-    // Dengarkan perubahan hasil submit untuk feedback
-
     ref.listen<SignupState>(
       signupControllerProvider,
           (prev, next) {
