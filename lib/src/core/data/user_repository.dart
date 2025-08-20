@@ -63,7 +63,13 @@ class UserRepository {
       );
 
       final map = _asMap(res);
-      log('LOGIN RAW MAP: $map');
+
+      final safe = Map<String, dynamic>.from(map);
+      final tok = safe['token'];
+      if (tok is String && tok.isNotEmpty) {
+        safe['token'] = _maskToken(tok);
+      }
+      log('LOGIN RAW MAP (safe): $safe');
 
       return Result.success(ApiResponse.fromJson(map));
     } catch (e, stackTrace) {
@@ -74,6 +80,10 @@ class UserRepository {
 
   Future<Result<ApiResponse>> me(String? token) async {
     try {
+      if (token == null || token.isEmpty) {
+        return Result.failure(const NetworkExceptions.badRequest(), StackTrace.current);
+      }
+
       await _dioClient.useToken(token);
       final res = await _dioClient.get(Endpoint.getUserProfile);
 
@@ -85,6 +95,10 @@ class UserRepository {
   }
 }
 
+String _maskToken(String token) {
+  if (token.length <= 10) return '***';
+  return '${token.substring(0, 4)}...${token.substring(token.length - 4)}';
+}
 
 final userRepositoryProvider = Provider<UserRepository>((ref) {
   final dio = ref.read(dioClientProvider);

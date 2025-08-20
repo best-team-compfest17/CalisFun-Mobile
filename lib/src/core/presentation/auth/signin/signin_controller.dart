@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../network/network.dart';
 import 'signin_state.dart';
 import 'package:calisfun/src/core/application/application.dart';
+import 'package:calisfun/src/shared/preferences/preferences.dart';
 
 final signinControllerProvider =
 StateNotifierProvider<SigninController, SigninState>(
@@ -25,8 +26,7 @@ class SigninController extends StateNotifier<SigninState> {
   void onPasswordChanged(String v) =>
       state = state.copyWith(password: v, signinValue: const AsyncData(null));
 
-  void toggleObscure() =>
-      state = state.copyWith(isObscure: !state.isObscure);
+  void toggleObscure() => state = state.copyWith(isObscure: !state.isObscure);
 
   String? validateEmail(String? value) {
     final v = (value ?? '').trim();
@@ -41,6 +41,34 @@ class SigninController extends StateNotifier<SigninState> {
     if (v.isEmpty) return 'Tidak boleh kosong';
     if (v.length < 6) return 'Minimal 6 karakter';
     return null;
+  }
+
+  /// Auto-signin: dipanggil dari Splash/awal layar.
+  Future<void> tryAutoSignin() async {
+    state = state.copyWith(signinValue: const AsyncLoading());
+    try {
+      final token = await _ref.read(userPreferenceProvider).getToken();
+      if (token == null || token.isEmpty) {
+        state = state.copyWith(signinValue: const AsyncData(null));
+        return;
+      }
+      final svc = _ref.read(userServiceProvider);
+      final res = await svc.meData(token);
+      state = res.when(
+        success: (user) {
+          log('AUTO SIGNIN SUCCESS for ${user?.username ?? '-'}');
+          return state.copyWith(signinValue: AsyncData(user));
+        },
+        failure: (err, st) {
+          final msg = NetworkExceptions.getErrorMessage(err);
+          log('AUTO SIGNIN FAILED: $msg');
+          return state.copyWith(signinValue: AsyncError(err, st));
+        },
+      );
+    } catch (e, st) {
+      log('AUTO SIGNIN CRASH: $e');
+      state = state.copyWith(signinValue: AsyncError(e, st));
+    }
   }
 
   Future<void> submit() async {

@@ -118,7 +118,9 @@ class OnBoardingPage extends ConsumerWidget {
                     Expanded(
                       child: AppButton(
                         text: "Mulai Sekarang",
-                        onPressed: () {
+                        onPressed: () async {
+                          await ref.read(onboardingControllerProvider.notifier).markSeen();
+                          if (!context.mounted) return;
                           context.goNamed(Routes.signin.name);
                         },
                       ),
@@ -152,7 +154,6 @@ class OnBoardingPage extends ConsumerWidget {
                 ],
               ),
             ),
-
             SizedBox(height: 24.h),
           ],
         ),
