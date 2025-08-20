@@ -1,9 +1,11 @@
 import 'package:calisfun/src/constants/constants.dart';
 import 'package:calisfun/src/core/presentation/auth/signup/signup_controller.dart';
+import 'package:calisfun/src/core/presentation/auth/signup/signup_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../network/network.dart';
 import '../../../../widgets/widgets.dart';
 
 
@@ -14,6 +16,36 @@ class SignupPage extends ConsumerWidget{
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(signupControllerProvider);
     final controller  = ref.read(signupControllerProvider.notifier);
+    // Dengarkan perubahan hasil submit untuk feedback
+
+    ref.listen<SignupState>(
+      signupControllerProvider,
+          (prev, next) {
+        final pv = prev?.signupValue;
+        final nv = next.signupValue;
+        if (pv == nv) return;
+
+        nv.when(
+          data: (user) {
+            if (user != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Registrasi berhasil!')),
+              );
+              // TODO: Navigate ke halaman berikutnya bila perlu
+            }
+          },
+          error: (err, _) {
+            final msg = NetworkExceptions.getErrorMessage(
+              err is NetworkExceptions ? err : const NetworkExceptions.unexpectedError(),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(msg)),
+            );
+          },
+          loading: () {},
+        );
+      },
+    );
     return GestureDetector(
       onTap: (){
         FocusScope.of(context).unfocus();
@@ -60,6 +92,7 @@ class SignupPage extends ConsumerWidget{
                     hintStyle: TypographyApp.labelSmallMediumGrey,
                     inputStyle: TypographyApp.labelSmallMedium,
                     validator: controller.validateName,
+                    onChanged: controller.onNameChanged,
                   ),
                   Gap.h16,
                   Text('Email', style: TypographyApp.labelSmallMedium,),
@@ -84,6 +117,7 @@ class SignupPage extends ConsumerWidget{
                     hintStyle: TypographyApp.labelSmallMediumGrey,
                     inputStyle: TypographyApp.labelSmallMedium,
                     validator: controller.validateEmail,
+                    onChanged: controller.onEmailChanged,
                   ),
                   Gap.h16,
                   Text('Nomor Telepon', style: TypographyApp.labelSmallMedium,),
@@ -108,6 +142,7 @@ class SignupPage extends ConsumerWidget{
                     hintStyle: TypographyApp.labelSmallMediumGrey,
                     inputStyle: TypographyApp.labelSmallMedium,
                     validator: controller.validatePhone,
+                    onChanged: controller.onPhoneChanged,
                   ),
                   Gap.h16,
                   Text('Kata Sandi', style: TypographyApp.labelSmallMedium,),
@@ -143,6 +178,7 @@ class SignupPage extends ConsumerWidget{
                     hintStyle: TypographyApp.labelSmallMediumGrey,
                     inputStyle: TypographyApp.labelSmallMedium,
                     validator: controller.validatePassword,
+                    onChanged: controller.onPasswordChanged,
                   ),
                   Gap.h16,
                   Text('Konfirmasi Kata Sandi', style: TypographyApp.labelSmallMedium,),
@@ -178,6 +214,7 @@ class SignupPage extends ConsumerWidget{
                     hintStyle: TypographyApp.labelSmallMediumGrey,
                     inputStyle: TypographyApp.labelSmallMedium,
                     validator: controller.validateConfirm,
+                    onChanged: controller.onConfirmChanged,
                   ),
                   Gap.h24,
                   // Terms and Conditions checkbox
@@ -200,7 +237,7 @@ class SignupPage extends ConsumerWidget{
                   AppButton(
                     text: state.isLoading ? 'Loading' : 'Daftar',
                     textStyle: TypographyApp.bodyNormalBold.copyWith(color: Colors.white),
-                    onPressed: controller.submit,
+                    onPressed: state.canSubmit ? controller.submit : null,
                     width: double.infinity,
                     height: SizeApp.h52,
                     backgroundColor: ColorApp.primary,

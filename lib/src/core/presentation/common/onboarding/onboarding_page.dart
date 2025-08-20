@@ -119,7 +119,7 @@ class OnBoardingPage extends ConsumerWidget {
                       child: AppButton(
                         text: "Mulai Sekarang",
                         onPressed: () {
-                          context.pushReplacementNamed(Routes.signin.name);
+                          context.goNamed(Routes.signin.name);
                         },
                       ),
                     )

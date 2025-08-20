@@ -3,6 +3,9 @@ import 'package:calisfun/src/widgets/app_prev_button/app_prev_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../routes/routes.dart';
 
 class CategoryPage extends ConsumerWidget {
   const CategoryPage({super.key});
@@ -26,21 +29,24 @@ class CategoryPage extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: SizeApp.customHeight(170),
-                  height: SizeApp.customHeight(170),
-                  decoration: BoxDecoration(
-                    color: ColorApp.amber,
-                    borderRadius: BorderRadius.circular(17.r),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/images/letter_img.png', width: 100.w, height: 100.h, fit: BoxFit.cover,),
-                      Gap.h12,
-                      Text('Huruf', style: TypographyApp.headingLargeBold,),
-                    ],
+                InkWell(
+                  onTap: ()=> context.pushNamed(Routes.learnWrite.name),
+                  child: Container(
+                    width: SizeApp.customHeight(170),
+                    height: SizeApp.customHeight(170),
+                    decoration: BoxDecoration(
+                      color: ColorApp.amber,
+                      borderRadius: BorderRadius.circular(17.r),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/images/letter_img.png', width: 100.w, height: 100.h, fit: BoxFit.cover,),
+                        Gap.h12,
+                        Text('Huruf', style: TypographyApp.headingLargeBold,),
+                      ],
+                    ),
                   ),
                 ),
                 Container(

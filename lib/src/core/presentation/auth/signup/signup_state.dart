@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core.dart';
 
 class SignupState {
-  final AsyncValue<void> signupValue;
+  final AsyncValue<User?> signupValue;
   final String name;
   final String email;
   final String phone;
@@ -13,7 +14,7 @@ class SignupState {
   final bool agreedTnC;
 
   const SignupState({
-    this.signupValue = const AsyncData(null),
+    this.signupValue = const AsyncData<User?>(null),
     this.name = '',
     this.email = '',
     this.phone = '',
@@ -44,7 +45,7 @@ class SignupState {
           !isLoading;
 
   SignupState copyWith({
-    AsyncValue<void>? signupValue,
+    AsyncValue<User?>? signupValue,
     String? name,
     String? email,
     String? phone,
