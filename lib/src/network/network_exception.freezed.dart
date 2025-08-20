@@ -55,19 +55,28 @@ extension NetworkExceptionsPatterns on NetworkExceptions {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( RequestCancelled value)?  requestCancelled,TResult Function( UnauthorizedRequest value)?  unauthorizedRequest,TResult Function( BadRequest value)?  badRequest,TResult Function( NotFound value)?  notFound,TResult Function( InternalServerError value)?  internalServerError,TResult Function( ServiceUnavailable value)?  serviceUnavailable,TResult Function( Timeout value)?  timeout,TResult Function( NoInternetConnection value)?  noInternetConnection,TResult Function( UnexpectedError value)?  unexpectedError,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( RequestCancelled value)?  requestCancelled,TResult Function( UnauthorizedRequest value)?  unauthorizedRequest,TResult Function( BadRequest value)?  badRequest,TResult Function( NotFound value)?  notFound,TResult Function( MethodNotAllowed value)?  methodNotAllowed,TResult Function( NotAcceptable value)?  notAcceptable,TResult Function( RequestTimeout value)?  requestTimeout,TResult Function( SendTimeout value)?  sendTimeout,TResult Function( Conflict value)?  conflict,TResult Function( InternalServerError value)?  internalServerError,TResult Function( NotImplemented value)?  notImplemented,TResult Function( ServiceUnavailable value)?  serviceUnavailable,TResult Function( NoInternetConnection value)?  noInternetConnection,TResult Function( FormatException value)?  formatException,TResult Function( UnableToProcess value)?  unableToProcess,TResult Function( DefaultError value)?  defaultError,TResult Function( UnexpectedError value)?  unexpectedError,TResult Function( UnProcessableEntity value)?  unProcessableEntity,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case RequestCancelled() when requestCancelled != null:
 return requestCancelled(_that);case UnauthorizedRequest() when unauthorizedRequest != null:
 return unauthorizedRequest(_that);case BadRequest() when badRequest != null:
 return badRequest(_that);case NotFound() when notFound != null:
-return notFound(_that);case InternalServerError() when internalServerError != null:
-return internalServerError(_that);case ServiceUnavailable() when serviceUnavailable != null:
-return serviceUnavailable(_that);case Timeout() when timeout != null:
-return timeout(_that);case NoInternetConnection() when noInternetConnection != null:
-return noInternetConnection(_that);case UnexpectedError() when unexpectedError != null:
-return unexpectedError(_that);case _:
+return notFound(_that);case MethodNotAllowed() when methodNotAllowed != null:
+return methodNotAllowed(_that);case NotAcceptable() when notAcceptable != null:
+return notAcceptable(_that);case RequestTimeout() when requestTimeout != null:
+return requestTimeout(_that);case SendTimeout() when sendTimeout != null:
+return sendTimeout(_that);case Conflict() when conflict != null:
+return conflict(_that);case InternalServerError() when internalServerError != null:
+return internalServerError(_that);case NotImplemented() when notImplemented != null:
+return notImplemented(_that);case ServiceUnavailable() when serviceUnavailable != null:
+return serviceUnavailable(_that);case NoInternetConnection() when noInternetConnection != null:
+return noInternetConnection(_that);case FormatException() when formatException != null:
+return formatException(_that);case UnableToProcess() when unableToProcess != null:
+return unableToProcess(_that);case DefaultError() when defaultError != null:
+return defaultError(_that);case UnexpectedError() when unexpectedError != null:
+return unexpectedError(_that);case UnProcessableEntity() when unProcessableEntity != null:
+return unProcessableEntity(_that);case _:
   return orElse();
 
 }
@@ -85,19 +94,28 @@ return unexpectedError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( RequestCancelled value)  requestCancelled,required TResult Function( UnauthorizedRequest value)  unauthorizedRequest,required TResult Function( BadRequest value)  badRequest,required TResult Function( NotFound value)  notFound,required TResult Function( InternalServerError value)  internalServerError,required TResult Function( ServiceUnavailable value)  serviceUnavailable,required TResult Function( Timeout value)  timeout,required TResult Function( NoInternetConnection value)  noInternetConnection,required TResult Function( UnexpectedError value)  unexpectedError,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( RequestCancelled value)  requestCancelled,required TResult Function( UnauthorizedRequest value)  unauthorizedRequest,required TResult Function( BadRequest value)  badRequest,required TResult Function( NotFound value)  notFound,required TResult Function( MethodNotAllowed value)  methodNotAllowed,required TResult Function( NotAcceptable value)  notAcceptable,required TResult Function( RequestTimeout value)  requestTimeout,required TResult Function( SendTimeout value)  sendTimeout,required TResult Function( Conflict value)  conflict,required TResult Function( InternalServerError value)  internalServerError,required TResult Function( NotImplemented value)  notImplemented,required TResult Function( ServiceUnavailable value)  serviceUnavailable,required TResult Function( NoInternetConnection value)  noInternetConnection,required TResult Function( FormatException value)  formatException,required TResult Function( UnableToProcess value)  unableToProcess,required TResult Function( DefaultError value)  defaultError,required TResult Function( UnexpectedError value)  unexpectedError,required TResult Function( UnProcessableEntity value)  unProcessableEntity,}){
 final _that = this;
 switch (_that) {
 case RequestCancelled():
 return requestCancelled(_that);case UnauthorizedRequest():
 return unauthorizedRequest(_that);case BadRequest():
 return badRequest(_that);case NotFound():
-return notFound(_that);case InternalServerError():
-return internalServerError(_that);case ServiceUnavailable():
-return serviceUnavailable(_that);case Timeout():
-return timeout(_that);case NoInternetConnection():
-return noInternetConnection(_that);case UnexpectedError():
-return unexpectedError(_that);case _:
+return notFound(_that);case MethodNotAllowed():
+return methodNotAllowed(_that);case NotAcceptable():
+return notAcceptable(_that);case RequestTimeout():
+return requestTimeout(_that);case SendTimeout():
+return sendTimeout(_that);case Conflict():
+return conflict(_that);case InternalServerError():
+return internalServerError(_that);case NotImplemented():
+return notImplemented(_that);case ServiceUnavailable():
+return serviceUnavailable(_that);case NoInternetConnection():
+return noInternetConnection(_that);case FormatException():
+return formatException(_that);case UnableToProcess():
+return unableToProcess(_that);case DefaultError():
+return defaultError(_that);case UnexpectedError():
+return unexpectedError(_that);case UnProcessableEntity():
+return unProcessableEntity(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -114,19 +132,28 @@ return unexpectedError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( RequestCancelled value)?  requestCancelled,TResult? Function( UnauthorizedRequest value)?  unauthorizedRequest,TResult? Function( BadRequest value)?  badRequest,TResult? Function( NotFound value)?  notFound,TResult? Function( InternalServerError value)?  internalServerError,TResult? Function( ServiceUnavailable value)?  serviceUnavailable,TResult? Function( Timeout value)?  timeout,TResult? Function( NoInternetConnection value)?  noInternetConnection,TResult? Function( UnexpectedError value)?  unexpectedError,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( RequestCancelled value)?  requestCancelled,TResult? Function( UnauthorizedRequest value)?  unauthorizedRequest,TResult? Function( BadRequest value)?  badRequest,TResult? Function( NotFound value)?  notFound,TResult? Function( MethodNotAllowed value)?  methodNotAllowed,TResult? Function( NotAcceptable value)?  notAcceptable,TResult? Function( RequestTimeout value)?  requestTimeout,TResult? Function( SendTimeout value)?  sendTimeout,TResult? Function( Conflict value)?  conflict,TResult? Function( InternalServerError value)?  internalServerError,TResult? Function( NotImplemented value)?  notImplemented,TResult? Function( ServiceUnavailable value)?  serviceUnavailable,TResult? Function( NoInternetConnection value)?  noInternetConnection,TResult? Function( FormatException value)?  formatException,TResult? Function( UnableToProcess value)?  unableToProcess,TResult? Function( DefaultError value)?  defaultError,TResult? Function( UnexpectedError value)?  unexpectedError,TResult? Function( UnProcessableEntity value)?  unProcessableEntity,}){
 final _that = this;
 switch (_that) {
 case RequestCancelled() when requestCancelled != null:
 return requestCancelled(_that);case UnauthorizedRequest() when unauthorizedRequest != null:
 return unauthorizedRequest(_that);case BadRequest() when badRequest != null:
 return badRequest(_that);case NotFound() when notFound != null:
-return notFound(_that);case InternalServerError() when internalServerError != null:
-return internalServerError(_that);case ServiceUnavailable() when serviceUnavailable != null:
-return serviceUnavailable(_that);case Timeout() when timeout != null:
-return timeout(_that);case NoInternetConnection() when noInternetConnection != null:
-return noInternetConnection(_that);case UnexpectedError() when unexpectedError != null:
-return unexpectedError(_that);case _:
+return notFound(_that);case MethodNotAllowed() when methodNotAllowed != null:
+return methodNotAllowed(_that);case NotAcceptable() when notAcceptable != null:
+return notAcceptable(_that);case RequestTimeout() when requestTimeout != null:
+return requestTimeout(_that);case SendTimeout() when sendTimeout != null:
+return sendTimeout(_that);case Conflict() when conflict != null:
+return conflict(_that);case InternalServerError() when internalServerError != null:
+return internalServerError(_that);case NotImplemented() when notImplemented != null:
+return notImplemented(_that);case ServiceUnavailable() when serviceUnavailable != null:
+return serviceUnavailable(_that);case NoInternetConnection() when noInternetConnection != null:
+return noInternetConnection(_that);case FormatException() when formatException != null:
+return formatException(_that);case UnableToProcess() when unableToProcess != null:
+return unableToProcess(_that);case DefaultError() when defaultError != null:
+return defaultError(_that);case UnexpectedError() when unexpectedError != null:
+return unexpectedError(_that);case UnProcessableEntity() when unProcessableEntity != null:
+return unProcessableEntity(_that);case _:
   return null;
 
 }
@@ -143,18 +170,27 @@ return unexpectedError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  requestCancelled,TResult Function()?  unauthorizedRequest,TResult Function( String? reason)?  badRequest,TResult Function( String? reason)?  notFound,TResult Function( String? reason)?  internalServerError,TResult Function( String? reason)?  serviceUnavailable,TResult Function()?  timeout,TResult Function()?  noInternetConnection,TResult Function( String? reason)?  unexpectedError,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  requestCancelled,TResult Function( String reason,  bool isUnauthorizedRequest)?  unauthorizedRequest,TResult Function()?  badRequest,TResult Function( String reason)?  notFound,TResult Function()?  methodNotAllowed,TResult Function()?  notAcceptable,TResult Function()?  requestTimeout,TResult Function()?  sendTimeout,TResult Function()?  conflict,TResult Function( String reason)?  internalServerError,TResult Function()?  notImplemented,TResult Function()?  serviceUnavailable,TResult Function()?  noInternetConnection,TResult Function()?  formatException,TResult Function()?  unableToProcess,TResult Function( String error)?  defaultError,TResult Function()?  unexpectedError,TResult Function( Map<String, dynamic> errors,  String errorMessage)?  unProcessableEntity,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case RequestCancelled() when requestCancelled != null:
 return requestCancelled();case UnauthorizedRequest() when unauthorizedRequest != null:
-return unauthorizedRequest();case BadRequest() when badRequest != null:
-return badRequest(_that.reason);case NotFound() when notFound != null:
-return notFound(_that.reason);case InternalServerError() when internalServerError != null:
-return internalServerError(_that.reason);case ServiceUnavailable() when serviceUnavailable != null:
-return serviceUnavailable(_that.reason);case Timeout() when timeout != null:
-return timeout();case NoInternetConnection() when noInternetConnection != null:
-return noInternetConnection();case UnexpectedError() when unexpectedError != null:
-return unexpectedError(_that.reason);case _:
+return unauthorizedRequest(_that.reason,_that.isUnauthorizedRequest);case BadRequest() when badRequest != null:
+return badRequest();case NotFound() when notFound != null:
+return notFound(_that.reason);case MethodNotAllowed() when methodNotAllowed != null:
+return methodNotAllowed();case NotAcceptable() when notAcceptable != null:
+return notAcceptable();case RequestTimeout() when requestTimeout != null:
+return requestTimeout();case SendTimeout() when sendTimeout != null:
+return sendTimeout();case Conflict() when conflict != null:
+return conflict();case InternalServerError() when internalServerError != null:
+return internalServerError(_that.reason);case NotImplemented() when notImplemented != null:
+return notImplemented();case ServiceUnavailable() when serviceUnavailable != null:
+return serviceUnavailable();case NoInternetConnection() when noInternetConnection != null:
+return noInternetConnection();case FormatException() when formatException != null:
+return formatException();case UnableToProcess() when unableToProcess != null:
+return unableToProcess();case DefaultError() when defaultError != null:
+return defaultError(_that.error);case UnexpectedError() when unexpectedError != null:
+return unexpectedError();case UnProcessableEntity() when unProcessableEntity != null:
+return unProcessableEntity(_that.errors,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -172,18 +208,27 @@ return unexpectedError(_that.reason);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  requestCancelled,required TResult Function()  unauthorizedRequest,required TResult Function( String? reason)  badRequest,required TResult Function( String? reason)  notFound,required TResult Function( String? reason)  internalServerError,required TResult Function( String? reason)  serviceUnavailable,required TResult Function()  timeout,required TResult Function()  noInternetConnection,required TResult Function( String? reason)  unexpectedError,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  requestCancelled,required TResult Function( String reason,  bool isUnauthorizedRequest)  unauthorizedRequest,required TResult Function()  badRequest,required TResult Function( String reason)  notFound,required TResult Function()  methodNotAllowed,required TResult Function()  notAcceptable,required TResult Function()  requestTimeout,required TResult Function()  sendTimeout,required TResult Function()  conflict,required TResult Function( String reason)  internalServerError,required TResult Function()  notImplemented,required TResult Function()  serviceUnavailable,required TResult Function()  noInternetConnection,required TResult Function()  formatException,required TResult Function()  unableToProcess,required TResult Function( String error)  defaultError,required TResult Function()  unexpectedError,required TResult Function( Map<String, dynamic> errors,  String errorMessage)  unProcessableEntity,}) {final _that = this;
 switch (_that) {
 case RequestCancelled():
 return requestCancelled();case UnauthorizedRequest():
-return unauthorizedRequest();case BadRequest():
-return badRequest(_that.reason);case NotFound():
-return notFound(_that.reason);case InternalServerError():
-return internalServerError(_that.reason);case ServiceUnavailable():
-return serviceUnavailable(_that.reason);case Timeout():
-return timeout();case NoInternetConnection():
-return noInternetConnection();case UnexpectedError():
-return unexpectedError(_that.reason);case _:
+return unauthorizedRequest(_that.reason,_that.isUnauthorizedRequest);case BadRequest():
+return badRequest();case NotFound():
+return notFound(_that.reason);case MethodNotAllowed():
+return methodNotAllowed();case NotAcceptable():
+return notAcceptable();case RequestTimeout():
+return requestTimeout();case SendTimeout():
+return sendTimeout();case Conflict():
+return conflict();case InternalServerError():
+return internalServerError(_that.reason);case NotImplemented():
+return notImplemented();case ServiceUnavailable():
+return serviceUnavailable();case NoInternetConnection():
+return noInternetConnection();case FormatException():
+return formatException();case UnableToProcess():
+return unableToProcess();case DefaultError():
+return defaultError(_that.error);case UnexpectedError():
+return unexpectedError();case UnProcessableEntity():
+return unProcessableEntity(_that.errors,_that.errorMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,18 +245,27 @@ return unexpectedError(_that.reason);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  requestCancelled,TResult? Function()?  unauthorizedRequest,TResult? Function( String? reason)?  badRequest,TResult? Function( String? reason)?  notFound,TResult? Function( String? reason)?  internalServerError,TResult? Function( String? reason)?  serviceUnavailable,TResult? Function()?  timeout,TResult? Function()?  noInternetConnection,TResult? Function( String? reason)?  unexpectedError,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  requestCancelled,TResult? Function( String reason,  bool isUnauthorizedRequest)?  unauthorizedRequest,TResult? Function()?  badRequest,TResult? Function( String reason)?  notFound,TResult? Function()?  methodNotAllowed,TResult? Function()?  notAcceptable,TResult? Function()?  requestTimeout,TResult? Function()?  sendTimeout,TResult? Function()?  conflict,TResult? Function( String reason)?  internalServerError,TResult? Function()?  notImplemented,TResult? Function()?  serviceUnavailable,TResult? Function()?  noInternetConnection,TResult? Function()?  formatException,TResult? Function()?  unableToProcess,TResult? Function( String error)?  defaultError,TResult? Function()?  unexpectedError,TResult? Function( Map<String, dynamic> errors,  String errorMessage)?  unProcessableEntity,}) {final _that = this;
 switch (_that) {
 case RequestCancelled() when requestCancelled != null:
 return requestCancelled();case UnauthorizedRequest() when unauthorizedRequest != null:
-return unauthorizedRequest();case BadRequest() when badRequest != null:
-return badRequest(_that.reason);case NotFound() when notFound != null:
-return notFound(_that.reason);case InternalServerError() when internalServerError != null:
-return internalServerError(_that.reason);case ServiceUnavailable() when serviceUnavailable != null:
-return serviceUnavailable(_that.reason);case Timeout() when timeout != null:
-return timeout();case NoInternetConnection() when noInternetConnection != null:
-return noInternetConnection();case UnexpectedError() when unexpectedError != null:
-return unexpectedError(_that.reason);case _:
+return unauthorizedRequest(_that.reason,_that.isUnauthorizedRequest);case BadRequest() when badRequest != null:
+return badRequest();case NotFound() when notFound != null:
+return notFound(_that.reason);case MethodNotAllowed() when methodNotAllowed != null:
+return methodNotAllowed();case NotAcceptable() when notAcceptable != null:
+return notAcceptable();case RequestTimeout() when requestTimeout != null:
+return requestTimeout();case SendTimeout() when sendTimeout != null:
+return sendTimeout();case Conflict() when conflict != null:
+return conflict();case InternalServerError() when internalServerError != null:
+return internalServerError(_that.reason);case NotImplemented() when notImplemented != null:
+return notImplemented();case ServiceUnavailable() when serviceUnavailable != null:
+return serviceUnavailable();case NoInternetConnection() when noInternetConnection != null:
+return noInternetConnection();case FormatException() when formatException != null:
+return formatException();case UnableToProcess() when unableToProcess != null:
+return unableToProcess();case DefaultError() when defaultError != null:
+return defaultError(_that.error);case UnexpectedError() when unexpectedError != null:
+return unexpectedError();case UnProcessableEntity() when unProcessableEntity != null:
+return unProcessableEntity(_that.errors,_that.errorMessage);case _:
   return null;
 
 }
@@ -255,74 +309,43 @@ String toString() {
 
 
 class UnauthorizedRequest implements NetworkExceptions {
-  const UnauthorizedRequest();
+  const UnauthorizedRequest(this.reason, this.isUnauthorizedRequest);
   
 
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnauthorizedRequest);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'NetworkExceptions.unauthorizedRequest()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class BadRequest implements NetworkExceptions {
-  const BadRequest([this.reason]);
-  
-
- final  String? reason;
+ final  String reason;
+ final  bool isUnauthorizedRequest;
 
 /// Create a copy of NetworkExceptions
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$BadRequestCopyWith<BadRequest> get copyWith => _$BadRequestCopyWithImpl<BadRequest>(this, _$identity);
+$UnauthorizedRequestCopyWith<UnauthorizedRequest> get copyWith => _$UnauthorizedRequestCopyWithImpl<UnauthorizedRequest>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BadRequest&&(identical(other.reason, reason) || other.reason == reason));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnauthorizedRequest&&(identical(other.reason, reason) || other.reason == reason)&&(identical(other.isUnauthorizedRequest, isUnauthorizedRequest) || other.isUnauthorizedRequest == isUnauthorizedRequest));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,reason);
+int get hashCode => Object.hash(runtimeType,reason,isUnauthorizedRequest);
 
 @override
 String toString() {
-  return 'NetworkExceptions.badRequest(reason: $reason)';
+  return 'NetworkExceptions.unauthorizedRequest(reason: $reason, isUnauthorizedRequest: $isUnauthorizedRequest)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $BadRequestCopyWith<$Res> implements $NetworkExceptionsCopyWith<$Res> {
-  factory $BadRequestCopyWith(BadRequest value, $Res Function(BadRequest) _then) = _$BadRequestCopyWithImpl;
+abstract mixin class $UnauthorizedRequestCopyWith<$Res> implements $NetworkExceptionsCopyWith<$Res> {
+  factory $UnauthorizedRequestCopyWith(UnauthorizedRequest value, $Res Function(UnauthorizedRequest) _then) = _$UnauthorizedRequestCopyWithImpl;
 @useResult
 $Res call({
- String? reason
+ String reason, bool isUnauthorizedRequest
 });
 
 
@@ -330,19 +353,20 @@ $Res call({
 
 }
 /// @nodoc
-class _$BadRequestCopyWithImpl<$Res>
-    implements $BadRequestCopyWith<$Res> {
-  _$BadRequestCopyWithImpl(this._self, this._then);
+class _$UnauthorizedRequestCopyWithImpl<$Res>
+    implements $UnauthorizedRequestCopyWith<$Res> {
+  _$UnauthorizedRequestCopyWithImpl(this._self, this._then);
 
-  final BadRequest _self;
-  final $Res Function(BadRequest) _then;
+  final UnauthorizedRequest _self;
+  final $Res Function(UnauthorizedRequest) _then;
 
 /// Create a copy of NetworkExceptions
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? reason = freezed,}) {
-  return _then(BadRequest(
-freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
-as String?,
+@pragma('vm:prefer-inline') $Res call({Object? reason = null,Object? isUnauthorizedRequest = null,}) {
+  return _then(UnauthorizedRequest(
+null == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
+as String,null == isUnauthorizedRequest ? _self.isUnauthorizedRequest : isUnauthorizedRequest // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -352,11 +376,43 @@ as String?,
 /// @nodoc
 
 
-class NotFound implements NetworkExceptions {
-  const NotFound([this.reason]);
+class BadRequest implements NetworkExceptions {
+  const BadRequest();
   
 
- final  String? reason;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BadRequest);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'NetworkExceptions.badRequest()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class NotFound implements NetworkExceptions {
+  const NotFound(this.reason);
+  
+
+ final  String reason;
 
 /// Create a copy of NetworkExceptions
 /// with the given fields replaced by the non-null parameter values.
@@ -388,7 +444,7 @@ abstract mixin class $NotFoundCopyWith<$Res> implements $NetworkExceptionsCopyWi
   factory $NotFoundCopyWith(NotFound value, $Res Function(NotFound) _then) = _$NotFoundCopyWithImpl;
 @useResult
 $Res call({
- String? reason
+ String reason
 });
 
 
@@ -405,10 +461,10 @@ class _$NotFoundCopyWithImpl<$Res>
 
 /// Create a copy of NetworkExceptions
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? reason = freezed,}) {
+@pragma('vm:prefer-inline') $Res call({Object? reason = null,}) {
   return _then(NotFound(
-freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
-as String?,
+null == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -418,11 +474,171 @@ as String?,
 /// @nodoc
 
 
-class InternalServerError implements NetworkExceptions {
-  const InternalServerError([this.reason]);
+class MethodNotAllowed implements NetworkExceptions {
+  const MethodNotAllowed();
   
 
- final  String? reason;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MethodNotAllowed);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'NetworkExceptions.methodNotAllowed()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class NotAcceptable implements NetworkExceptions {
+  const NotAcceptable();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NotAcceptable);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'NetworkExceptions.notAcceptable()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class RequestTimeout implements NetworkExceptions {
+  const RequestTimeout();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RequestTimeout);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'NetworkExceptions.requestTimeout()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class SendTimeout implements NetworkExceptions {
+  const SendTimeout();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendTimeout);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'NetworkExceptions.sendTimeout()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class Conflict implements NetworkExceptions {
+  const Conflict();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Conflict);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'NetworkExceptions.conflict()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class InternalServerError implements NetworkExceptions {
+  const InternalServerError(this.reason);
+  
+
+ final  String reason;
 
 /// Create a copy of NetworkExceptions
 /// with the given fields replaced by the non-null parameter values.
@@ -454,7 +670,7 @@ abstract mixin class $InternalServerErrorCopyWith<$Res> implements $NetworkExcep
   factory $InternalServerErrorCopyWith(InternalServerError value, $Res Function(InternalServerError) _then) = _$InternalServerErrorCopyWithImpl;
 @useResult
 $Res call({
- String? reason
+ String reason
 });
 
 
@@ -471,10 +687,10 @@ class _$InternalServerErrorCopyWithImpl<$Res>
 
 /// Create a copy of NetworkExceptions
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? reason = freezed,}) {
+@pragma('vm:prefer-inline') $Res call({Object? reason = null,}) {
   return _then(InternalServerError(
-freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
-as String?,
+null == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -484,74 +700,8 @@ as String?,
 /// @nodoc
 
 
-class ServiceUnavailable implements NetworkExceptions {
-  const ServiceUnavailable([this.reason]);
-  
-
- final  String? reason;
-
-/// Create a copy of NetworkExceptions
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ServiceUnavailableCopyWith<ServiceUnavailable> get copyWith => _$ServiceUnavailableCopyWithImpl<ServiceUnavailable>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServiceUnavailable&&(identical(other.reason, reason) || other.reason == reason));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,reason);
-
-@override
-String toString() {
-  return 'NetworkExceptions.serviceUnavailable(reason: $reason)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $ServiceUnavailableCopyWith<$Res> implements $NetworkExceptionsCopyWith<$Res> {
-  factory $ServiceUnavailableCopyWith(ServiceUnavailable value, $Res Function(ServiceUnavailable) _then) = _$ServiceUnavailableCopyWithImpl;
-@useResult
-$Res call({
- String? reason
-});
-
-
-
-
-}
-/// @nodoc
-class _$ServiceUnavailableCopyWithImpl<$Res>
-    implements $ServiceUnavailableCopyWith<$Res> {
-  _$ServiceUnavailableCopyWithImpl(this._self, this._then);
-
-  final ServiceUnavailable _self;
-  final $Res Function(ServiceUnavailable) _then;
-
-/// Create a copy of NetworkExceptions
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? reason = freezed,}) {
-  return _then(ServiceUnavailable(
-freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
-}
-
-
-}
-
-/// @nodoc
-
-
-class Timeout implements NetworkExceptions {
-  const Timeout();
+class NotImplemented implements NetworkExceptions {
+  const NotImplemented();
   
 
 
@@ -561,7 +711,7 @@ class Timeout implements NetworkExceptions {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Timeout);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NotImplemented);
 }
 
 
@@ -570,7 +720,39 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'NetworkExceptions.timeout()';
+  return 'NetworkExceptions.notImplemented()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class ServiceUnavailable implements NetworkExceptions {
+  const ServiceUnavailable();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServiceUnavailable);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'NetworkExceptions.serviceUnavailable()';
 }
 
 
@@ -614,43 +796,107 @@ String toString() {
 /// @nodoc
 
 
-class UnexpectedError implements NetworkExceptions {
-  const UnexpectedError([this.reason]);
+class FormatException implements NetworkExceptions {
+  const FormatException();
   
 
- final  String? reason;
 
-/// Create a copy of NetworkExceptions
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UnexpectedErrorCopyWith<UnexpectedError> get copyWith => _$UnexpectedErrorCopyWithImpl<UnexpectedError>(this, _$identity);
+
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnexpectedError&&(identical(other.reason, reason) || other.reason == reason));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FormatException);
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,reason);
+int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'NetworkExceptions.unexpectedError(reason: $reason)';
+  return 'NetworkExceptions.formatException()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class UnableToProcess implements NetworkExceptions {
+  const UnableToProcess();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnableToProcess);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'NetworkExceptions.unableToProcess()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class DefaultError implements NetworkExceptions {
+  const DefaultError(this.error);
+  
+
+ final  String error;
+
+/// Create a copy of NetworkExceptions
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DefaultErrorCopyWith<DefaultError> get copyWith => _$DefaultErrorCopyWithImpl<DefaultError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DefaultError&&(identical(other.error, error) || other.error == error));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,error);
+
+@override
+String toString() {
+  return 'NetworkExceptions.defaultError(error: $error)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $UnexpectedErrorCopyWith<$Res> implements $NetworkExceptionsCopyWith<$Res> {
-  factory $UnexpectedErrorCopyWith(UnexpectedError value, $Res Function(UnexpectedError) _then) = _$UnexpectedErrorCopyWithImpl;
+abstract mixin class $DefaultErrorCopyWith<$Res> implements $NetworkExceptionsCopyWith<$Res> {
+  factory $DefaultErrorCopyWith(DefaultError value, $Res Function(DefaultError) _then) = _$DefaultErrorCopyWithImpl;
 @useResult
 $Res call({
- String? reason
+ String error
 });
 
 
@@ -658,19 +904,125 @@ $Res call({
 
 }
 /// @nodoc
-class _$UnexpectedErrorCopyWithImpl<$Res>
-    implements $UnexpectedErrorCopyWith<$Res> {
-  _$UnexpectedErrorCopyWithImpl(this._self, this._then);
+class _$DefaultErrorCopyWithImpl<$Res>
+    implements $DefaultErrorCopyWith<$Res> {
+  _$DefaultErrorCopyWithImpl(this._self, this._then);
 
-  final UnexpectedError _self;
-  final $Res Function(UnexpectedError) _then;
+  final DefaultError _self;
+  final $Res Function(DefaultError) _then;
 
 /// Create a copy of NetworkExceptions
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? reason = freezed,}) {
-  return _then(UnexpectedError(
-freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
-as String?,
+@pragma('vm:prefer-inline') $Res call({Object? error = null,}) {
+  return _then(DefaultError(
+null == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class UnexpectedError implements NetworkExceptions {
+  const UnexpectedError();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnexpectedError);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'NetworkExceptions.unexpectedError()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class UnProcessableEntity implements NetworkExceptions {
+  const UnProcessableEntity(final  Map<String, dynamic> errors, this.errorMessage): _errors = errors;
+  
+
+ final  Map<String, dynamic> _errors;
+ Map<String, dynamic> get errors {
+  if (_errors is EqualUnmodifiableMapView) return _errors;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_errors);
+}
+
+ final  String errorMessage;
+
+/// Create a copy of NetworkExceptions
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UnProcessableEntityCopyWith<UnProcessableEntity> get copyWith => _$UnProcessableEntityCopyWithImpl<UnProcessableEntity>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnProcessableEntity&&const DeepCollectionEquality().equals(other._errors, _errors)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_errors),errorMessage);
+
+@override
+String toString() {
+  return 'NetworkExceptions.unProcessableEntity(errors: $errors, errorMessage: $errorMessage)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UnProcessableEntityCopyWith<$Res> implements $NetworkExceptionsCopyWith<$Res> {
+  factory $UnProcessableEntityCopyWith(UnProcessableEntity value, $Res Function(UnProcessableEntity) _then) = _$UnProcessableEntityCopyWithImpl;
+@useResult
+$Res call({
+ Map<String, dynamic> errors, String errorMessage
+});
+
+
+
+
+}
+/// @nodoc
+class _$UnProcessableEntityCopyWithImpl<$Res>
+    implements $UnProcessableEntityCopyWith<$Res> {
+  _$UnProcessableEntityCopyWithImpl(this._self, this._then);
+
+  final UnProcessableEntity _self;
+  final $Res Function(UnProcessableEntity) _then;
+
+/// Create a copy of NetworkExceptions
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? errors = null,Object? errorMessage = null,}) {
+  return _then(UnProcessableEntity(
+null == errors ? _self._errors : errors // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,null == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

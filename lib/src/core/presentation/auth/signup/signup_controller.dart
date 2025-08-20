@@ -1,15 +1,19 @@
 import 'dart:async';
+import 'dart:developer'; // for log
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../network/network.dart';
 import 'signup_state.dart';
+import 'package:calisfun/src/core/application/application.dart';
 
 final signupControllerProvider =
 StateNotifierProvider<SignupController, SignupState>(
-      (ref) => SignupController(),
+      (ref) => SignupController(ref),
 );
 
 class SignupController extends StateNotifier<SignupState> {
-  SignupController() : super(const SignupState());
+  SignupController(this._ref) : super(const SignupState());
+  final Ref _ref;
 
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
@@ -26,17 +30,15 @@ class SignupController extends StateNotifier<SignupState> {
       state = state.copyWith(phone: v, signupValue: const AsyncData(null));
   void onPasswordChanged(String v) =>
       state = state.copyWith(password: v, signupValue: const AsyncData(null));
-  void onConfirmChanged(String v) =>
-      state = state.copyWith(confirmPassword: v, signupValue: const AsyncData(null));
+  void onConfirmChanged(String v) => state =
+      state.copyWith(confirmPassword: v, signupValue: const AsyncData(null));
 
   void toggleObscurePassword() =>
       state = state.copyWith(isObscurePassword: !state.isObscurePassword);
   void toggleObscureConfirm() =>
       state = state.copyWith(isObscureConfirm: !state.isObscureConfirm);
-  void toggleAgreeTnC(bool? v) {
-    state = state.copyWith(agreedTnC: v ?? false);
-  }
-
+  void toggleAgreeTnC(bool? v) =>
+      state = state.copyWith(agreedTnC: v ?? false);
 
   String? validateName(String? value) {
     final v = (value ?? '').trim();
@@ -80,20 +82,44 @@ class SignupController extends StateNotifier<SignupState> {
     if (!form.validate()) return;
     if (!state.agreedTnC) return;
 
+    // sinkronkan nilai
+    final username = nameController.text.trim();
+    final email = emailController.text.trim();
+    final phone = phoneController.text.trim();
+    final password = passwordController.text;
+
     state = state.copyWith(
       signupValue: const AsyncLoading(),
-      name: nameController.text.trim(),
-      email: emailController.text.trim(),
-      phone: phoneController.text.trim(),
-      password: passwordController.text,
+      name: username,
+      email: email,
+      phone: phone,
+      password: password,
       confirmPassword: confirmController.text,
     );
 
     try {
-      await Future<void>.delayed(const Duration(milliseconds: 800));
-      state = state.copyWith(signupValue: const AsyncData(null));
+      final svc = _ref.read(userServiceProvider);
+      final result = await svc.registerData(
+        username: username,
+        email: email,
+        phoneNumber: phone,
+        password: password,
+        role: 'parent',
+      );
 
+      state = result.when(
+        success: (user) {
+          log('REGISTER SUCCESS for ${user?.username ?? '-'}');
+          return state.copyWith(signupValue: AsyncData(user));
+        },
+        failure: (err, st) {
+          final msg = NetworkExceptions.getErrorMessage(err);
+          log('REGISTER FAILED: $msg');
+          return state.copyWith(signupValue: AsyncError(err, st));
+        },
+      );
     } catch (e, st) {
+      log('REGISTER CRASH: $e');
       state = state.copyWith(signupValue: AsyncError(e, st));
     }
   }

@@ -122,11 +122,11 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( T data)?  success,TResult Function( NetworkExceptions error)?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( T data)?  success,TResult Function( NetworkExceptions error,  StackTrace stackTrace)?  failure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case Success() when success != null:
 return success(_that.data);case Failure() when failure != null:
-return failure(_that.error);case _:
+return failure(_that.error,_that.stackTrace);case _:
   return orElse();
 
 }
@@ -144,11 +144,11 @@ return failure(_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( T data)  success,required TResult Function( NetworkExceptions error)  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( T data)  success,required TResult Function( NetworkExceptions error,  StackTrace stackTrace)  failure,}) {final _that = this;
 switch (_that) {
 case Success():
 return success(_that.data);case Failure():
-return failure(_that.error);case _:
+return failure(_that.error,_that.stackTrace);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -165,11 +165,11 @@ return failure(_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( T data)?  success,TResult? Function( NetworkExceptions error)?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( T data)?  success,TResult? Function( NetworkExceptions error,  StackTrace stackTrace)?  failure,}) {final _that = this;
 switch (_that) {
 case Success() when success != null:
 return success(_that.data);case Failure() when failure != null:
-return failure(_that.error);case _:
+return failure(_that.error,_that.stackTrace);case _:
   return null;
 
 }
@@ -247,10 +247,11 @@ as T,
 
 
 class Failure<T> implements Result<T> {
-  const Failure(this.error);
+  const Failure(this.error, this.stackTrace);
   
 
  final  NetworkExceptions error;
+ final  StackTrace stackTrace;
 
 /// Create a copy of Result
 /// with the given fields replaced by the non-null parameter values.
@@ -262,16 +263,16 @@ $FailureCopyWith<T, Failure<T>> get copyWith => _$FailureCopyWithImpl<T, Failure
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Failure<T>&&(identical(other.error, error) || other.error == error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Failure<T>&&(identical(other.error, error) || other.error == error)&&(identical(other.stackTrace, stackTrace) || other.stackTrace == stackTrace));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,error);
+int get hashCode => Object.hash(runtimeType,error,stackTrace);
 
 @override
 String toString() {
-  return 'Result<$T>.failure(error: $error)';
+  return 'Result<$T>.failure(error: $error, stackTrace: $stackTrace)';
 }
 
 
@@ -282,7 +283,7 @@ abstract mixin class $FailureCopyWith<T,$Res> implements $ResultCopyWith<T, $Res
   factory $FailureCopyWith(Failure<T> value, $Res Function(Failure<T>) _then) = _$FailureCopyWithImpl;
 @useResult
 $Res call({
- NetworkExceptions error
+ NetworkExceptions error, StackTrace stackTrace
 });
 
 
@@ -299,10 +300,11 @@ class _$FailureCopyWithImpl<T,$Res>
 
 /// Create a copy of Result
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? error = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? error = null,Object? stackTrace = null,}) {
   return _then(Failure<T>(
 null == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as NetworkExceptions,
+as NetworkExceptions,null == stackTrace ? _self.stackTrace : stackTrace // ignore: cast_nullable_to_non_nullable
+as StackTrace,
   ));
 }
 
