@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../network/network.dart';
 import 'signup_state.dart';
 import 'package:calisfun/src/core/application/application.dart';
+import 'package:calisfun/src/shared/preferences/preferences.dart';
 
 final signupControllerProvider =
 StateNotifierProvider<SignupController, SignupState>(
@@ -30,8 +31,8 @@ class SignupController extends StateNotifier<SignupState> {
       state = state.copyWith(phone: v, signupValue: const AsyncData(null));
   void onPasswordChanged(String v) =>
       state = state.copyWith(password: v, signupValue: const AsyncData(null));
-  void onConfirmChanged(String v) => state =
-      state.copyWith(confirmPassword: v, signupValue: const AsyncData(null));
+  void onConfirmChanged(String v) =>
+      state = state.copyWith(confirmPassword: v, signupValue: const AsyncData(null));
 
   void toggleObscurePassword() =>
       state = state.copyWith(isObscurePassword: !state.isObscurePassword);
@@ -106,10 +107,31 @@ class SignupController extends StateNotifier<SignupState> {
         role: 'parent',
       );
 
-      state = result.when(
-        success: (user) {
-          log('REGISTER SUCCESS for ${user?.username ?? '-'}');
-          return state.copyWith(signupValue: AsyncData(user));
+      state = await result.when(
+        success: (user) async {
+          if (user != null) {
+            log('REGISTER SUCCESS for ${user.username}');
+            return state.copyWith(signupValue: AsyncData(user));
+          }
+
+          final token = await _ref.read(userPreferenceProvider).getToken();
+          if (token != null && token.isNotEmpty) {
+            final meRes = await svc.meData(token);
+            return meRes.when(
+              success: (u) {
+                log('REGISTER+ME SUCCESS for ${u?.username ?? '-'}');
+                return state.copyWith(signupValue: AsyncData(u));
+              },
+              failure: (err, st) {
+                final msg = NetworkExceptions.getErrorMessage(err);
+                log('REGISTER ME FAILED: $msg');
+                return state.copyWith(signupValue: AsyncError(err, st));
+              },
+            );
+          }
+
+          log('REGISTER SUCCESS (no user, no token)');
+          return state.copyWith(signupValue: const AsyncData(null));
         },
         failure: (err, st) {
           final msg = NetworkExceptions.getErrorMessage(err);

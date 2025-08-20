@@ -2,8 +2,9 @@ part of 'application.dart';
 
 class UserService {
   final UserRepository userRepository;
+  final UserPreference userPreference;
 
-  UserService({required this.userRepository});
+  UserService({required this.userRepository, required this.userPreference});
 
   Future<Result<User?>> registerData({
     required String username,
@@ -26,10 +27,16 @@ class UserService {
         final payload = (map['data'] is Map<String, dynamic>)
             ? map['data'] as Map<String, dynamic>
             : map;
+
+        // Jika register juga mengembalikan token, simpan aman
         final token = payload['token'] as String?;
         if (token != null && token.isNotEmpty) {
-          log('REGISTER TOKEN: $token');
+          // Hindari log token raw
+          log('REGISTER TOKEN: ${_maskToken(token)}');
+          await userPreference.saveToken(token);
         }
+
+        // Jika backend mengembalikan user di payload
         final userJson = payload['user'];
         if (userJson is Map<String, dynamic>) {
           final user = UserConverter.fromJson(userJson);
@@ -73,7 +80,11 @@ class UserService {
             return Result.failure(const NetworkExceptions.badRequest(), StackTrace.current);
           }
 
-          log('TOKEN RECEIVED: $token');
+          // Simpan token aman & hindari log raw
+          log('TOKEN RECEIVED: ${_maskToken(token)}');
+          await userPreference.saveToken(token);
+
+          // Lanjut ambil profil; UserRepository.me() akan set Authorization header
           return await meData(token);
         } catch (e, stackTrace) {
           log('ERROR IN LOGIN DATA: $e');
@@ -155,7 +166,14 @@ Map<String, dynamic> _extractPayloadMap(dynamic api) {
   return const <String, dynamic>{};
 }
 
+// Masker sederhana agar token tidak tampil full di log
+String _maskToken(String token) {
+  if (token.length <= 10) return '***';
+  return '${token.substring(0, 4)}...${token.substring(token.length - 4)}';
+}
+
 final userServiceProvider = Provider<UserService>((ref) {
   final repo = ref.read(userRepositoryProvider);
-  return UserService(userRepository: repo);
+  final userPreference = ref.read(userPreferenceProvider);
+  return UserService(userRepository: repo, userPreference: userPreference);
 });
