@@ -6,6 +6,7 @@ import 'package:calisfun/src/core/presentation/auth/signin/signin_controller.dar
 import 'package:calisfun/src/core/presentation/auth/signin/signin_state.dart';
 
 import '../../../../constants/constants.dart';
+import '../../../../network/network.dart';
 import '../../../../routes/routes.dart';
 import '../../../../widgets/widgets.dart';
 
@@ -14,22 +15,37 @@ class SigninPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<SigninState>(signinControllerProvider, (prev, next) {
-      final value = next.loginValue;
-
-      value.whenOrNull(
-        data: (_) {
-          context.goNamed(Routes.selectUser.name);
-        },
-        error: (e, st) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login gagal: $e')),
-          );
-        },
-      );
-    });
     final state = ref.watch(signinControllerProvider);
     final controller  = ref.read(signinControllerProvider.notifier);
+
+    ref.listen<SigninState>(
+      signinControllerProvider,
+          (prev, next) {
+        final pv = prev?.signinValue;
+        final nv = next.signinValue;
+        if (pv == nv) return;
+
+        nv.when(
+          data: (user) {
+            if (user != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Login berhasil!')),
+              );
+              context.goNamed(Routes.selectUser.name);
+            }
+          },
+          error: (err, _) {
+            final msg = NetworkExceptions.getErrorMessage(
+              err is NetworkExceptions ? err : const NetworkExceptions.unexpectedError(),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(msg)),
+            );
+          },
+          loading: () {},
+        );
+      },
+    );
 
     return GestureDetector(
       onTap: () {

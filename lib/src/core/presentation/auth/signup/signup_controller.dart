@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:developer'; // for log
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../network/network.dart';
@@ -82,7 +82,6 @@ class SignupController extends StateNotifier<SignupState> {
     if (!form.validate()) return;
     if (!state.agreedTnC) return;
 
-    // sinkronkan nilai
     final username = nameController.text.trim();
     final email = emailController.text.trim();
     final phone = phoneController.text.trim();

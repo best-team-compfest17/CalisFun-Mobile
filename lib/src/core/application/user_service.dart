@@ -1,10 +1,5 @@
 part of 'application.dart';
 
-final userServiceProvider = Provider<UserService>((ref) {
-  final repo = ref.read(userRepositoryProvider);
-  return UserService(userRepository: repo);
-});
-
 class UserService {
   final UserRepository userRepository;
 
@@ -46,20 +41,121 @@ class UserService {
       failure: (error, stackTrace) => Result.failure(error, stackTrace),
     );
   }
+
+  Future<Result<User?>> loginData({
+    required String email,
+    required String password,
+  }) async {
+    final result = await userRepository.login(
+      email: email,
+      password: password,
+    );
+
+    return result.when(
+      success: (api) async {
+        try {
+          log('LOGIN API RESPONSE TYPE: ${api.runtimeType}');
+          log('LOGIN API DATA: ${api.data}');
+
+          Map<String, dynamic> responseMap;
+
+          if (api.data is Map<String, dynamic>) {
+            responseMap = api.data as Map<String, dynamic>;
+          } else {
+            responseMap = _extractPayloadMap(api);
+          }
+
+          log('RESPONSE MAP: $responseMap');
+
+          final token = responseMap['token'] as String?;
+          if (token == null || token.isEmpty) {
+            log('NO TOKEN FOUND IN: $responseMap');
+            return Result.failure(const NetworkExceptions.badRequest(), StackTrace.current);
+          }
+
+          log('TOKEN RECEIVED: $token');
+          return await meData(token);
+        } catch (e, stackTrace) {
+          log('ERROR IN LOGIN DATA: $e');
+          log('STACKTRACE: $stackTrace');
+          return Result.failure(NetworkExceptions.badRequest(), stackTrace);
+        }
+      },
+      failure: (error, stackTrace) => Result.failure(error, stackTrace),
+    );
+  }
+
+  Future<Result<User?>> meData(String? token) async {
+    try {
+      final result = await userRepository.me(token);
+      return result.when(
+        success: (apiResponse) {
+          try {
+            final map = _extractPayloadMap(apiResponse);
+            log('ME RESPONSE: $map');
+
+            if (map is Map<String, dynamic>) {
+              final user = UserConverter.fromJson(map);
+              return Result.success(user);
+            }
+
+            log('INVALID USER DATA FORMAT: $map');
+            return Result.failure(const NetworkExceptions.badRequest(), StackTrace.current);
+          } catch (e, stackTrace) {
+            log('ERROR PARSING ME RESPONSE: $e');
+            return Result.failure(NetworkExceptions.badRequest(), stackTrace);
+          }
+        },
+        failure: (error, stackTrace) {
+          log('ME CALL FAILED: $error');
+          return Result.failure(error, stackTrace);
+        },
+      );
+    } catch (e, stackTrace) {
+      log('ME DATA CRASH: $e');
+      return Result.failure(NetworkExceptions.badRequest(), stackTrace);
+    }
+  }
 }
 
 Map<String, dynamic> _extractPayloadMap(dynamic api) {
-  try {
-    final d = (api as dynamic).data;
-    if (d is Map<String, dynamic>) return d;
-  } catch (_) {}
+  log('EXTRACTING PAYLOAD FROM: ${api.runtimeType}');
+
+  if (api is ApiResponse) {
+    log('API IS ApiResponse, data: ${api.data}');
+    if (api.data != null) {
+      if (api.data is Map<String, dynamic>) {
+        return api.data as Map<String, dynamic>;
+      }
+      try {
+        final converted = Map<String, dynamic>.from(api.data as dynamic);
+        return converted;
+      } catch (e) {
+        log('Cannot convert data to Map: $e');
+      }
+    }
+  }
 
   try {
-    final tj = (api as dynamic).toJson();
-    if (tj is Map<String, dynamic>) return tj;
-  } catch (_) {}
+    if (api is ApiResponse) {
+      final rawResponse = (api as dynamic).rawResponse;
+      if (rawResponse != null && rawResponse.data is Map<String, dynamic>) {
+        return rawResponse.data as Map<String, dynamic>;
+      }
+    }
+  } catch (e) {
+    log('Error accessing rawResponse: $e');
+  }
 
-  if (api is Map<String, dynamic>) return api;
+  if (api is Map<String, dynamic>) {
+    return api;
+  }
 
+  log('RETURNING EMPTY MAP');
   return const <String, dynamic>{};
 }
+
+final userServiceProvider = Provider<UserService>((ref) {
+  final repo = ref.read(userRepositoryProvider);
+  return UserService(userRepository: repo);
+});

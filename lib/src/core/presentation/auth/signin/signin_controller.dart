@@ -1,25 +1,29 @@
 import 'dart:async';
+import 'dart:developer'; // log
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../network/network.dart';
 import 'signin_state.dart';
+import 'package:calisfun/src/core/application/application.dart';
 
 final signinControllerProvider =
 StateNotifierProvider<SigninController, SigninState>(
-      (ref) => SigninController(),
+      (ref) => SigninController(ref),
 );
 
 class SigninController extends StateNotifier<SigninState> {
-  SigninController() : super(const SigninState());
+  SigninController(this._ref) : super(const SigninState());
+  final Ref _ref;
 
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   void onEmailChanged(String v) =>
-      state = state.copyWith(email: v.trim(), loginValue: const AsyncData(null));
+      state = state.copyWith(email: v.trim(), signinValue: const AsyncData(null));
 
   void onPasswordChanged(String v) =>
-      state = state.copyWith(password: v, loginValue: const AsyncData(null));
+      state = state.copyWith(password: v, signinValue: const AsyncData(null));
 
   void toggleObscure() =>
       state = state.copyWith(isObscure: !state.isObscure);
@@ -42,20 +46,35 @@ class SigninController extends StateNotifier<SigninState> {
   Future<void> submit() async {
     final form = formKey.currentState;
     if (form == null) return;
-
     if (!form.validate()) return;
 
+    final email = emailController.text.trim();
+    final password = passwordController.text;
+
     state = state.copyWith(
-      email: emailController.text.trim(),
-      password: passwordController.text,
-      loginValue: const AsyncLoading(),
+      email: email,
+      password: password,
+      signinValue: const AsyncLoading(),
     );
 
     try {
-      await Future<void>.delayed(const Duration(milliseconds: 600));
-      state = state.copyWith(loginValue: const AsyncData(null));
+      final svc = _ref.read(userServiceProvider);
+      final res = await svc.loginData(email: email, password: password);
+
+      state = res.when(
+        success: (user) {
+          log('LOGIN SUCCESS for ${user?.username ?? '-'}');
+          return state.copyWith(signinValue: AsyncData(user));
+        },
+        failure: (err, st) {
+          final msg = NetworkExceptions.getErrorMessage(err);
+          log('LOGIN FAILED: $msg');
+          return state.copyWith(signinValue: AsyncError(err, st));
+        },
+      );
     } catch (e, st) {
-      state = state.copyWith(loginValue: AsyncError(e, st));
+      log('LOGIN CRASH: $e');
+      state = state.copyWith(signinValue: AsyncError(e, st));
     }
   }
 
