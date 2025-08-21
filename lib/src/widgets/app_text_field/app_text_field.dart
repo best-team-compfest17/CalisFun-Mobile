@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTextField extends StatelessWidget {
-  final String hintText;
+  final String? hintText;
   final TextEditingController controller;
   final bool obscureText;
   final double? width;
@@ -16,6 +16,8 @@ class AppTextField extends StatelessWidget {
 
   final String? Function(String?)? validator;
   final String? errorText;
+
+  final bool? enabled;
 
   final TextStyle? hintStyle;
   final TextStyle? inputStyle;
@@ -37,6 +39,7 @@ class AppTextField extends StatelessWidget {
     this.suffixIcon,
     this.validator,
     this.errorText,
+    this.enabled,
     this.hintStyle,
     this.inputStyle,
     this.keyboardType,
@@ -50,6 +53,7 @@ class AppTextField extends StatelessWidget {
       width: width ?? double.infinity,
       height: height,
       child: TextFormField(
+        enabled: enabled ?? true,
         maxLines: maxLine,
         keyboardType: keyboardType,
         controller: controller,

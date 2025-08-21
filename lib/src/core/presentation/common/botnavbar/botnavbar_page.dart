@@ -20,7 +20,7 @@ class BotNavBarPage extends ConsumerWidget {
     const pages = [
       HomePage(),
       LeaderboardPage(),
-      ChildProfilePage(),
+      // ChildProfilePage(c),
     ];
 
     return Scaffold(

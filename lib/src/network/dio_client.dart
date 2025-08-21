@@ -25,8 +25,12 @@ class DioClient {
       ..options.receiveTimeout = _receiveTimeout
       ..options.responseType = ResponseType.json
       ..options.headers = {
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json', // <- cukup ini
+        // HAPUS 'Content-Type'
       };
+    // ..options.headers = {
+      //   'Content-Type': 'application/json; charset=UTF-8',
+      // };
 
     ( _dio.httpClientAdapter as IOHttpClientAdapter ).createHttpClient = () {
       final client = httpClient;

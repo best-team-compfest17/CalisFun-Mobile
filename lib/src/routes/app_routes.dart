@@ -76,11 +76,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         name: Routes.homeParent.name,
         builder: (context, state) => const HomeParentPage(),
       ),
-      GoRoute(
-        path: '/child-profile',
-        name: Routes.childProfile.name,
-        builder: (context, state) => const ChildProfilePage(),
-      ),
+      // GoRoute(
+      //   path: '/child-profile',
+      //   name: Routes.childProfile.name,
+      //   builder: (context, state) => const ChildProfilePage(),
+      // ),
       GoRoute(
         path: '/child-profile-add',
         name: Routes.childProfileAdd.name,

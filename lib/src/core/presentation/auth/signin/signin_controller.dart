@@ -43,7 +43,6 @@ class SigninController extends StateNotifier<SigninState> {
     return null;
   }
 
-  /// Auto-signin: dipanggil dari Splash/awal layar.
   Future<void> tryAutoSignin() async {
     state = state.copyWith(signinValue: const AsyncLoading());
     try {
