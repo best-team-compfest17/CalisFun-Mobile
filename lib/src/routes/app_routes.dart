@@ -1,4 +1,5 @@
 import 'package:calisfun/src/core/presentation/child/chatbot/chatbot_page.dart';
+import 'package:calisfun/src/core/presentation/child/learn_counting/learn_counting_page.dart';
 import 'package:calisfun/src/core/presentation/parent/parent-profile/parent_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -30,6 +31,7 @@ enum Routes {
   botnavbar,
   parentProfile,
   chatbot,
+  learnCounting,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -38,7 +40,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/leaderboard',
+    initialLocation: '/learn-counting',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -158,6 +160,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/chatbot',
         name: Routes.chatbot.name,
         builder: (context, state) => const ChatbotPage(),
+      ),
+      GoRoute(
+        path: '/learn-counting',
+        name: Routes.learnCounting.name,
+        builder: (context, state) => const LearnCountingPage(),
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(error: state.error),
