@@ -81,7 +81,10 @@ class UserRepository {
   Future<Result<ApiResponse>> me(String? token) async {
     try {
       if (token == null || token.isEmpty) {
-        return Result.failure(const NetworkExceptions.badRequest(), StackTrace.current);
+        return Result.failure(
+          const NetworkExceptions.badRequest(),
+          StackTrace.current,
+        );
       }
 
       await _dioClient.useToken(token);
@@ -101,11 +104,7 @@ class UserRepository {
     try {
       final res = await _dioClient.delete(
         '${Endpoint.deleteChildProfile}/$childId',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
       final map = _asMap(res);
@@ -114,11 +113,58 @@ class UserRepository {
       return Result.failure(NetworkExceptions.getDioException(e), stackTrace);
     }
   }
-}
 
-String _maskToken(String token) {
-  if (token.length <= 10) return '***';
-  return '${token.substring(0, 4)}...${token.substring(token.length - 4)}';
+  Future<Result<ApiResponse>> createChildProfile({
+    required String name,
+    required String token,
+    File? avatarFile,
+  }) async {
+    try {
+      final form = FormData.fromMap({
+        'name': name,
+        if (avatarFile != null)
+          'avatar': await MultipartFile.fromFile(
+            avatarFile.path,
+            filename: p.basename(avatarFile.path),
+          ),
+      });
+
+      form.fields.add(MapEntry('name', name)); // key default yang kita pakai
+      if (avatarFile != null) {
+        form.files.add(MapEntry(
+          'avatar',
+          await MultipartFile.fromFile(avatarFile.path, filename: p.basename(avatarFile.path)),
+        ));
+      }
+
+      for (final f in form.fields) {
+        log('[multipart field] ${f.key}=${f.value}');
+      }
+      for (final f in form.files) {
+        log('[multipart file] ${f.key} -> ${f.value.filename}');
+      }
+
+
+      final res = await _dioClient.post(
+        Endpoint.createChildProfile,
+        data: form,
+        options: Options(
+          contentType: Headers.multipartFormDataContentType,
+          headers: {'Authorization': 'Bearer $token', 'Accept': 'application/json'},
+        ),
+      );
+
+      final map = _asMap(res);
+      return Result.success(ApiResponse.fromJson(map));
+    } catch (e, st) {
+      return Result.failure(NetworkExceptions.getDioException(e), st);
+    }
+  }
+
+  String _maskToken(String token) {
+    if (token.length <= 10) return '***';
+    return '${token.substring(0, 4)}...${token.substring(token.length - 4)}';
+  }
 }
 
 final userRepositoryProvider = Provider<UserRepository>((ref) {

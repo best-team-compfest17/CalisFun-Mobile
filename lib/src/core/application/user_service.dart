@@ -119,6 +119,44 @@ class UserService {
     }
   }
 
+  Future<Result<Child?>> createChildProfile({
+    required String name,
+    File? imageFile,
+  }) async {
+    try {
+      final token = await userPreference.getToken();
+      if (token == null || token.isEmpty) {
+        return Result.failure(const NetworkExceptions.badRequest(), StackTrace.current);
+      }
+
+      final repoRes = await userRepository.createChildProfile(
+        name: name,
+        token: token,
+        avatarFile: imageFile,
+      );
+
+      return repoRes.when(
+        success: (api) {
+          final map = _extractPayloadMap(api);
+
+          final base = (map['data'] is Map<String, dynamic>)
+              ? map['data'] as Map<String, dynamic>
+              : map;
+
+          final childJson = (base['child'] is Map<String, dynamic>)
+              ? base['child'] as Map<String, dynamic>
+              : base; // fallback bila objek langsung di root
+
+          final child = ChildConverter.fromJson(childJson);
+          return Result.success(child);
+        },
+        failure: (err, st) => Result.failure(err, st),
+      );
+    } catch (e, st) {
+      return Result.failure(NetworkExceptions.badRequest(), st);
+    }
+  }
+
   Future<Result<bool>> deleteChildProfile({
     required String childId,
   }) async {
