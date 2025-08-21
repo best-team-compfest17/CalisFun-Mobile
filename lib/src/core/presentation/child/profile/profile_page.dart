@@ -4,13 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../widgets/widgets.dart';
+
 import '../../../application/child_by_id_provider.dart';
 import '../../../domain/domain.dart';
 
-class ChildProfilePage extends ConsumerWidget {
+class ProfilePage extends ConsumerWidget {
   final String childId;
 
-  const ChildProfilePage({super.key, required this.childId});
+  const ProfilePage({super.key, required this.childId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,28 +21,35 @@ class ChildProfilePage extends ConsumerWidget {
       backgroundColor: ColorApp.mainWhite,
       body: asyncChild.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, st) => Center(
-          child: Padding(
-            padding: EdgeInsets.all(SizeApp.w16),
-            child: Text(
-              'Gagal memuat profil anak.\n$err',
-              textAlign: TextAlign.center,
-              style: TypographyApp.bodyNormalMedium.copyWith(color: Colors.red),
-            ),
+        error: (err, st) => Padding(
+          padding: EdgeInsets.symmetric(horizontal: SizeApp.w16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Gagal memuat profil anak.\n$err',
+                textAlign: TextAlign.center,
+                style: TypographyApp.bodyNormalMedium.copyWith(color: Colors.red),
+              ),
+              Gap.h12,
+              AppButton(
+                text: 'Muat Ulang',
+                onPressed: () => ref.refresh(childByIdProvider(childId)),
+                backgroundColor: ColorApp.primary,
+              ),
+            ],
           ),
         ),
         data: (child) {
           final readingProgress = child.progress.readingIds.length;
           final writingProgress = child.progress.writingIds.length;
-
+          final countingDifficulty = child.countingDifficulty.toString();
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: SizeApp.w16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Gap.h80,
-                const AppPrevButton(),
-                Gap.h16,
                 Text('Profile Anak', style: TypographyApp.headingLargeBoldPrimary),
                 Gap.h16,
                 Center(
@@ -115,10 +123,11 @@ class ChildProfilePage extends ConsumerWidget {
                       image: 'assets/images/count_img.png',
                       title: 'Belajar',
                       subtitle: 'Berhitung',
-                      progress: '0/30 soal',
+                      progress: countingDifficulty,
                     ),
                   ],
                 ),
+                Gap.h56,
               ],
             ),
           );

@@ -182,6 +182,32 @@ class UserService {
       return Result.failure(NetworkExceptions.badRequest(), stackTrace);
     }
   }
+
+  Future<Result<Child>> fetchChildById(String id) async {
+    try {
+      final token = await userPreference.getToken();
+      if (token == null || token.isEmpty) {
+        return Result.failure(const NetworkExceptions.badRequest(), StackTrace.current);
+      }
+
+      final res = await userRepository.getChildById(id: id, token: token);
+      return res.when(
+        success: (api) {
+          final map = _extractPayloadMap(api);
+          final json = (map['child'] is Map<String, dynamic>)
+              ? map['child'] as Map<String, dynamic>
+              : map;
+
+          final child = ChildConverter.fromJson(json);
+          return Result.success(child);
+        },
+        failure: (err, st) => Result.failure(err, st),
+      );
+    } catch (e, st) {
+      return Result.failure(NetworkExceptions.badRequest(), st);
+    }
+  }
+
 }
 
 Map<String, dynamic> _extractPayloadMap(dynamic api) {
