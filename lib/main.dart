@@ -5,6 +5,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:calisfun/src/routes/app_routes.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'package:dio/dio.dart';
+
+final dioProvider = Provider<Dio>((ref) {
+  final dio = Dio(
+    BaseOptions(
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 120),
+    ),
+  );
+
+  return dio;
+});
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   const env = String.fromEnvironment('ENV', defaultValue: 'development');

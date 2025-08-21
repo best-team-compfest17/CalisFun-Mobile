@@ -40,7 +40,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/learn-counting',
+    initialLocation: '/',
     routerNeglect: true,
     routes: [
       GoRoute(
