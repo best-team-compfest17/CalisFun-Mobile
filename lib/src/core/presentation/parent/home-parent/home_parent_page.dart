@@ -1,13 +1,13 @@
-// homeparentpage.dart
 import 'package:calisfun/src/core/presentation/parent/home-parent/home_parent_controller.dart';
 import 'package:calisfun/src/core/presentation/parent/home-parent/home_parent_state.dart';
-import 'package:calisfun/src/widgets/app_button/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../constants/constants.dart';
+import '../../../../routes/routes.dart';
 import '../../../../widgets/widgets.dart';
 import '../../../core.dart';
 
@@ -55,11 +55,14 @@ class HomeParentPage extends ConsumerWidget {
                   'Halo, ${state.user?.username ?? 'User'}',
                   style: TypographyApp.headingLargeBoldPrimary,
                 ),
-                CircleAvatar(
-                  radius: 30,
-                  backgroundImage: NetworkImage(
-                    // state.user?.picture ??
-                        'https://picsum.photos/200',
+                InkWell(
+                  onTap: () => context.pushNamed(Routes.parentProfile.name),
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundImage: NetworkImage(
+                      // state.user?.picture ??
+                          'https://picsum.photos/200',
+                    ),
                   ),
                 ),
               ],
@@ -73,7 +76,7 @@ class HomeParentPage extends ConsumerWidget {
             _buildChildrenList(state, context),
             if (state.children.isEmpty) _buildEmptyState(),
             Gap.h24,
-            AppButton(text: 'Tambah', onPressed: () {})
+            AppButton(text: 'Tambah', onPressed: () => context.pushNamed(Routes.childProfileAdd.name))
           ],
         ),
       ),
