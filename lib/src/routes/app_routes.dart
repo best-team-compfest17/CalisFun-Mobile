@@ -38,7 +38,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/chatbot',
+    initialLocation: '/',
     routerNeglect: true,
     routes: [
       GoRoute(

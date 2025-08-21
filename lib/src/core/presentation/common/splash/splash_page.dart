@@ -47,7 +47,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
     res.when(
       success: (user) {
-        context.goNamed(Routes.botnavbar.name);
+        context.goNamed(Routes.selectUser.name);
       },
       failure: (err, st) {
         context.goNamed(Routes.signin.name);
