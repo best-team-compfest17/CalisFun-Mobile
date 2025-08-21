@@ -161,6 +161,23 @@ class UserRepository {
     }
   }
 
+  Future<Result<ApiResponse>> getChildById({
+    required String id,
+    required String token,
+  }) async {
+    try {
+      final res = await _dioClient.get(
+        '${Endpoint.getChildOne}/$id',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+      final map = _asMap(res);
+      return Result.success(ApiResponse.fromJson(map));
+    } catch (e, st) {
+      return Result.failure(NetworkExceptions.getDioException(e), st);
+    }
+  }
+
+
   String _maskToken(String token) {
     if (token.length <= 10) return '***';
     return '${token.substring(0, 4)}...${token.substring(token.length - 4)}';

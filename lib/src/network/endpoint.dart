@@ -13,6 +13,7 @@ class Endpoint{
   static const String createChildProfile = '/children/create';
   static const String updateChildProfile = '/children/update';
   static const String deleteChildProfile = '/children/delete';
+  static const String getChildOne = '/children/one';
 
   //reading
   static const String getReading = '/reading/user';

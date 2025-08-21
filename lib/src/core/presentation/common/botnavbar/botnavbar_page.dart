@@ -1,3 +1,4 @@
+// botnavbar_page.dart
 import 'package:calisfun/src/constants/constants.dart';
 import 'package:calisfun/src/core/presentation/child/home/home_page.dart';
 import 'package:calisfun/src/core/presentation/child/leaderboard/leaderboard_page.dart';
@@ -7,7 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '../../../application/selected_child_provider.dart';
+import '../../child/profile/profile_page.dart';
 import 'botnavbar_controller.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../routes/routes.dart';
 
 class BotNavBarPage extends ConsumerWidget {
   const BotNavBarPage({super.key});
@@ -17,10 +22,32 @@ class BotNavBarPage extends ConsumerWidget {
     final state = ref.watch(botNavBarProvider);
     final controller = ref.read(botNavBarProvider.notifier);
 
-    const pages = [
-      HomePage(),
-      LeaderboardPage(),
-      // ChildProfilePage(c),
+    final selectedId = ref.watch(selectedChildIdProvider);
+
+    final pages = <Widget>[
+      const HomePage(),
+      const LeaderboardPage(),
+      if (selectedId == null)
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Belum ada anak terpilih', style: TypographyApp.headingSmallBold),
+                const SizedBox(height: 8),
+                Text('Pilih anak dulu ya 🙂', style: TypographyApp.bodyNormalMedium),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => context.goNamed(Routes.selectChild.name),
+                  child: const Text('Pilih Anak'),
+                ),
+              ],
+            ),
+          ),
+        )
+      else
+        ProfilePage(childId: selectedId),
     ];
 
     return Scaffold(
@@ -48,20 +75,14 @@ class BotNavBarPage extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-        },
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100),
-        ),
+        onPressed: () => context.goNamed(Routes.selectChild.name), // pindah pilih anak
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         backgroundColor: ColorApp.primary,
         child: SvgPicture.asset(
           'assets/icons/user_ic.svg',
           width: SizeApp.w24,
           height: SizeApp.h24,
-          colorFilter: const ColorFilter.mode(
-            ColorApp.mainWhite,
-            BlendMode.srcIn,
-          ),
+          colorFilter: const ColorFilter.mode(ColorApp.mainWhite, BlendMode.srcIn),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

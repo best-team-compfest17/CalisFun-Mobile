@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../routes/routes.dart';
+import '../../../application/selected_child_provider.dart';
 import 'select_child_controller.dart';
 
 class SelectChildPage extends ConsumerWidget {
@@ -68,9 +69,8 @@ class SelectChildPage extends ConsumerWidget {
                         final isSelected = state.selectedChildId == child.id;
                         return InkWell(
                           onTap: () {
-                            ref
-                                .read(selectChildControllerProvider.notifier)
-                                .select(child);
+                            final child = state.children[index];
+                            ref.read(selectedChildIdProvider.notifier).state = child.id;
                             context.goNamed(Routes.botnavbar.name);
                           },
                           borderRadius: BorderRadius.circular(10.r),

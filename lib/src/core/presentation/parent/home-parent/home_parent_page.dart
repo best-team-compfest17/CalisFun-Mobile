@@ -97,7 +97,7 @@ class HomeParentPage extends ConsumerWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ChildProfilePage(child: child),
+                  builder: (context) => ChildProfilePage(childId: child.id),
                 ),
               );
             },
