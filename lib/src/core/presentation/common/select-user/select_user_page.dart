@@ -87,7 +87,7 @@ class SelectUserPage extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: () => context.pushNamed(Routes.homeParent.name),
+                        onTap: () => context.goNamed(Routes.homeParent.name),
                         child: Container(
                           width: SizeApp.customWidth(160),
                           height: SizeApp.customHeight(150),
@@ -124,7 +124,7 @@ class SelectUserPage extends ConsumerWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () => context.pushNamed(Routes.selectChild.name),
+                        onTap: () => context.goNamed(Routes.selectChild.name),
                         child: Container(
                           width: SizeApp.customWidth(160),
                           height: SizeApp.customHeight(150),
