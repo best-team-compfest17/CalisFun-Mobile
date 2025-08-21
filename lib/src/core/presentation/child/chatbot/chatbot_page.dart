@@ -1,19 +1,54 @@
-import 'package:calisfun/src/constants/constants.dart';
-import 'package:calisfun/src/core/presentation/auth/signup/signup_controller.dart';
+import 'package:calisfun/src/core/presentation/child/chatbot/chatbot_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:calisfun/src/constants/constants.dart';
+import 'package:calisfun/src/core/domain/chat/chat_message.dart';
+import 'package:calisfun/src/widgets/widgets.dart';
 
-import '../../../../widgets/widgets.dart';
-
-class ChatbotPage extends ConsumerWidget {
+class ChatbotPage extends ConsumerStatefulWidget {
   const ChatbotPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(signupControllerProvider);
-    final controller = ref.read(signupControllerProvider.notifier);
+  ConsumerState<ChatbotPage> createState() => _ChatbotPageState();
+}
+
+class _ChatbotPageState extends ConsumerState<ChatbotPage> {
+  final _textCtrl = TextEditingController();
+  final _scrollCtrl = ScrollController();
+
+  @override
+  void dispose() {
+    _textCtrl.dispose();
+    _scrollCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(chatControllerProvider);
+    final controller = ref.read(chatControllerProvider.notifier);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollCtrl.hasClients) {
+        _scrollCtrl.animateTo(
+          _scrollCtrl.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+
+    final items = [
+      ...state.messages,
+      if (state.streamingBuffer.isNotEmpty)
+        ChatMessage(
+          id: 'stream',
+          role: ChatRole.assistant,
+          content: state.streamingBuffer,
+          createdAt: DateTime.now(),
+        ),
+    ];
 
     return Scaffold(
       backgroundColor: ColorApp.mainWhite,
@@ -25,13 +60,13 @@ class ChatbotPage extends ConsumerWidget {
             Gap.h80,
             Row(
               children: [
-                AppPrevButton(),
-                SizedBox(width: 22),
+                const AppPrevButton(),
+                SizedBox(width: 22.w),
                 Row(
                   children: [
                     CircleAvatar(
-                      radius: 22,
-                      backgroundImage: NetworkImage(
+                      radius: 22.r,
+                      backgroundImage: const NetworkImage(
                         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRqUaGFKWrrv_RskYoykH2ONRynGRAAG6F0A&s',
                       ),
                     ),
@@ -51,28 +86,54 @@ class ChatbotPage extends ConsumerWidget {
                 ),
               ],
             ),
-            // ...chat content di sini jika ada...
+            Gap.h16,
             Expanded(
-              child: Container(), // ganti dengan chat list jika ada
+              child: ListView.builder(
+                controller: _scrollCtrl,
+                padding: EdgeInsets.only(bottom: SizeApp.h12),
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  final m = items[index];
+                  final isUser = m.role == ChatRole.user;
+                  return Align(
+                    alignment:
+                        isUser ? Alignment.centerRight : Alignment.centerLeft,
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: SizeApp.h5),
+                      padding: EdgeInsets.all(SizeApp.h12),
+                      constraints: BoxConstraints(maxWidth: 640.w),
+                      decoration: BoxDecoration(
+                        color:
+                            isUser
+                                ? ColorApp.primary.withOpacity(0.1)
+                                : ColorApp.greyInactive,
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Text(
+                        m.content,
+                        style: TypographyApp.labelSmallMedium,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
             Row(
               children: [
                 Expanded(
                   child: AppTextField(
-                    hintText: 'Masukan Pertanyaanmu di sini',
-                    controller: controller.nameController,
-                    keyboardType: TextInputType.name,
+                    hintText: 'Masukkan pertanyaanmu di sini',
+                    controller: _textCtrl,
+                    keyboardType: TextInputType.text,
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: SizeApp.w16,
                       vertical: SizeApp.h12,
                     ),
                     hintStyle: TypographyApp.labelSmallMediumGrey,
                     inputStyle: TypographyApp.labelSmallMedium,
-                    validator: controller.validateName,
-                    onChanged: controller.onNameChanged,
                   ),
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: SizeApp.w8),
                 Container(
                   width: SizeApp.w48,
                   height: SizeApp.h48,
@@ -83,11 +144,16 @@ class ChatbotPage extends ConsumerWidget {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {},
+                      onTap:
+                          state.isSending
+                              ? controller.cancel
+                              : () => _onSend(controller),
                       borderRadius: BorderRadius.circular(10.r),
                       child: Center(
                         child: Icon(
-                          Icons.send_rounded,
+                          state.isSending
+                              ? Icons.stop_circle_outlined
+                              : Icons.send_rounded,
                           color: ColorApp.mainWhite,
                           size: SizeApp.w24,
                         ),
@@ -102,5 +168,11 @@ class ChatbotPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  void _onSend(ChatController controller) {
+    final text = _textCtrl.text;
+    _textCtrl.clear();
+    controller.send(text);
   }
 }

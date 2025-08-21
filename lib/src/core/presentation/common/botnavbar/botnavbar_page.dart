@@ -2,7 +2,6 @@
 import 'package:calisfun/src/constants/constants.dart';
 import 'package:calisfun/src/core/presentation/child/home/home_page.dart';
 import 'package:calisfun/src/core/presentation/child/leaderboard/leaderboard_page.dart';
-import 'package:calisfun/src/core/presentation/parent/child-profile/child_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -34,9 +33,15 @@ class BotNavBarPage extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Belum ada anak terpilih', style: TypographyApp.headingSmallBold),
+                Text(
+                  'Belum ada anak terpilih',
+                  style: TypographyApp.headingSmallBold,
+                ),
                 const SizedBox(height: 8),
-                Text('Pilih anak dulu ya 🙂', style: TypographyApp.bodyNormalMedium),
+                Text(
+                  'Pilih anak dulu ya 🙂',
+                  style: TypographyApp.bodyNormalMedium,
+                ),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => context.goNamed(Routes.selectChild.name),
@@ -75,14 +80,17 @@ class BotNavBarPage extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.goNamed(Routes.selectChild.name), // pindah pilih anak
+        onPressed: () => context.pushNamed(Routes.chatbot.name),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         backgroundColor: ColorApp.primary,
         child: SvgPicture.asset(
           'assets/icons/user_ic.svg',
           width: SizeApp.w24,
           height: SizeApp.h24,
-          colorFilter: const ColorFilter.mode(ColorApp.mainWhite, BlendMode.srcIn),
+          colorFilter: const ColorFilter.mode(
+            ColorApp.mainWhite,
+            BlendMode.srcIn,
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
