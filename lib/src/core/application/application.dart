@@ -9,3 +9,4 @@ import 'package:calisfun/src/core/application/selected_child_provider.dart';
 import 'dart:developer';
 
 part 'user_service.dart';
+part 'reading_service.dart';

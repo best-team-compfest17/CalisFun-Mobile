@@ -85,7 +85,14 @@ class HomePage extends ConsumerWidget {
                   ),
                   Gap.h16,
                   InkWell(
-                    onTap: () => context.pushNamed(Routes.learnSpell.name),
+                    onTap: () {
+                      final id = selectedId;
+                      if (id == null) return;
+                      context.pushNamed(
+                        Routes.learnSpell.name,
+                        extra: id,
+                      );
+                    },
                     child: AppContainer(
                       backgroundColor: ColorApp.sage,
                       childLeft: Column(

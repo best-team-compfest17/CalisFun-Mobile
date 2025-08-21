@@ -4,18 +4,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../widgets/widgets.dart';
+import '../../../application/reading_provider.dart';
 import 'learn_spell_controller.dart';
 
 class LearnSpellPage extends ConsumerStatefulWidget {
-  const LearnSpellPage({super.key});
+  const LearnSpellPage({super.key, required this.childId});
+  final String childId;
 
   @override
   ConsumerState<LearnSpellPage> createState() => _LearnSpellPageState();
 }
 
 class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
-  static const String targetWord = 'JERAPAH';
-
   @override
   void initState() {
     super.initState();
@@ -26,135 +26,208 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
   Widget build(BuildContext context) {
     final speech = ref.watch(speechProvider);
     final ctrl = ref.read(speechProvider.notifier);
-    final bool isCorrect = ctrl.isMatch(targetWord);
+
+    final asyncQuestion = ref.watch(readingQuestionProvider(widget.childId));
+
     return Scaffold(
       backgroundColor: ColorApp.mainWhite,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: SizeApp.w16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Gap.h80,
-            AppPrevButton(),
-            Gap.h16,
-            LinearProgressIndicator(
-              minHeight: SizeApp.h16,
-              borderRadius: BorderRadius.circular(100.r),
-              value: 0.1,
-              valueColor: AlwaysStoppedAnimation<Color>(ColorApp.primary),
-              backgroundColor: ColorApp.greyInactive,
-            ),
-            Gap.h16,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: asyncQuestion.when(
+          loading: () => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gap.h80,
+              const AppPrevButton(),
+              Gap.h16,
+              const LinearProgressIndicator(),
+              Gap.h16,
+              Text('Memuat soal...', style: TypographyApp.headingSmallBold),
+            ],
+          ),
+          error: (err, st) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gap.h80,
+              const AppPrevButton(),
+              Gap.h16,
+              Text(
+                'Gagal memuat soal: $err',
+                style: TypographyApp.headingSmallBold.copyWith(color: ColorApp.error),
+              ),
+              Gap.h16,
+              AppButton(
+                text: 'Coba Lagi',
+                onPressed: () => ref.refresh(readingQuestionProvider(widget.childId)),
+              ),
+            ],
+          ),
+          data: (q) {
+            final targetWord = (q.word).toUpperCase();
+            final bool isCorrect = ctrl.isMatch(targetWord);
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Kata 1 dari 10', style: TypographyApp.headingSmallBold),
-                Text(
-                  speech.words.isEmpty ? '' : (isCorrect ? 'Benar!' : 'Coba lagi'),
-                  style: TypographyApp.headingSmallBold.copyWith(
-                    color: isCorrect ? ColorApp.success : ColorApp.error,
-                  ),
+                Gap.h80,
+                const AppPrevButton(),
+                Gap.h16,
+                LinearProgressIndicator(
+                  minHeight: SizeApp.h16,
+                  borderRadius: BorderRadius.circular(100.r),
+                  value: 0.1,
+                  valueColor: const AlwaysStoppedAnimation<Color>(ColorApp.primary),
+                  backgroundColor: ColorApp.greyInactive,
                 ),
-              ],
-            ),
-            Gap.h16,
-            Container(
-              width: SizeApp.customWidth(360),
-              height: SizeApp.customHeight(200),
-              decoration: BoxDecoration(
-                color: ColorApp.primary,
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: Center(
-                child: Text(
-                  targetWord,
-                  style: TypographyApp.headingLargeBold.copyWith(
-                    color: ColorApp.mainWhite,
-                  ),
-                ),
-              ),
-            ),
-            Gap.h16,
-            Text(
-              speech.listening ? 'Merekam...' : 'Hasil',
-              style: TypographyApp.headingSmallBold.copyWith(color: ColorApp.primary),
-            ),
-            Gap.h8,
-            Container(
-              width: SizeApp.customWidth(360),
-              padding: EdgeInsets.all(SizeApp.w12),
-              decoration: BoxDecoration(
-                color: ColorApp.greyInactive.withValues(alpha: 0.5),
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: Text(
-                speech.words.isEmpty
-                    ? (speech.available
-                    ? (speech.listening ? 'Mendengarkan...' : 'Belum ada hasil.')
-                    : 'Pengenalan suara tidak tersedia di perangkat ini.')
-                    : speech.words,
-                style: TypographyApp.bodyNormalRegular,
-              ),
-            ),
-            Gap.h24,
-            GestureDetector(
-              onTap: () => ctrl.toggle(localeId: 'id_ID'),
-              child: Container(
-                width: SizeApp.customWidth(360),
-                height: SizeApp.customHeight(74),
-                decoration: BoxDecoration(
-                  color: speech.listening ? ColorApp.error.withValues(alpha: 0.1) : ColorApp.greyInactive,
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(
-                    color: speech.listening ? ColorApp.error : Colors.transparent,
-                    width: 1.5,
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Gap.h16,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(
-                      speech.listening ? Icons.mic : Icons.mic_none,
-                      color: ColorApp.error,
-                      size: SizeApp.h24,
-                    ),
-                    Gap.w8,
+                    Text('Kata ${q.level} dari 10', style: TypographyApp.headingSmallBold),
                     Text(
-                      speech.listening ? 'Berbicara sekarang...' : 'Tekan untuk berbicara',
-                      style: TypographyApp.bodyNormalRegular.copyWith(
-                        color: ColorApp.error,
-                        fontWeight: FontWeight.w600,
+                      speech.words.isEmpty ? '' : (isCorrect ? 'Benar!' : 'Coba lagi'),
+                      style: TypographyApp.headingSmallBold.copyWith(
+                        color: isCorrect ? ColorApp.success : ColorApp.error,
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            Gap.h16,
-            AppButton(
-              text: 'Periksa',
-              onPressed: () {
-                final ok = ctrl.isMatch(targetWord);
-                final msg = ok
-                    ? 'Hebat! Kamu mengucapkan "$targetWord" dengan benar.'
-                    : 'Hmm, belum pas. Coba ulangi lagi ya.';
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(msg),
-                    backgroundColor: ok ? ColorApp.success : ColorApp.error,
-                    behavior: SnackBarBehavior.floating,
+                Gap.h16,
+                Container(
+                  width: SizeApp.customWidth(360),
+                  height: SizeApp.customHeight(200),
+                  decoration: BoxDecoration(
+                    color: ColorApp.primary,
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
-                );
-              },
-            ),
-            if (speech.confidence > 0) ...[
-              Gap.h8,
-              Text(
-                'Confidence: ${(speech.confidence * 100).toStringAsFixed(0)}%',
-                style: TypographyApp.bodyNormalRegular.copyWith(color: ColorApp.greyInactive),
-              ),
-            ],
-          ],
+                  child: Center(
+                    child: Text(
+                      targetWord,
+                      style: TypographyApp.headingLargeBold.copyWith(
+                        color: ColorApp.mainWhite,
+                      ),
+                    ),
+                  ),
+                ),
+                Gap.h8,
+                // info kecil (opsional)
+                Text(
+                  'Kategori: ${q.category} • Level: ${q.level}',
+                  style: TypographyApp.bodyNormalRegular.copyWith(color: ColorApp.greyInactive),
+                ),
+                Gap.h16,
+                Text(
+                  speech.listening ? 'Merekam...' : 'Hasil',
+                  style: TypographyApp.headingSmallBold.copyWith(color: ColorApp.primary),
+                ),
+                Gap.h8,
+                Container(
+                  width: SizeApp.customWidth(360),
+                  padding: EdgeInsets.all(SizeApp.w12),
+                  decoration: BoxDecoration(
+                    color: ColorApp.greyInactive.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Text(
+                    speech.words.isEmpty
+                        ? (speech.available
+                        ? (speech.listening ? 'Mendengarkan...' : 'Belum ada hasil.')
+                        : 'Pengenalan suara tidak tersedia di perangkat ini.')
+                        : speech.words,
+                    style: TypographyApp.bodyNormalRegular,
+                  ),
+                ),
+                Gap.h24,
+                GestureDetector(
+                  onTap: () => ctrl.toggle(localeId: 'id_ID'),
+                  child: Container(
+                    width: SizeApp.customWidth(360),
+                    height: SizeApp.customHeight(74),
+                    decoration: BoxDecoration(
+                      color: speech.listening
+                          ? ColorApp.error.withValues(alpha: 0.1)
+                          : ColorApp.greyInactive,
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(
+                        color: speech.listening ? ColorApp.error : Colors.transparent,
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          speech.listening ? Icons.mic : Icons.mic_none,
+                          color: ColorApp.error,
+                          size: SizeApp.h24,
+                        ),
+                        Gap.w8,
+                        Text(
+                          speech.listening ? 'Berbicara sekarang...' : 'Tekan untuk berbicara',
+                          style: TypographyApp.bodyNormalRegular.copyWith(
+                            color: ColorApp.error,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Gap.h16,
+                AppButton(
+                  text: 'Periksa',
+                  onPressed: () async {
+                    final ctrl = ref.read(speechProvider.notifier);
+                    final result = await ctrl.checkAndSubmitProgress(
+                      childId: widget.childId,
+                      questionId: q.id,
+                      targetWord: q.word.toUpperCase(),
+                    );
+
+                    switch (result) {
+                      case SpellCheckResult.incorrect:
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('Hmm, belum pas. Coba ulangi lagi ya.'),
+                            backgroundColor: ColorApp.error,
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        break;
+                      case SpellCheckResult.success:
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Hebat! Progress tersimpan. (${q.word})'),
+                            backgroundColor: ColorApp.success,
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        // Opsional: muat soal berikutnya
+                        ref.invalidate(readingQuestionProvider(widget.childId));
+                        break;
+                      case SpellCheckResult.failed:
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('Benar, tapi gagal menyimpan progress. Coba lagi.'),
+                            backgroundColor: ColorApp.error,
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        break;
+                    }
+                  },
+                ),
+
+                if (speech.confidence > 0) ...[
+                  Gap.h8,
+                  Text(
+                    'Confidence: ${(speech.confidence * 100).toStringAsFixed(0)}%',
+                    style: TypographyApp.bodyNormalRegular.copyWith(color: ColorApp.greyInactive),
+                  ),
+                ],
+              ],
+            );
+          },
         ),
       ),
     );

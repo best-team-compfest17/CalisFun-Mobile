@@ -1,10 +1,16 @@
+// learn_spell_controller.dart
+import 'package:calisfun/src/network/network.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
+import '../../../core.dart';
 import 'learn_spell_state.dart';
+
 
 final speechProvider =
 NotifierProvider<SpeechController, SpeechState>(() => SpeechController());
+
+enum SpellCheckResult { incorrect, success, failed }
 
 class SpeechController extends Notifier<SpeechState> {
   final stt.SpeechToText _speech = stt.SpeechToText();
@@ -15,11 +21,11 @@ class SpeechController extends Notifier<SpeechState> {
   Future<void> init() async {
     final available = await _speech.initialize(
       onStatus: (s) => state = state.copyWith(status: s),
-      onError: (e) =>
-      state = state.copyWith(error: e.errorMsg, listening: false),
+      onError: (e) => state = state.copyWith(error: e.errorMsg, listening: false),
     );
     state = state.copyWith(available: available);
   }
+
   Future<void> start({String localeId = 'id_ID'}) async {
     if (!state.available) {
       await init();
@@ -31,8 +37,7 @@ class SpeechController extends Notifier<SpeechState> {
       onResult: (result) async {
         state = state.copyWith(
           words: result.recognizedWords,
-          confidence:
-          result.hasConfidenceRating ? (result.confidence) : 0.0,
+          confidence: result.hasConfidenceRating ? (result.confidence) : 0.0,
         );
         if (result.finalResult) {
           await _speech.stop();
@@ -67,9 +72,38 @@ class SpeechController extends Notifier<SpeechState> {
       await start(localeId: localeId);
     }
   }
+
   bool isMatch(String target) {
     String norm(String s) =>
         s.trim().toLowerCase().replaceAll(RegExp(r'[^a-z0-9 ]'), '');
     return norm(state.words) == norm(target);
+  }
+
+  /// Cek pengucapan; jika benar → kirim progress ke BE.
+  /// Return:
+  /// - incorrect: ucapan belum cocok
+  /// - success  : cocok & progress tersimpan
+  /// - failed   : cocok tapi gagal simpan progress (error jaringan/dll)
+  Future<SpellCheckResult> checkAndSubmitProgress({
+    required String childId,
+    required String questionId,
+    required String targetWord,
+  }) async {
+    // 1) Cek kesesuaian
+    if (!isMatch(targetWord)) {
+      return SpellCheckResult.incorrect;
+    }
+
+    // 2) Submit progress via service
+    final svc = ref.read(readingServiceProvider);
+    final res = await svc.submitProgress(
+      childId: childId,
+      questionId: questionId,
+    );
+
+    return res.when(
+      success: (_) => SpellCheckResult.success,
+      failure: (_, __) => SpellCheckResult.failed,
+    );
   }
 }

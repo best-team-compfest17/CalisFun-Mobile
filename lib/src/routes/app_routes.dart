@@ -102,9 +102,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const QuestionClosingPage(),
       ),
       GoRoute(
-        path: '/learn-spell',
         name: Routes.learnSpell.name,
-        builder: (context, state) => const LearnSpellPage(),
+        path: '/learn/spell',
+        builder: (context, state) {
+          final childId = state.extra as String;
+          return LearnSpellPage(childId: childId);
+        },
       ),
       GoRoute(
         path: '/select-user',
