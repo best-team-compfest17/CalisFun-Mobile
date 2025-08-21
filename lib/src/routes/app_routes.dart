@@ -1,9 +1,9 @@
+import 'package:calisfun/src/core/presentation/parent/parent-profile/parent_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:calisfun/src/core/core.dart';
 import 'package:calisfun/src/routes/routes.dart';
-
 
 enum Routes {
   splash,
@@ -27,6 +27,7 @@ enum Routes {
   verificationOtp,
   leaderboard,
   botnavbar,
+  parentProfile,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -35,7 +36,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/',
+    initialLocation: '/parent-profile',
     routerNeglect: true,
     routes: [
       GoRoute(
@@ -142,6 +143,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/botnavbar',
         name: Routes.botnavbar.name,
         builder: (context, state) => const BotNavBarPage(),
+      ),
+      GoRoute(
+        path: '/parent-profile',
+        name: Routes.parentProfile.name,
+        builder: (context, state) => const ParentProfilePage(),
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(error: state.error),
