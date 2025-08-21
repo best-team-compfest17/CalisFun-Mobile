@@ -27,16 +27,11 @@ class UserService {
         final payload = (map['data'] is Map<String, dynamic>)
             ? map['data'] as Map<String, dynamic>
             : map;
-
-        // Jika register juga mengembalikan token, simpan aman
         final token = payload['token'] as String?;
         if (token != null && token.isNotEmpty) {
-          // Hindari log token raw
           log('REGISTER TOKEN: ${_maskToken(token)}');
           await userPreference.saveToken(token);
         }
-
-        // Jika backend mengembalikan user di payload
         final userJson = payload['user'];
         if (userJson is Map<String, dynamic>) {
           final user = UserConverter.fromJson(userJson);
@@ -79,12 +74,8 @@ class UserService {
             log('NO TOKEN FOUND IN: $responseMap');
             return Result.failure(const NetworkExceptions.badRequest(), StackTrace.current);
           }
-
-          // Simpan token aman & hindari log raw
           log('TOKEN RECEIVED: ${_maskToken(token)}');
           await userPreference.saveToken(token);
-
-          // Lanjut ambil profil; UserRepository.me() akan set Authorization header
           return await meData(token);
         } catch (e, stackTrace) {
           log('ERROR IN LOGIN DATA: $e');
@@ -127,6 +118,32 @@ class UserService {
       return Result.failure(NetworkExceptions.badRequest(), stackTrace);
     }
   }
+
+  Future<Result<bool>> deleteChildProfile({
+    required String childId,
+  }) async {
+    try {
+      final token = await userPreference.getToken();
+      if (token == null || token.isEmpty) {
+        return Result.failure(const NetworkExceptions.badRequest(), StackTrace.current);
+      }
+
+      final result = await userRepository.deleteChildProfile(
+        childId: childId,
+        token: token,
+      );
+
+      return result.when(
+        success: (apiResponse) {
+          return Result.success(true);
+        },
+        failure: (error, stackTrace) => Result.failure(error, stackTrace),
+      );
+    } catch (e, stackTrace) {
+      log('DELETE CHILD PROFILE ERROR: $e');
+      return Result.failure(NetworkExceptions.badRequest(), stackTrace);
+    }
+  }
 }
 
 Map<String, dynamic> _extractPayloadMap(dynamic api) {
@@ -166,7 +183,6 @@ Map<String, dynamic> _extractPayloadMap(dynamic api) {
   return const <String, dynamic>{};
 }
 
-// Masker sederhana agar token tidak tampil full di log
 String _maskToken(String token) {
   if (token.length <= 10) return '***';
   return '${token.substring(0, 4)}...${token.substring(token.length - 4)}';

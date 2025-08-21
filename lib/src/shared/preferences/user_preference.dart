@@ -33,7 +33,6 @@ class UserPreference {
   Future<void> removeRefreshToken() =>
       _store.remove(UserPreferenceKeys.refreshToken);
 
-  // --- Ringkasan user (opsional) ---
   Future<void> saveUser({String? id, String? email, String? role}) async {
     if (id != null)    await _store.writeString(UserPreferenceKeys.userId, id);
     if (email != null) await _store.writeString(UserPreferenceKeys.email, email);

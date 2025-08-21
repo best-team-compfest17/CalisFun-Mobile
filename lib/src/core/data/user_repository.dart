@@ -93,6 +93,27 @@ class UserRepository {
       return Result.failure(NetworkExceptions.getDioException(e), stackTrace);
     }
   }
+
+  Future<Result<ApiResponse>> deleteChildProfile({
+    required String childId,
+    required String token,
+  }) async {
+    try {
+      final res = await _dioClient.delete(
+        '${Endpoint.deleteChildProfile}/$childId',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      final map = _asMap(res);
+      return Result.success(ApiResponse.fromJson(map));
+    } catch (e, stackTrace) {
+      return Result.failure(NetworkExceptions.getDioException(e), stackTrace);
+    }
+  }
 }
 
 String _maskToken(String token) {
