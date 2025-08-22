@@ -1,15 +1,12 @@
 import 'package:calisfun/src/constants/constants.dart';
+import 'package:calisfun/src/core/core.dart'
+    show UserRepository, UserService;
+import 'package:calisfun/src/network/network.dart'
+    show ApiResponse, NetworkExceptions, Result;
 import 'package:calisfun/src/network/result.dart';
+import 'package:calisfun/src/shared/shared.dart' show UserPreference;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-import 'package:calisfun/src/core/core.dart'
-    show Child, Difficulty, User, UserRepository, UserService;
-
-import 'package:calisfun/src/network/network.dart'
-    show ApiResponse, NetworkExceptions, Result, UserRepository;
-
-import 'package:calisfun/src/shared/shared.dart' show UserPreference;
 
 extension ResultTestX<T> on Result<T> {
   bool get isSuccess => this is Success<T>;

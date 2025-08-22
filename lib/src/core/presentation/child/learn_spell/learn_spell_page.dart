@@ -110,7 +110,6 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
                   ),
                 ),
                 Gap.h8,
-                // info kecil (opsional)
                 Text(
                   'Kategori: ${q.category} • Level: ${q.level}',
                   style: TypographyApp.bodyNormalRegular.copyWith(color: ColorApp.greyInactive),
@@ -177,6 +176,8 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
                 AppButton(
                   text: 'Periksa',
                   onPressed: () async {
+                    final messenger = ScaffoldMessenger.of(context);
+
                     final ctrl = ref.read(speechProvider.notifier);
                     final result = await ctrl.checkAndSubmitProgress(
                       childId: widget.childId,
@@ -184,9 +185,11 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
                       targetWord: q.word.toUpperCase(),
                     );
 
+                    if (!context.mounted) return;
+
                     switch (result) {
                       case SpellCheckResult.incorrect:
-                        ScaffoldMessenger.of(context).showSnackBar(
+                        messenger.showSnackBar(
                           SnackBar(
                             content: const Text('Hmm, belum pas. Coba ulangi lagi ya.'),
                             backgroundColor: ColorApp.error,
@@ -195,7 +198,7 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
                         );
                         break;
                       case SpellCheckResult.success:
-                        ScaffoldMessenger.of(context).showSnackBar(
+                        messenger.showSnackBar(
                           SnackBar(
                             content: Text('Hebat! Progress tersimpan. (${q.word})'),
                             backgroundColor: ColorApp.success,
@@ -205,7 +208,7 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
                         ref.invalidate(readingQuestionProvider(widget.childId));
                         break;
                       case SpellCheckResult.failed:
-                        ScaffoldMessenger.of(context).showSnackBar(
+                        messenger.showSnackBar(
                           SnackBar(
                             content: const Text('Benar, tapi gagal menyimpan progress. Coba lagi.'),
                             backgroundColor: ColorApp.error,

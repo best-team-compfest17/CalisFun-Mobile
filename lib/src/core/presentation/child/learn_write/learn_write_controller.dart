@@ -82,7 +82,7 @@ class LearnWriteController extends StateNotifier<LearnWriteState> {
       success: (api) {
         final raw = api.data;
         final m = (raw is Map)
-            ? Map<String, dynamic>.from(raw as Map)
+            ? Map<String, dynamic>.from(raw)
             : <String, dynamic>{};
 
         final qid = m['_id']?.toString();
@@ -132,7 +132,7 @@ class LearnWriteController extends StateNotifier<LearnWriteState> {
   void updateStroke(Offset p) {
     final cur = state.currentStroke;
     if (cur == null) return;
-    cur.points = cur.points ?? <ml.StrokePoint>[];
+    cur.points = cur.points;
     final last = cur.points.isNotEmpty ? cur.points.last : null;
     if (last != null) {
       final dx = p.dx - last.x, dy = p.dy - last.y;
@@ -181,7 +181,7 @@ class LearnWriteController extends StateNotifier<LearnWriteState> {
     try {
       final ink = ml.Ink()..strokes = all;
       final candidates = await _recognizer!.recognize(ink);
-      final recognized = candidates.isNotEmpty ? (candidates.first.text ?? '') : '';
+      final recognized = candidates.isNotEmpty ? (candidates.first.text) : '';
       final correct = _isMatch(recognized, state.target);
 
       if (!correct) {
@@ -239,6 +239,7 @@ class LearnWriteController extends StateNotifier<LearnWriteState> {
     state = state.copyWith(strokes: const [], currentStroke: null, lastResult: null);
   }
 
+  @override
   void dispose() {
     try { _recognizer?.close(); } catch (_) {}
     super.dispose();

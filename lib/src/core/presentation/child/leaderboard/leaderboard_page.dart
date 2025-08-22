@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/constants.dart';
-import '../../../core.dart';
 import 'leaderboard_controller.dart';
 
 
@@ -159,7 +158,7 @@ class _LeaderboardPageState extends ConsumerState<LeaderboardPage> {
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                            decoration: BoxDecoration(color: Colors.amber.withOpacity(0.2), borderRadius: BorderRadius.circular(16)),
+                            decoration: BoxDecoration(color: Colors.amber.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(16)),
                             child: Text('${item.user.xp} xp',
                                 style: TextStyle(color: ColorApp.mainBlack, fontWeight: FontWeight.bold, fontSize: 14)),
                           ),

@@ -23,7 +23,6 @@ class CategoryPage extends ConsumerWidget {
 
     void goToWrite(WritingCategory category) {
       final id = selectedId;
-      if (id == null) return;
       context.pushNamed(
         Routes.learnWrite.name,
         extra: (childId: id, category: category),

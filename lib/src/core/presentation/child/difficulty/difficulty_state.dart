@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import '../../../../constants/constants.dart';
-import '../learn_counting/learn_counting_state.dart';
 
 @immutable
 class DifficultyState {

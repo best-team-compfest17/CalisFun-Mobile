@@ -48,6 +48,9 @@ class ChildProfileAddController extends StateNotifier<ChildProfileAddState> {
     final form = formKey.currentState;
     if (form == null || !form.validate()) return;
 
+    final navigator = Navigator.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+
     state = state.copyWith(
       name: nameController.text.trim(),
       createValue: const AsyncLoading(),
@@ -60,26 +63,28 @@ class ChildProfileAddController extends StateNotifier<ChildProfileAddState> {
         imageFile: state.imageFile,
       );
 
+      if (!context.mounted) return;
+
       res.when(
         success: (_) {
           state = state.copyWith(createValue: const AsyncData(null));
-          Navigator.of(context).pop(true);
+          if (navigator.canPop()) navigator.pop(true);
         },
         failure: (e, st) {
           state = state.copyWith(createValue: AsyncError(e, st));
-          ScaffoldMessenger.of(context).showSnackBar(
+          messenger.showSnackBar(
             SnackBar(content: Text(NetworkExceptions.getErrorMessage(e))),
           );
         },
       );
     } catch (e, st) {
       state = state.copyWith(createValue: AsyncError(e, st));
-      ScaffoldMessenger.of(context).showSnackBar(
+      if (!context.mounted) return;
+      messenger.showSnackBar(
         const SnackBar(content: Text('Terjadi kesalahan. Coba lagi.')),
       );
     }
   }
-
 
   @override
   void dispose() {
@@ -87,4 +92,3 @@ class ChildProfileAddController extends StateNotifier<ChildProfileAddState> {
     super.dispose();
   }
 }
-
