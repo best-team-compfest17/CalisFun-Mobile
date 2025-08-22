@@ -1,4 +1,6 @@
 import 'package:calisfun/src/constants/constants.dart';
+import 'package:calisfun/src/core/presentation/parent/child-profile/child_profile_controller.dart';
+import 'package:calisfun/src/core/presentation/parent/child-profile/child_profile_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +16,21 @@ class ChildProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<ChildProfileState>(childProfileControllerProvider, (prev, next) {
+      if (next.deleteSuccess) {
+        Navigator.of(context).pop(); // keluar halaman setelah delete
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Berhasil menghapus akun anak')),
+        );
+      } else if (next.error != null && next.error!.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.error!)),
+        );
+      }
+    });
+
     final asyncChild = ref.watch(childByIdProvider(childId));
+    final state = ref.watch(childProfileControllerProvider);
 
     return Scaffold(
       backgroundColor: ColorApp.mainWhite,
@@ -125,6 +141,40 @@ class ChildProfilePage extends ConsumerWidget {
                       progress: difficultyProgress,
                     ),
                   ],
+                ),
+                Gap.h32,
+                AppButton(
+                  text: state.loading ? 'Menghapus...' : 'Hapus Akun Anak',
+                  backgroundColor: ColorApp.error,
+                  onPressed: state.loading
+                      ? null
+                      : () async {
+                    final confirm = await showDialog<bool>(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: const Text('Konfirmasi'),
+                        content: const Text(
+                          'Apakah kamu yakin ingin menghapus akun anak ini?',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(ctx).pop(false),
+                            child: const Text('Batal'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(ctx).pop(true),
+                            child: const Text('Ya, Hapus'),
+                          ),
+                        ],
+                      ),
+                    );
+
+                    if (confirm == true) {
+                      await ref
+                          .read(childProfileControllerProvider.notifier)
+                          .deleteChildProfile(childId);
+                    }
+                  },
                 ),
               ],
             ),
