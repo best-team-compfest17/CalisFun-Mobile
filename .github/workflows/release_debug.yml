@@ -14,18 +14,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'workflow_dispatch' && 'main' || github.ref }}
 
       - name: Setup Flutter (stable, pinned)
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: '3.27.0'  
+          flutter-version: '3.29.0'
           cache: true
 
-      - name: Show versions
+      - name: Doctor & versions
         run: |
-          flutter --version
-          dart --version
+          which flutter && flutter --version
+          which dart && dart --version
+          echo "----- pubspec environment -----"
+          awk '/^environment:/{p=1;print;next} p && NF==0{p=0} p' pubspec.yaml
+
+      - name: Flutter clean
+        run: flutter clean
 
       - name: Flutter pub get
         run: flutter pub get
@@ -40,6 +48,7 @@ jobs:
         run: flutter build apk --debug
 
       - name: Upload to GitHub Release
+        if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
           files: build/app/outputs/flutter-apk/app-debug.apk
