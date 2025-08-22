@@ -3,6 +3,10 @@ name: Release APK (debug, no secrets)
 on:
   release:
     types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build_upload:
@@ -11,11 +15,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Flutter
+      - name: Setup Flutter (latest stable)
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.27.0'
-          channel: 'stable'
+          channel: stable
+          cache: true
 
       - name: Flutter pub get
         run: flutter pub get
