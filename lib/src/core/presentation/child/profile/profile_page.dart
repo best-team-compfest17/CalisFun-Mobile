@@ -81,18 +81,7 @@ class ProfilePage extends ConsumerWidget {
                         Text('(total xp ${child.xp})', style: TypographyApp.labelSmallMedium),
                       ],
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text('${child.streak} hari', style: TypographyApp.labelSmallBold),
-                        Gap.w4,
-                        Image.asset(
-                          'assets/images/streak_img.png',
-                          width: SizeApp.w24,
-                          height: SizeApp.h28,
-                        ),
-                      ],
-                    ),
+                    Gap.w4,
                   ],
                 ),
                 Gap.h8,

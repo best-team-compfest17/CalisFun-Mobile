@@ -35,49 +35,6 @@ class HomePage extends ConsumerWidget {
                   Gap.h80,
                   Text('Halo, ${child.name}', style: TypographyApp.headingLargeBoldPrimary),
                   Gap.h16,
-                  AppContainer(
-                    height: SizeApp.customHeight(100),
-                    backgroundColor: ColorApp.primary,
-                    childLeft: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Tantangan harian',
-                          style: TypographyApp.headingSmallMedium.copyWith(
-                            color: ColorApp.mainWhite,
-                          ),
-                        ),
-                        Text(
-                          'Klik untuk mengerjakan',
-                          style: TypographyApp.headingSmallBold.copyWith(
-                            color: ColorApp.mainWhite,
-                          ),
-                        ),
-                      ],
-                    ),
-                    childRight: Container(
-                      width: SizeApp.customWidth(70),
-                      height: SizeApp.customHeight(70),
-                      decoration: BoxDecoration(
-                        color: ColorApp.secondary,
-                        borderRadius: BorderRadius.circular(100.r),
-                      ),
-                      //svg
-                      child: Center(
-                        child: SvgPicture.asset(
-                          'assets/icons/question_ic.svg',
-                          width: SizeApp.w24,
-                          height: SizeApp.h40,
-                          colorFilter: const ColorFilter.mode(
-                            ColorApp.mainWhite,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Gap.h16,
                   Text(
                     'Mau belajar apa?',
                     style: TypographyApp.headingLargeBoldPrimary,

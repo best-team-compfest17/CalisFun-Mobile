@@ -124,7 +124,7 @@ class SelectUserPage extends ConsumerWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () => context.goNamed(Routes.selectChild.name),
+                        onTap: () => context.pushNamed(Routes.selectChild.name),
                         child: Container(
                           width: SizeApp.customWidth(160),
                           height: SizeApp.customHeight(150),
