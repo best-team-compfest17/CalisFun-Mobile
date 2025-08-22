@@ -7,14 +7,43 @@ import '../../../../widgets/widgets.dart';
 import 'learn_write_controller.dart';
 
 class LearnWritePage extends ConsumerWidget {
-  const LearnWritePage({super.key});
+  const LearnWritePage({
+    super.key,
+    required this.childId,
+    required this.category,
+  });
 
-  static const String targetWord = 'A';
+  final String childId;
+  final WritingCategory category;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(learnWriteProvider);
-    final controller = ref.read(learnWriteProvider.notifier);
+    final params = (childId: childId, category: category);
+    final state = ref.watch(learnWriteProvider(params));
+    final c = ref.read(learnWriteProvider(params).notifier);
+
+    String catLabel;
+    switch (category) {
+      case WritingCategory.word:   catLabel = 'Kata';  break;
+      case WritingCategory.letter: catLabel = 'Huruf'; break;
+      case WritingCategory.number: catLabel = 'Angka'; break;
+    }
+
+    if (state.loading) {
+      return Scaffold(
+        backgroundColor: ColorApp.mainWhite,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(color: ColorApp.primary),
+              Gap.h16,
+              Text('Memuat soal berikutnya...', style: TypographyApp.bodyNormalRegular),
+            ],
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       backgroundColor: ColorApp.mainWhite,
@@ -51,12 +80,13 @@ class LearnWritePage extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Kata 1 dari 10', style: TypographyApp.headingSmallBold),
-                // tampilkan status kecil di kanan
+                Text('$catLabel ${state.level ?? '-'} dari 10', style: TypographyApp.headingSmallBold),
                 Text(
-                  state.status,
+                  state.posting ? 'Menyimpan…' : state.status,
                   style: TypographyApp.bodyNormalRegular.copyWith(
-                    color: ColorApp.success,
+                    color: state.posting ? ColorApp.secondary :
+                    state.status.contains('BENAR') ? ColorApp.success :
+                    state.status.contains('Error') ? ColorApp.error : Colors.black,
                   ),
                 ),
               ],
@@ -64,7 +94,7 @@ class LearnWritePage extends ConsumerWidget {
             Gap.h40,
             Center(
               child: Text(
-                targetWord,
+                state.target.isNotEmpty ? state.target : '...',
                 style: TypographyApp.headingLargeBold,
                 textAlign: TextAlign.center,
               ),
@@ -85,9 +115,9 @@ class LearnWritePage extends ConsumerWidget {
                 ),
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
-                  onPanStart: (d) => controller.startStroke(d.localPosition),
-                  onPanUpdate: (d) => controller.updateStroke(d.localPosition),
-                  onPanEnd: (_) => controller.endStroke(),
+                  onPanStart: (d) => c.startStroke(d.localPosition),
+                  onPanUpdate: (d) => c.updateStroke(d.localPosition),
+                  onPanEnd: (_) => c.endStroke(),
                   child: InkCanvas(
                     strokes: state.strokes,
                     currentStroke: state.currentStroke,
@@ -103,29 +133,36 @@ class LearnWritePage extends ConsumerWidget {
                 width: double.infinity,
                 padding: EdgeInsets.all(SizeApp.w12),
                 decoration: BoxDecoration(
-                  color: Colors.black12,
+                  color: state.lastResult!.contains('BENAR') ? ColorApp.success.withValues(alpha: 0.2) : Colors.black12,
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Text(
                   state.lastResult!,
-                  style: TypographyApp.bodyNormalRegular,
+                  style: TypographyApp.bodyNormalRegular.copyWith(
+                    color: state.lastResult!.contains('BENAR') ? ColorApp.success : Colors.black,
+                  ),
                 ),
               ),
             Gap.h12,
             Row(
               children: [
                 Expanded(
-                  child: AppButton(text: 'Undo', onPressed: controller.undo, backgroundColor: ColorApp.secondary,),
+                  child: AppButton(
+                    text: 'Undo',
+                    onPressed: c.undo,
+                    backgroundColor: ColorApp.secondary,
+                  ),
                 ),
-                Gap.w12,
                 Gap.w12,
                 Expanded(
                   child: AppButton(
                     text: 'Periksa',
-                    onPressed:
-                        state.modelReady
-                            ? () => controller.check(targetWord)
-                            : null,
+                    onPressed: (state.modelReady &&
+                        !state.posting &&
+                        !state.loading &&
+                        state.target.isNotEmpty)
+                        ? c.check
+                        : null,
                   ),
                 ),
               ],

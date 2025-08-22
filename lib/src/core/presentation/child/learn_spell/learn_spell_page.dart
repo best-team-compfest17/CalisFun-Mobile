@@ -202,7 +202,6 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
                             behavior: SnackBarBehavior.floating,
                           ),
                         );
-                        // Opsional: muat soal berikutnya
                         ref.invalidate(readingQuestionProvider(widget.childId));
                         break;
                       case SpellCheckResult.failed:
@@ -217,7 +216,6 @@ class _LearnSpellPageState extends ConsumerState<LearnSpellPage> {
                     }
                   },
                 ),
-
                 if (speech.confidence > 0) ...[
                   Gap.h8,
                   Text(

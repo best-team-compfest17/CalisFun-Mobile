@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:calisfun/src/core/core.dart';
 import 'package:calisfun/src/routes/routes.dart';
 
+import '../constants/constants.dart';
+
 enum Routes {
   splash,
   onboarding,
@@ -94,10 +96,20 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const QuestionOpeningPage(),
       ),
       GoRoute(
-        path: '/learn-write',
         name: Routes.learnWrite.name,
-        builder: (context, state) => const LearnWritePage(),
+        path: '/learn-write',
+        pageBuilder: (context, state) {
+          // extra dikirim dari CategoryPage
+          final extra = state.extra! as ({String childId, WritingCategory category});
+          return MaterialPage(
+            child: LearnWritePage(
+              childId: extra.childId,
+              category: extra.category,
+            ),
+          );
+        },
       ),
+
       GoRoute(
         path: '/question-closing',
         name: Routes.questionClosing.name,
@@ -105,7 +117,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         name: Routes.learnSpell.name,
-        path: '/learn/spell',
+        path: '/learn-spell',
         builder: (context, state) {
           final childId = state.extra as String;
           return LearnSpellPage(childId: childId);

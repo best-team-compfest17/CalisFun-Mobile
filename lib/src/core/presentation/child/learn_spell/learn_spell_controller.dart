@@ -79,22 +79,15 @@ class SpeechController extends Notifier<SpeechState> {
     return norm(state.words) == norm(target);
   }
 
-  /// Cek pengucapan; jika benar → kirim progress ke BE.
-  /// Return:
-  /// - incorrect: ucapan belum cocok
-  /// - success  : cocok & progress tersimpan
-  /// - failed   : cocok tapi gagal simpan progress (error jaringan/dll)
   Future<SpellCheckResult> checkAndSubmitProgress({
     required String childId,
     required String questionId,
     required String targetWord,
   }) async {
-    // 1) Cek kesesuaian
     if (!isMatch(targetWord)) {
       return SpellCheckResult.incorrect;
     }
 
-    // 2) Submit progress via service
     final svc = ref.read(readingServiceProvider);
     final res = await svc.submitProgress(
       childId: childId,

@@ -24,7 +24,6 @@ class HomePage extends ConsumerWidget {
 
     return childAsync.when(
       data: (child) {
-
         return Scaffold(
           backgroundColor: ColorApp.mainWhite,
           body: SingleChildScrollView(

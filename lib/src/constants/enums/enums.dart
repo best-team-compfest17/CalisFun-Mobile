@@ -1,0 +1,1 @@
+enum WritingCategory { word, letter, number }
