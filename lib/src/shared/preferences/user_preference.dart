@@ -3,10 +3,10 @@ import 'preferences.dart';
 
 class UserPreferenceKeys {
   static const accessToken  = 'auth_access_token';
-  static const refreshToken = 'auth_refresh_token'; // opsional
-  static const userId       = 'user_id';            // opsional
-  static const email        = 'user_email';         // opsional
-  static const role         = 'user_role';          // opsional
+  static const refreshToken = 'auth_refresh_token';
+  static const userId       = 'user_id';
+  static const email        = 'user_email';
+  static const role         = 'user_role';
 }
 
 class UserPreference {

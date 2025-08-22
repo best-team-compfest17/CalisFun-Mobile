@@ -1,10 +1,14 @@
 import 'package:calisfun/src/constants/constants.dart';
+import 'package:calisfun/src/network/network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../routes/routes.dart';
 import '../../../../widgets/widgets.dart';
 
+import '../../../application/application.dart';
 import '../../../application/child_by_id_provider.dart';
 import '../../../domain/domain.dart';
 
@@ -58,7 +62,7 @@ class ProfilePage extends ConsumerWidget {
                       CircleAvatar(
                         radius: 50,
                         backgroundImage: NetworkImage(
-                          'https://example.com/avatars/${child.avatarImg}',
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRqUaGFKWrrv_RskYoykH2ONRynGRAAG6F0A&s',
                         ),
                       ),
                       Gap.h12,
@@ -128,6 +132,31 @@ class ProfilePage extends ConsumerWidget {
                   ],
                 ),
                 Gap.h56,
+                AppButton(
+                  text: 'Logout',
+                  backgroundColor: ColorApp.error,
+                  onPressed: () async {
+                    final userService = ref.read(userServiceProvider);
+                    final result = await userService.logout();
+
+                    result.when(
+                      success: (_) {
+                        if (context.mounted) {
+                          context.goNamed(Routes.signin.name);
+                        }
+                      },
+                      failure: (err, st) async {
+                        await userService.userPreference.clearAllAuth();
+                        if (context.mounted) {
+                          context.goNamed(Routes.signin.name);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Gagal logout dari server: $err')),
+                          );
+                        }
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           );
