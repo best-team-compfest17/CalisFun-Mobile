@@ -34,8 +34,8 @@ jobs:
 
       - name: Doctor & versions
         run: |
-          which flutter && flutter --version
-          which dart && dart --version
+          flutter --version
+          dart --version
           echo "----- pubspec environment -----"
           awk '/^environment:/{p=1;print;next} p && NF==0{p=0} p' pubspec.yaml
 
@@ -52,7 +52,7 @@ jobs:
         run: flutter test --coverage
 
       - name: Build release APK
-        run: flutter build apk --release --output=build/app/outputs/flutter-apk/calisfun.apk
+        run: flutter build apk --release
 
       - name: Show output files
         run: ls -lah build/app/outputs/flutter-apk/
@@ -61,7 +61,7 @@ jobs:
         if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
-          files: build/app/outputs/flutter-apk/calisfun.apk
+          files: build/app/outputs/flutter-apk/app-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -70,4 +70,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: calisfun-app
-          path: build/app/outputs/flutter-apk/calisfun.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
