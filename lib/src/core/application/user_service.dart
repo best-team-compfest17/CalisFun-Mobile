@@ -6,6 +6,18 @@ class UserService {
 
   UserService({required this.userRepository, required this.userPreference});
 
+  String _difficultyToString(Difficulty d) => switch (d) {
+    Difficulty.easy => 'easy',
+    Difficulty.medium => 'medium',
+    Difficulty.hard => 'hard',
+  };
+
+  Difficulty? _nextDifficulty(Difficulty d) => switch (d) {
+    Difficulty.easy => Difficulty.medium,
+    Difficulty.medium => Difficulty.hard,
+    Difficulty.hard => null,
+  };
+
   Future<Result<User?>> registerData({
     required String username,
     required String email,
@@ -145,7 +157,7 @@ class UserService {
 
           final childJson = (base['child'] is Map<String, dynamic>)
               ? base['child'] as Map<String, dynamic>
-              : base; // fallback bila objek langsung di root
+              : base;
 
           final child = ChildConverter.fromJson(childJson);
           return Result.success(child);
@@ -208,6 +220,51 @@ class UserService {
     }
   }
 
+  Future<Result<bool>> updateCountingDifficulty({
+    required String childId,
+    required Difficulty difficulty,
+  }) async {
+    try {
+      final token = await userPreference.getToken();
+      if (token == null || token.isEmpty) {
+        return Result.failure(const NetworkExceptions.badRequest(), StackTrace.current);
+      }
+
+      final res = await userRepository.updateCountingDifficulty(
+        childId: childId,
+        token: token,
+        difficulty: _difficultyToString(difficulty),
+      );
+
+      return res.when(
+        success: (_) => const Result.success(true),
+        failure: (err, st) => Result.failure(err, st),
+      );
+    } catch (e, st) {
+      return Result.failure(NetworkExceptions.getDioException(e), st);
+    }
+  }
+
+  Future<Result<bool>> promoteCountingDifficultyIfEligible({
+    required String childId,
+    required Difficulty currentDifficulty,
+    required int correct,
+    required int total,
+  }) async {
+    try {
+      if (total <= 0 || correct < 7) {
+        return const Result.success(false);
+      }
+      final next = _nextDifficulty(currentDifficulty);
+      if (next == null) {
+        return const Result.success(false);
+      }
+      return await updateCountingDifficulty(childId: childId, difficulty: next);
+    } catch (e, st) {
+      return Result.failure(NetworkExceptions.getDioException(e), st);
+    }
+  }
+
 }
 
 Map<String, dynamic> _extractPayloadMap(dynamic api) {
@@ -246,6 +303,8 @@ Map<String, dynamic> _extractPayloadMap(dynamic api) {
   log('RETURNING EMPTY MAP');
   return const <String, dynamic>{};
 }
+
+
 
 String _maskToken(String token) {
   if (token.length <= 10) return '***';

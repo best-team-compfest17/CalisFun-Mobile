@@ -71,20 +71,17 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const CategoryPage(),
       ),
       GoRoute(
-        path: '/difficulty',
         name: Routes.difficulty.name,
-        builder: (context, state) => const DifficultyPage(),
+        path: '/difficulty/:childId',
+        builder: (_, st) => DifficultyPage(
+          // childId: st.pathParameters['childId']!,
+        ),
       ),
       GoRoute(
         path: '/home-parent',
         name: Routes.homeParent.name,
         builder: (context, state) => const HomeParentPage(),
       ),
-      // GoRoute(
-      //   path: '/child-profile',
-      //   name: Routes.childProfile.name,
-      //   builder: (context, state) => const ChildProfilePage(),
-      // ),
       GoRoute(
         path: '/child-profile-add',
         name: Routes.childProfileAdd.name,
@@ -174,9 +171,15 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const ChatbotPage(),
       ),
       GoRoute(
-        path: '/learn-counting',
         name: Routes.learnCounting.name,
-        builder: (context, state) => const LearnCountingPage(),
+        path: '/learn-counting',
+        builder: (_, st) {
+          final extra = st.extra as Map<String, dynamic>?;
+          return LearnCountingPage(
+            initialDifficulty: extra?['difficulty'] as Difficulty? ?? Difficulty.easy,
+            childId: extra?['childId'] as String?,
+          );
+        },
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(error: state.error),

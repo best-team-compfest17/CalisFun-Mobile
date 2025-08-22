@@ -130,6 +130,24 @@ class DioClient {
     return res.data;
   }
 
+  Future<dynamic> put(
+      String path, {
+        dynamic data,
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        CancelToken? cancelToken,
+      }) async {
+    final res = await _dio.put(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
+    return res.data;
+  }
+
+
   void setHeader(String key, dynamic value) {
     final headers = Map<String, dynamic>.from(_dio.options.headers);
     if (value == null) {
