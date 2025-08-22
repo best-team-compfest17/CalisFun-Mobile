@@ -108,12 +108,13 @@ class UserService {
             final map = _extractPayloadMap(apiResponse);
             log('ME RESPONSE: $map');
 
-            if (map is Map<String, dynamic>) {
+            // ⬇️ tambahkan pengecekan kosong
+            if (map is Map<String, dynamic> && map.isNotEmpty) {
               final user = UserConverter.fromJson(map);
               return Result.success(user);
             }
 
-            log('INVALID USER DATA FORMAT: $map');
+            log('INVALID USER DATA FORMAT (empty or not a map): $map');
             return Result.failure(const NetworkExceptions.badRequest(), StackTrace.current);
           } catch (e, stackTrace) {
             log('ERROR PARSING ME RESPONSE: $e');
@@ -130,6 +131,7 @@ class UserService {
       return Result.failure(NetworkExceptions.badRequest(), stackTrace);
     }
   }
+
 
   Future<Result<Child?>> createChildProfile({
     required String name,
