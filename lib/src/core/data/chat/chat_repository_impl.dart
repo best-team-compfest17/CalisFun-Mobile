@@ -96,7 +96,6 @@ class ChatRepositoryImpl implements ChatRepository {
       _safeLog('Response status: ${response.statusCode}');
 
       if (response.statusCode != 200) {
-        final errorBody = await response.stream.bytesToString();
         _safeLog('Error with status code: ${response.statusCode}');
         throw Exception('Error: ${response.statusCode}');
       }

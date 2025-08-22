@@ -25,9 +25,9 @@ FutureProvider.family<ReadingQuestion, String>((ref, childId) async {
 
   Map<String, dynamic> map;
   if (res is Map<String, dynamic>) {
-    map = res as Map<String, dynamic>;
+    map = res;
   } else if (res is String) {
-    map = jsonDecode(res as String) as Map<String, dynamic>;
+    map = jsonDecode(res) as Map<String, dynamic>;
   } else {
     throw Exception('Format respons tidak dikenali');
   }

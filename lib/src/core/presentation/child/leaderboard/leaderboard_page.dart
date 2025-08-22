@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/constants.dart';
-import '../../../core.dart';
 import 'leaderboard_controller.dart';
 
 

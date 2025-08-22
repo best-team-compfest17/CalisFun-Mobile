@@ -109,7 +109,7 @@ class UserService {
             log('ME RESPONSE: $map');
 
             // ⬇️ tambahkan pengecekan kosong
-            if (map is Map<String, dynamic> && map.isNotEmpty) {
+            if (map.isNotEmpty) {
               final user = UserConverter.fromJson(map);
               return Result.success(user);
             }

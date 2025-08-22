@@ -31,11 +31,7 @@ class ReadingService {
       return repoRes.when(
         success: (api) {
           final map = _extractPayloadMap(api);
-          final base =
-              (map is Map<String, dynamic>)
-                  ? map
-                  : map;
-
+          final base = map;
           final rw = ReadingQuestionConverter.fromJson(base);
           return Result.success(rw);
         },

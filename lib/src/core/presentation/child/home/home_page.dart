@@ -86,7 +86,6 @@ class HomePage extends ConsumerWidget {
                   InkWell(
                     onTap: () {
                       final id = selectedId;
-                      if (id == null) return;
                       context.pushNamed(
                         Routes.learnSpell.name,
                         extra: id,
