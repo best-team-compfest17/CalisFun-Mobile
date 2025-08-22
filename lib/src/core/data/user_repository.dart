@@ -147,12 +147,16 @@ class UserRepository {
 
       final res = await _dioClient.post(
         Endpoint.createChildProfile,
-        data: form,
+        data: {'name': name},
         options: Options(
-          contentType: Headers.multipartFormDataContentType,
-          headers: {'Authorization': 'Bearer $token', 'Accept': 'application/json'},
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
         ),
       );
+
 
       final map = _asMap(res);
       return Result.success(ApiResponse.fromJson(map));

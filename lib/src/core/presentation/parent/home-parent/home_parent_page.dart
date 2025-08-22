@@ -60,8 +60,7 @@ class HomeParentPage extends ConsumerWidget {
                   child: CircleAvatar(
                     radius: 30,
                     backgroundImage: NetworkImage(
-                      // state.user?.picture ??
-                          'https://picsum.photos/200',
+                      'https://static.wikia.nocookie.net/disney/images/2/28/Profile-_Carl_Fredricksen.png/revision/latest?cb=20210525075534',
                     ),
                   ),
                 ),
@@ -76,7 +75,15 @@ class HomeParentPage extends ConsumerWidget {
             _buildChildrenList(state, context),
             if (state.children.isEmpty) _buildEmptyState(),
             Gap.h24,
-            AppButton(text: 'Tambah', onPressed: () => context.pushNamed(Routes.childProfileAdd.name))
+            AppButton(
+              text: 'Tambah',
+              onPressed: () async {
+                final shouldReload = await context.pushNamed<bool>(Routes.childProfileAdd.name);
+                if (shouldReload == true) {
+                  controller.load();
+                }
+              },
+            ),
           ],
         ),
       ),

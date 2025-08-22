@@ -104,7 +104,7 @@ class ParentProfilePage extends ConsumerWidget {
                               CircleAvatar(
                                 radius: 50,
                                 backgroundImage: const NetworkImage(
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRqUaGFKWrrv_RskYoykH2ONRynGRAAG6F0A&s',
+                                  'https://static.wikia.nocookie.net/disney/images/2/28/Profile-_Carl_Fredricksen.png/revision/latest?cb=20210525075534',
                                 ),
                                 child: state.isEditMode
                                     ? Container(

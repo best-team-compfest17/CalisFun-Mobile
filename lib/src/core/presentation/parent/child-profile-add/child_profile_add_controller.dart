@@ -23,13 +23,11 @@ class ChildProfileAddController extends StateNotifier<ChildProfileAddState> {
   final nameController = TextEditingController();
   final _picker = ImagePicker();
 
-  // === Input handlers ===
   void onNameChanged(String v) => state = state.copyWith(
     name: v.trim(),
     createValue: const AsyncData(null),
   );
 
-  // === Image actions ===
   Future<void> pickImage({ImageSource source = ImageSource.gallery}) async {
     final picked = await _picker.pickImage(source: source);
     if (picked != null) {
@@ -46,7 +44,7 @@ class ChildProfileAddController extends StateNotifier<ChildProfileAddState> {
     return null;
   }
 
-  Future<void> submit() async {
+  Future<void> submit(BuildContext context) async {
     final form = formKey.currentState;
     if (form == null || !form.validate()) return;
 
@@ -63,13 +61,25 @@ class ChildProfileAddController extends StateNotifier<ChildProfileAddState> {
       );
 
       res.when(
-        success: (_) => state = state.copyWith(createValue: const AsyncData(null)),
-        failure: (e, st) => state = state.copyWith(createValue: AsyncError(e, st)),
+        success: (_) {
+          state = state.copyWith(createValue: const AsyncData(null));
+          Navigator.of(context).pop(true);
+        },
+        failure: (e, st) {
+          state = state.copyWith(createValue: AsyncError(e, st));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(NetworkExceptions.getErrorMessage(e))),
+          );
+        },
       );
     } catch (e, st) {
       state = state.copyWith(createValue: AsyncError(e, st));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Terjadi kesalahan. Coba lagi.')),
+      );
     }
   }
+
 
   @override
   void dispose() {

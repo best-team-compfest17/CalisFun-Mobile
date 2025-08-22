@@ -1,7 +1,6 @@
 import 'package:calisfun/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../widgets/widgets.dart';
@@ -61,41 +60,41 @@ class ChildProfileAddPage extends ConsumerWidget {
 
                   ),
                   Gap.h16,
-                  InkWell(
-                    onTap: () {
-                      controller.pickImage();
-                    },
-                    child: Container(
-                      height: SizeApp.customHeight(200),
-                      decoration: BoxDecoration(
-                        color: ColorApp.mainWhite,
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(color: ColorApp.border, width: 1.w),
-                      ),
-                      child: Center(
-                        child: state.imageFile == null
-                            ? Image.asset(
-                          'assets/images/pick_pics_img.png',
-                          width: SizeApp.customWidth(166),
-                          height: SizeApp.customHeight(133),
-                          fit: BoxFit.cover,
-                        )
-                            : ClipRRect(
-                          borderRadius: BorderRadius.circular(10.r),
-                          child: Image.file(
-                            state.imageFile!,
-                            width: double.infinity,
-                            height: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Gap.h16,
+                  // InkWell(
+                  //   onTap: () {
+                  //     controller.pickImage();
+                  //   },
+                  //   child: Container(
+                  //     height: SizeApp.customHeight(200),
+                  //     decoration: BoxDecoration(
+                  //       color: ColorApp.mainWhite,
+                  //       borderRadius: BorderRadius.circular(10.r),
+                  //       border: Border.all(color: ColorApp.border, width: 1.w),
+                  //     ),
+                  //     child: Center(
+                  //       child: state.imageFile == null
+                  //           ? Image.asset(
+                  //         'assets/images/pick_pics_img.png',
+                  //         width: SizeApp.customWidth(166),
+                  //         height: SizeApp.customHeight(133),
+                  //         fit: BoxFit.cover,
+                  //       )
+                  //           : ClipRRect(
+                  //         borderRadius: BorderRadius.circular(10.r),
+                  //         child: Image.file(
+                  //           state.imageFile!,
+                  //           width: double.infinity,
+                  //           height: double.infinity,
+                  //           fit: BoxFit.cover,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Gap.h16,
                   AppButton(
                     text: state.isLoading ? 'Loading' : 'Buat Akun Anak',
-                    onPressed: state.canSubmit ? controller.submit : null,
+                    onPressed: state.canSubmit ? () => controller.submit(context) : null,
                   ),
                 ],
               ),

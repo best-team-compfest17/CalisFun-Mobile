@@ -151,14 +151,9 @@ class UserService {
         success: (api) {
           final map = _extractPayloadMap(api);
 
-          final base = (map['data'] is Map<String, dynamic>)
-              ? map['data'] as Map<String, dynamic>
+          final childJson = (map['child'] is Map<String, dynamic>)
+              ? map['child'] as Map<String, dynamic>
               : map;
-
-          final childJson = (base['child'] is Map<String, dynamic>)
-              ? base['child'] as Map<String, dynamic>
-              : base;
-
           final child = ChildConverter.fromJson(childJson);
           return Result.success(child);
         },
