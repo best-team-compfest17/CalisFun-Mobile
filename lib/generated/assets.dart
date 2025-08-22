@@ -2,6 +2,8 @@
 class Assets {
   Assets._();
 
+  static const String calisfun.env = '.env.development';
+  static const String flutter2025Calisfun.env = '.env.production';
   static const String iconsArrowNextIc = 'assets/icons/arrow_next_ic.svg';
   static const String iconsArrowPrevIc = 'assets/icons/arrow_prev_ic.svg';
   static const String iconsEditIc = 'assets/icons/edit_ic.svg';
@@ -12,10 +14,14 @@ class Assets {
   static const String iconsPhoneIc = 'assets/icons/phone_ic.svg';
   static const String iconsQuestionIc = 'assets/icons/question_ic.svg';
   static const String iconsSelectParentIc = 'assets/icons/select_parent_ic.svg';
+  static const String iconsTimerIc = 'assets/icons/timer_ic.svg';
   static const String iconsUserIc = 'assets/icons/user_ic.svg';
   static const String imagesCalisfunLogo = 'assets/images/calisfun_logo.png';
   static const String imagesCountImg = 'assets/images/count_img.png';
   static const String imagesHelpWriteImg = 'assets/images/help_write_img.png';
+  static const String imagesImgOnboarding1 = 'assets/images/img_onboarding1.png';
+  static const String imagesImgOnboarding2 = 'assets/images/img_onboarding2.png';
+  static const String imagesImgOnboarding3 = 'assets/images/img_onboarding3.png';
   static const String imagesLearnWriteClosingImg = 'assets/images/learn_write_closing_img.png';
   static const String imagesLetterImg = 'assets/images/letter_img.png';
   static const String imagesNumberImg = 'assets/images/number_img.png';

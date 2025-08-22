@@ -129,7 +129,7 @@ class UserRepository {
           ),
       });
 
-      form.fields.add(MapEntry('name', name)); // key default yang kita pakai
+      form.fields.add(MapEntry('name', name));
       if (avatarFile != null) {
         form.files.add(MapEntry(
           'avatar',
@@ -174,6 +174,43 @@ class UserRepository {
       return Result.success(ApiResponse.fromJson(map));
     } catch (e, st) {
       return Result.failure(NetworkExceptions.getDioException(e), st);
+    }
+  }
+
+  Future<Result<ApiResponse>> updateCountingDifficulty({
+    required String childId,
+    required String token,
+    required String difficulty, // 'easy'|'medium'|'hard'
+  }) async {
+    final url = '${Endpoint.updateCountingDifficulty}/$childId'; // /children/counting-difficulty/{id}
+    try {
+      try {
+        final res = await _dioClient.put(
+          url,
+          data: {'difficulty': difficulty},
+          options: Options(
+            headers: {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'},
+          ),
+        );
+        final map = _asMap(res);
+        return Result.success(ApiResponse.fromJson(map));
+      } on DioException catch (e) {
+        final bodyStr = e.response?.data?.toString() ?? '';
+        final isCannotPut404 = e.response?.statusCode == 404 && bodyStr.contains('Cannot PUT');
+        if (!isCannotPut404) rethrow;
+
+        final res = await _dioClient.post(
+          url,
+          data: {'difficulty': difficulty},
+          options: Options(
+            headers: {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'},
+          ),
+        );
+        final map = _asMap(res);
+        return Result.success(ApiResponse.fromJson(map));
+      }
+    } catch (err, st) {
+      return Result.failure(NetworkExceptions.getDioException(err), st);
     }
   }
 

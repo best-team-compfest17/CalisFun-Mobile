@@ -153,7 +153,10 @@ class HomePage extends ConsumerWidget {
                   ),
                   Gap.h16,
                   InkWell(
-                    onTap: () => context.pushNamed(Routes.learnWrite.name),
+                    onTap: () => context.pushNamed(
+                      Routes.difficulty.name,
+                      pathParameters: {'childId': selectedId},
+                    ),
                     child: AppContainer(
                       backgroundColor: ColorApp.secondary,
                       childLeft: Column(
