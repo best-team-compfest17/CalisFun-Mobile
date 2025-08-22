@@ -74,12 +74,13 @@ class BotNavBarPage extends ConsumerWidget {
         onPressed: () => context.pushNamed(Routes.chatbot.name),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         backgroundColor: ColorApp.primary,
-        child: SvgPicture.asset(
-          'assets/icons/user_ic.svg',
-          width: SizeApp.w24,
-          height: SizeApp.h24,
-          colorFilter: const ColorFilter.mode(ColorApp.mainWhite, BlendMode.srcIn),
-        ),
+        child: Icon(Icons.chat_bubble_rounded, color: ColorApp.mainWhite,),
+        // child: SvgPicture.asset(
+        //   'assets/icons/user_ic.svg',
+        //   width: SizeApp.w24,
+        //   height: SizeApp.h24,
+        //   colorFilter: const ColorFilter.mode(ColorApp.mainWhite, BlendMode.srcIn),
+        // ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

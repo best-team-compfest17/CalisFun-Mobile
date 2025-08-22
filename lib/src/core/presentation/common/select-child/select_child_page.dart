@@ -47,7 +47,6 @@ class SelectChildPage extends ConsumerWidget {
                     Gap.h24,
                   ] else if (state.children.isEmpty) ...[
 
-                    // if-empty
                     Gap.h80,
                     Center(child: Image.asset('assets/images/parent_empty_img.png', width: SizeApp.customWidth(300), height: SizeApp.customHeight(200),)),
                     Gap.h16,
@@ -57,7 +56,7 @@ class SelectChildPage extends ConsumerWidget {
                       textAlign: TextAlign.center,
                     ),
                     Gap.h16,
-                    AppButton(text: 'Ke halaman orang tua', onPressed: ()=> context.goNamed(Routes.homeParent.name))
+                    AppButton(text: 'Ke halaman orang tua', onPressed: ()=> context.pushNamed(Routes.homeParent.name))
                   ] else ...[
                     ListView.separated(
                       shrinkWrap: true,
