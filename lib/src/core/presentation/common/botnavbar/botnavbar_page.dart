@@ -3,7 +3,6 @@ import 'package:calisfun/src/core/presentation/child/home/home_page.dart';
 import 'package:calisfun/src/core/presentation/child/leaderboard/leaderboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:go_router/go_router.dart';
 
