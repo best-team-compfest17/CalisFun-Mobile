@@ -5,7 +5,7 @@
 ## 📃 Table of Contents
 - [⚙️ Technology Stack](#-technology-stack)
 - [🧩 Core Features](#-core-features)
-- [🚀 Live Demo](#-live-demo)
+- [🚀 Functional Requirements Document](#-functional-requirements-document)
 - [🏗️ Architecture Pattern](#-architecture-pattern)
 - [📈 Design Pattern](#-design-pattern)
 - [🧑‍💻 Clean Code](#-clean-code)
@@ -16,7 +16,6 @@
 - [🔐 .env Configuration](#-env-configuration)
 - [🧰 Getting Started Locally](#-getting-started-locally)
 - [👥 Owner](#-owner)
-- [📬 Contact](#-contact)
 
 ---
 
@@ -61,9 +60,49 @@
 
 ---
 
-## 🚀 Live Demo
+## 🚀 Functional Requirements Document
 
-👉 [https://calis-fun.vercel.app](https://calis-fun.vercel.app/)
+### User stories
+1. Parent
+   - As a parent, I want to create a new account so that I can access the app.
+   - As a parent, I want to log in with email & password so that I can sign in securely.
+   - As a parent, I want to create and manage child profiles so each child can have their own learning account.
+   - As a parent, I want to view my child’s learning progress (daily/weekly) so that I can monitor improvement.
+   - As a parent, I want to manage multiple child profiles so that all my children can use the same app with different accounts.
+     
+2. Child
+   - As a child, I want to select my profile created by my parent so I can start learning.
+   - As a child, I want to practice handwriting (letters, numbers, words) so I can improve my writing skills.
+   - As a child, I want to practice counting with different difficulty levels (easy/medium/hard) so I can improve my math skills.
+   - As a child, I want to earn points/rewards when I answer correctly so I feel motivated to keep learning.
+   - As a child, I want to retry questions when I get them wrong so I can learn from my mistakes.
+
+### Role-Based Access Definitions
+1. Parent
+   - Full access to child account management.
+   - Can create, edit, or delete child profiles.
+   - Can view learning progress reports.
+   - Can sign up and sign in.
+   - 
+2. Child
+   - Can only access learning (handwriting, counting, reading).
+   - Cannot edit parent or sibling data.
+   - Can only choose from profiles created by the parent.
+   - Can answer exercises, retry them, and earn points.
+
+### User flow
+1. Sign in
+   <img width="1268" height="345" alt="image" src="https://github.com/user-attachments/assets/73958a8f-57ba-465f-907e-4c6b0f0ba1a0" />
+
+2. Learn Handwriting
+   <img width="1366" height="154" alt="image" src="https://github.com/user-attachments/assets/2c6fc439-7304-472b-9e1e-4b71689bb29b" />
+
+3. Learn Spelling
+   <img width="1358" height="157" alt="image" src="https://github.com/user-attachments/assets/90ae25d8-2e5e-410e-aa38-bf8253718d5e" />
+
+4. Learn Counting
+   <img width="1351" height="92" alt="image" src="https://github.com/user-attachments/assets/2e9ff52d-0d2a-4c56-b555-78c16f30b46f" />
+
 
 ---
 
