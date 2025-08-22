@@ -239,6 +239,7 @@ class LearnWriteController extends StateNotifier<LearnWriteState> {
     state = state.copyWith(strokes: const [], currentStroke: null, lastResult: null);
   }
 
+  @override
   void dispose() {
     try { _recognizer?.close(); } catch (_) {}
     super.dispose();

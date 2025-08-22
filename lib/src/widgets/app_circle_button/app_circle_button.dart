@@ -31,7 +31,7 @@ class AppCircleButton extends StatelessWidget {
           backgroundColor: backgroundColor ?? ColorApp.primary,
           elevation: elevation,
           shape: CircleBorder(),
-          shadowColor: Colors.black.withOpacity(0.25),
+          shadowColor: Colors.black.withValues(alpha: 0.25),
         ),
         child: child,
       ),

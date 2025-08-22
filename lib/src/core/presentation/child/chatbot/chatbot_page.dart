@@ -105,7 +105,7 @@ class _ChatbotPageState extends ConsumerState<ChatbotPage> {
                       decoration: BoxDecoration(
                         color:
                             isUser
-                                ? ColorApp.primary.withOpacity(0.1)
+                                ? ColorApp.primary.withValues(alpha: 0.1)
                                 : ColorApp.greyInactive,
                         borderRadius: BorderRadius.circular(12.r),
                       ),

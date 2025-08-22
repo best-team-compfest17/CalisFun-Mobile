@@ -46,13 +46,9 @@ class _LearnCountingPageState extends ConsumerState<LearnCountingPage> {
       final justTimedOut = next.timeUp && !(prev?.timeUp ?? false);
       if (justTimedOut && !_showingTimeoutDialog) {
         _showingTimeoutDialog = true;
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!mounted) return;
-          await _showTimeUpDialog();
-          _showingTimeoutDialog = false;
-          if (!mounted) return;
-          controller.handleExit();
-          if (Navigator.of(context).canPop()) Navigator.of(context).pop();
+          _handleTimeout(controller);
         });
       }
     });
@@ -74,8 +70,7 @@ class _LearnCountingPageState extends ConsumerState<LearnCountingPage> {
       },
     );
 
-
-    final total = state.questions.length == 0 ? 10 : state.questions.length;
+    final total = state.questions.isEmpty ? 10 : state.questions.length;
     final index1 = state.questions.isEmpty ? 1 : (state.currentIndex + 1);
     final rightLabel = state.lastAnswerCorrect == null
         ? _label(widget.initialDifficulty)
@@ -86,10 +81,13 @@ class _LearnCountingPageState extends ConsumerState<LearnCountingPage> {
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: WillPopScope(
-        onWillPop: () async {
-          controller.handleExit();
-          return true;
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (bool didPop, Object? result) {
+          if (!didPop) {
+            controller.handleExit();
+            Navigator.of(context).pop();
+          }
         },
         child: Scaffold(
           backgroundColor: ColorApp.mainWhite,
@@ -154,7 +152,6 @@ class _LearnCountingPageState extends ConsumerState<LearnCountingPage> {
                                   Text('${state.remainingSeconds} detik', style: TypographyApp.headingLargeBold.copyWith(color: ColorApp.mainWhite),),
                                 ],
                               ),
-
                             ),
                           ),
                           Gap.h16,
@@ -177,8 +174,8 @@ class _LearnCountingPageState extends ConsumerState<LearnCountingPage> {
                           Gap.h16,
                           AppTextField(
                             hintText: 'Masukan jawabanmu disini',
-                            controller: controller.answerController, // <- controller jawaban
-                            obscureText: false, // jangan disembunyikan
+                            controller: controller.answerController,
+                            obscureText: false,
                             contentPadding: EdgeInsets.symmetric(
                               horizontal: SizeApp.w16,
                               vertical: SizeApp.h12,
@@ -186,7 +183,6 @@ class _LearnCountingPageState extends ConsumerState<LearnCountingPage> {
                             hintStyle: TypographyApp.labelSmallMediumGrey,
                             inputStyle: TypographyApp.labelSmallMedium,
                             keyboardType: const TextInputType.numberWithOptions(),
-                            // kalau AppTextField mendukung onChanged:
                             onChanged: controller.updateInput,
                           ),
                           Gap.h16,
@@ -196,7 +192,7 @@ class _LearnCountingPageState extends ConsumerState<LearnCountingPage> {
                   ),
                   AppButton(
                     text: 'Periksa',
-                    onPressed: state.finished ? null : controller.submit, // submit jawaban
+                    onPressed: state.finished ? null : controller.submit,
                   ),
                   Gap.h16,
                 ],
@@ -214,15 +210,32 @@ class _LearnCountingPageState extends ConsumerState<LearnCountingPage> {
     Difficulty.hard => 'Sulit',
   };
 
-  Future<void> _showTimeUpDialog() async {
-    await showDialog<void>(
+  void _handleTimeout(LearnCountingController controller) {
+    showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
         title: const Text('Waktu habis!'),
         content: const Text('Sayang sekali, waktumu sudah habis.'),
-        actions: [TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('OK'))],
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              _onTimeoutDialogClosed(controller);
+            },
+            child: const Text('OK'),
+          ),
+        ],
       ),
     );
+  }
+
+  void _onTimeoutDialogClosed(LearnCountingController controller) {
+    if (!mounted) return;
+    _showingTimeoutDialog = false;
+    controller.handleExit();
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    }
   }
 }
