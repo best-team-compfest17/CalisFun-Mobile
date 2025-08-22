@@ -33,6 +33,7 @@ class ChildProfilePage extends ConsumerWidget {
         data: (child) {
           final readingProgress = child.progress.readingIds.length;
           final writingProgress = child.progress.writingIds.length;
+          final difficultyProgress = child.countingDifficulty.toString();
 
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: SizeApp.w16),
@@ -50,7 +51,7 @@ class ChildProfilePage extends ConsumerWidget {
                       CircleAvatar(
                         radius: 50,
                         backgroundImage: NetworkImage(
-                          'https://example.com/avatars/${child.avatarImg}',
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRqUaGFKWrrv_RskYoykH2ONRynGRAAG6F0A&s',
                         ),
                       ),
                       Gap.h12,
@@ -62,7 +63,13 @@ class ChildProfilePage extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Level ${child.level}', style: TypographyApp.labelSmallBold),
+                    Row(
+                      children: [
+                        Text('Level ${child.level}', style: TypographyApp.labelSmallBold),
+                        Gap.w4,
+                        Text('(total xp ${child.xp})', style: TypographyApp.labelSmallMedium),
+                      ],
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -86,7 +93,7 @@ class ChildProfilePage extends ConsumerWidget {
                   backgroundColor: ColorApp.greyInactive,
                 ),
                 Gap.h8,
-                Text('xp ${child.xp}', style: TypographyApp.labelSmallBold),
+                Text('xp ${child.xp % 100}/100', style: TypographyApp.labelSmallBold),
                 Gap.h16,
                 Text(
                   'Progresmu',
@@ -115,7 +122,7 @@ class ChildProfilePage extends ConsumerWidget {
                       image: 'assets/images/count_img.png',
                       title: 'Belajar',
                       subtitle: 'Berhitung',
-                      progress: '0/30 soal',
+                      progress: difficultyProgress,
                     ),
                   ],
                 ),
@@ -128,9 +135,9 @@ class ChildProfilePage extends ConsumerWidget {
   }
 
   double _overallProgress(Child c) {
-    const totalActivities = 40;
-    final completed = c.progress.readingIds.length + c.progress.writingIds.length;
-    return completed / totalActivities;
+    const xpPerLevel = 100;
+    final currentLevelXp = c.xp % xpPerLevel;
+    return currentLevelXp / xpPerLevel;
   }
 
   Widget _buildProgressItem({

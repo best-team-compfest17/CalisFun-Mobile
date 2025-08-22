@@ -74,7 +74,13 @@ class ProfilePage extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Level ${child.level}', style: TypographyApp.labelSmallBold),
+                    Row(
+                      children: [
+                        Text('Level ${child.level}', style: TypographyApp.labelSmallBold),
+                        Gap.w4,
+                        Text('(total xp ${child.xp})', style: TypographyApp.labelSmallMedium),
+                      ],
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -98,7 +104,7 @@ class ProfilePage extends ConsumerWidget {
                   backgroundColor: ColorApp.greyInactive,
                 ),
                 Gap.h8,
-                Text('xp ${child.xp}', style: TypographyApp.labelSmallBold),
+                Text('xp ${child.xp % 100}/100', style: TypographyApp.labelSmallBold),
                 Gap.h16,
                 Text(
                   'Progresmu',
@@ -166,9 +172,9 @@ class ProfilePage extends ConsumerWidget {
   }
 
   double _overallProgress(Child c) {
-    const totalActivities = 40;
-    final completed = c.progress.readingIds.length + c.progress.writingIds.length;
-    return completed / totalActivities;
+    const xpPerLevel = 100;
+    final currentLevelXp = c.xp % xpPerLevel;
+    return currentLevelXp / xpPerLevel;
   }
 
   Widget _buildProgressItem({
