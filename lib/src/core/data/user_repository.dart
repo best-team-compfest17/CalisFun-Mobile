@@ -214,6 +214,20 @@ class UserRepository {
     }
   }
 
+  Future<Result<ApiResponse>> logout(String token) async {
+    try {
+      final res = await _dioClient.post(
+        Endpoint.logout,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+      final map = _asMap(res);
+      return Result.success(ApiResponse.fromJson(map));
+    } catch (e, st) {
+      return Result.failure(NetworkExceptions.getDioException(e), st);
+    }
+  }
+
+
 
   String _maskToken(String token) {
     if (token.length <= 10) return '***';

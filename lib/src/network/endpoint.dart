@@ -14,6 +14,7 @@ class Endpoint {
   static const String register = '/auth/register';
   static const String login = '/auth/login';
   static const String forgetPassword = '/auth/change-password';
+  static const String logout = '/auth/logout';
 
   //user
   static const String getUserProfile = '/user/profile';

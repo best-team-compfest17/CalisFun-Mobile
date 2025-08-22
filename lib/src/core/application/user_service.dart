@@ -265,6 +265,27 @@ class UserService {
     }
   }
 
+  Future<Result<bool>> logout() async {
+    try {
+      final token = await userPreference.getToken();
+      if (token == null || token.isEmpty) {
+        return Result.failure(const NetworkExceptions.badRequest(), StackTrace.current);
+      }
+
+      final res = await userRepository.logout(token);
+      return res.when(
+        success: (_) async {
+          await userPreference.clearAllAuth();
+          return const Result.success(true);
+        },
+        failure: (err, st) => Result.failure(err, st),
+      );
+    } catch (e, st) {
+      return Result.failure(NetworkExceptions.getDioException(e), st);
+    }
+  }
+
+
 }
 
 Map<String, dynamic> _extractPayloadMap(dynamic api) {
