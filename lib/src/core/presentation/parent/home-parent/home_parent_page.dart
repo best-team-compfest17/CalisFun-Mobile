@@ -47,6 +47,8 @@ class HomeParentPage extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Gap.h80,
+            AppPrevButton(),
+            Gap.h16,
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
