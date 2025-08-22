@@ -153,7 +153,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/leaderboard',
         name: Routes.leaderboard.name,
-        builder: (context, state) => const LeaderboardPage(),
+        builder: (context, state) {
+          final childId = state.extra as String?;
+          return LeaderboardPage(childId: childId ?? '');
+        },
       ),
       GoRoute(
         path: '/botnavbar',
