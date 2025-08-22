@@ -26,11 +26,13 @@
 <kbd><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/dart.png" height="60" /></kbd>
 <kbd><img width="60" height="60" alt="image" src="https://github.com/user-attachments/assets/c8f92fa3-6e71-40c2-8b8d-3301c6c1f996" /></kbd>
 <kbd><img width="60" height="60" alt="image" src="https://github.com/user-attachments/assets/a1d7fbb5-a3f7-415d-8d69-3625e930f38e" /></kbd>
+<kbd><img width="60" height="60" alt="image" src="https://github.com/user-attachments/assets/34339c4b-1d09-4a2e-9fe0-06d07d5b2af3" /></kbd>
+
 
 </div>
 
 <div align="center">
-<h4>Flutter | Dart | Dio | Riverpod</h4>
+<h4>Flutter | Dart | Dio | Riverpod | ML kit</h4>
 </div>
 
 ---
@@ -190,6 +192,73 @@ The architecture for the **CalisFun Mobile (Flutter)** follows a **Layered Archi
      - UI composition uses guards/providers to show Parent features (reports, settings) vs Child features (learning modules).
 
 ---
+
+## 📈 Design Pattern
+
+This project implements software design patterns to improve maintainability, scalability, and clarity.
+
+### 1. Domain-Driven Design (DDD)
+- The architecture is strongly influenced by **Domain-Driven Design (DDD)** principles.  
+- The codebase is split into **Domain, Data, Application, and Presentation layers**.  
+- **Domain layer** contains core business rules, entities, and use cases.  
+- **Data layer** manages repositories, DTOs, and API interaction.  
+- This separation enforces clear boundaries and makes the app easier to evolve.
+
+### 2. Service Pattern
+- **Service classes** (e.g., `UserService`) encapsulate business logic and orchestrate data flow between repositories, preferences, and providers.  
+- Services ensure that presentation/UI components remain free from heavy logic.  
+- This pattern improves testability, since services can be easily mocked in unit tests.
+
+---
+
+## 🧑‍💻 Clean Code
+
+This project applies clean code practices to ensure readability, maintainability, and scalability.
+
+### 1. Feature-Based Folder Structure
+- The codebase follows a **feature-first organization**, grouping files by their feature/domain instead of by file type.  
+- Example:
+```
+lib/src/core/
+├── application/
+├── data/
+├── domain/
+├── presentation/
+```
+- This makes it easier to navigate, test, and extend features independently.
+
+### 2. Flutter Linting Rules
+- The repository includes **`analysis_options.yaml`** with Flutter/Dart lint rules.  
+- These rules enforce consistent code style, null-safety best practices, and help catch potential bugs early.  
+- Running `flutter analyze` is part of the CI pipeline, ensuring every commit meets quality standards.
+
+### 3. Reusable Widgets
+- UI elements are extracted into **reusable widget components** stored in `lib/src/widgets/`.  
+- Examples include:
+- `app_button/`
+- `app_circle_button/`
+- `app_container/`
+- `app_text_field/`
+- This approach avoids duplication, keeps UI consistent, and makes it easy to update styles globally.
+- Reusable widgets act like a **design system**, ensuring a clean separation between business logic and presentation.
+
+---
+
+## 🔒 Security
+
+Security is applied at both the **data storage** and **configuration management** levels.
+
+### 1. Secure Data Storage
+- We use **Flutter Secure Storage** to safely persist sensitive information (e.g., authentication tokens).  
+- Data is stored in a platform-specific secure storage:
+  - **Keychain** on iOS
+  - **Keystore** on Android  
+- This ensures tokens and credentials are not exposed in plain text.
+
+### 2. Environment Variables
+- We use **dotenv** to manage environment variables across different environments (development & production).  
+- API keys, endpoints, and secrets are loaded from `.env.*` files instead of being hard-coded in the app.  
+- This reduces the risk of leaking sensitive values in the codebase.
 
 ---
 
