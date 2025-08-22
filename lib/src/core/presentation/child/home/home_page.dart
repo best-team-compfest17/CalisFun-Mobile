@@ -3,8 +3,6 @@ import 'package:calisfun/src/widgets/app_container/app_container.dart';
 import 'package:flutter/material.dart';
 import 'package:calisfun/src/constants/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../application/child_by_id_provider.dart';
